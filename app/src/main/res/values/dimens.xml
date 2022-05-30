@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <dimen name="t_basis">20sp</dimen>
+    <dimen name="t_head_size">35sp</dimen>
+    <dimen name="margin_normal">10dp</dimen>
+    <dimen name="margin_micro">5dp</dimen>
+    <dimen name="margin_big">20dp</dimen>
+    <dimen name="margin_giant">60dp</dimen>
+    <dimen name="margin_colosal">150dp</dimen>
+    <dimen name="head_skip">35dp</dimen>
+    <dimen name="text_height">25dp</dimen>
+    <dimen name="float_button_border">5dp</dimen>
+    <dimen name="low_bottom_block_h">56dp</dimen>
+    <dimen name="hgn_bottom_block_h">60dp</dimen>
+    <dimen name="low_top_block_w">320dp</dimen>
+    <dimen name="low_top_block_h">80dp</dimen>
+    <dimen name="low_top_block_r">120dp</dimen>
+    <dimen name="low_top_block_pos">-36dp</dimen>
+    <dimen name="chip_group_pos">-3dp</dimen>
+
+</resources>

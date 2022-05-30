@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="_0" translatable="false">0</string>
+    <string name="ND_OPEN" translatable="false">ND_OPEN</string>
+    <string name="ND_CLOSE" translatable="false">ND_CLOSE</string>
+    <string name="fon_description" translatable="false">Pretty Fon</string>
+    <string name="app_name">Picture of My day</string>
+    <string name="error_this_is_video">Сегодня день с видео и я пока не настроил показ видео..</string>
+    <string name="error_this_is_video_end">Жаль.</string>
+    <string name="chip_1">Yesterday</string>
+    <string name="chip_2">Today</string>
+    <string name="chip_3">Tomorrow</string>
+    <string name="wiki_search">Это в википеди…</string>
+    <string name="wiki_help">Введите то о чем хотите узнать подробнее</string>
+    <string name="egs">\"Кто знает что ждет нас в будуһем: \"</string>
+    <string name="render_show_error">\"Не возможно подклөчиться. Код: \"</string>
+</resources>

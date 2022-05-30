@@ -1,0 +1,77 @@
+plugins {
+    id 'com.android.application'
+    id 'kotlin-android'
+    id "kotlin-android-extensions"
+}
+
+android {
+    compileSdk 32
+
+    buildFeatures{
+        viewBinding true
+    }
+
+    buildTypes.each{
+        Properties properties = new Properties()
+        properties.load(project.rootProject.file("apikey.properties").newDataInputStream())
+        def apiKey = properties.getProperty("NASA_API_KEY","")
+        it.buildConfigField "String","NASA_API_KEY",apiKey
+    }
+
+    defaultConfig {
+        applicationId "com.TRDZ.day_picture"
+        minSdk 21
+        targetSdk 32
+        versionCode 1
+        versionName "1.0"
+
+        testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
+    }
+
+    signingConfigs {
+        myRelease {
+            Properties properties = new Properties()
+            properties.load(rootProject.file("password.properties").newDataInputStream())
+            def password = properties.getProperty("password")
+
+            storeFile file("TempKey.jks")
+            storePassword = password
+            keyAlias 'TempKey'
+            keyPassword =password
+        }
+    }
+
+    buildTypes {
+        release {
+            // signingConfig signingConfigs.myRelease
+            minifyEnabled false //go true after release
+            proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+        }
+    }
+
+    compileOptions {
+        sourceCompatibility JavaVersion.VERSION_1_8
+        targetCompatibility JavaVersion.VERSION_1_8
+    }
+    kotlinOptions {
+        jvmTarget = '1.8'
+    }
+}
+
+dependencies {
+
+    implementation 'io.coil-kt:coil:1.4.0'                              // image - coil
+    implementation("io.coil-kt:coil-svg:1.3.2")                         // image - coil
+    implementation 'com.squareup.retrofit2:retrofit:2.9.0'              // server - functional requests
+    implementation 'com.squareup.retrofit2:converter-gson:2.9.0'        // server - functional requests
+    implementation 'com.google.code.gson:gson:2.8.6'                    // code - json feature
+    implementation 'androidx.legacy:legacy-support-v4:1.0.0'            // code - legacy feature
+
+    implementation 'androidx.core:core-ktx:1.7.0'
+    implementation 'androidx.appcompat:appcompat:1.4.1'
+    implementation 'com.google.android.material:material:1.6.0'
+    implementation 'androidx.constraintlayout:constraintlayout:2.1.4'
+    testImplementation 'junit:junit:4.+'
+    androidTestImplementation 'androidx.test.ext:junit:1.1.3'
+    androidTestImplementation 'androidx.test.espresso:espresso-core:3.4.0'
+}
