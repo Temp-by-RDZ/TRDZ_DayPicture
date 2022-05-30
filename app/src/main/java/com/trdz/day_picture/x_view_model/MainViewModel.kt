@@ -4,7 +4,7 @@ import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.ViewModel
 import com.trdz.day_picture.y_model.*
-import java.lang.StringBuilder
+import java.text.SimpleDateFormat
 import java.util.*
 
 class MainViewModel(
@@ -17,22 +17,12 @@ class MainViewModel(
 	}
 
 	fun analyze(){
-		val sb = StringBuilder()
-		with(sb) {
-			append(Calendar.getInstance().get(Calendar.YEAR))
-			append("-")
-			(Calendar.getInstance().get(Calendar.MONTH)+1).apply {
-				if (this < 10) append("0")
-				append(this)
-			}
-			append("-")
-			(Calendar.getInstance().get(Calendar.DAY_OF_MONTH)-1).apply {
-				if (this < 10) append("0")
-				append(this)
-			}
-		}
-		Log.d("@@@", "Mod - get date: $sb")
-		start(sb.toString())
+		val calendar = Calendar.getInstance()
+		calendar.add(Calendar.DATE, -1)
+		val dateFormat = SimpleDateFormat("yyyy-MM-dd", Locale.getDefault())
+		val date: String = dateFormat.format(calendar.time)
+		Log.d("@@@", "Mod - get prev date: $date")
+		start(date)
 	}
 
 	fun start(date: String? = null) {

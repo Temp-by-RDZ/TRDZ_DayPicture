@@ -4,9 +4,7 @@ import android.os.Bundle
 import android.os.Handler
 import android.os.Looper
 import android.util.Log
-import android.view.LayoutInflater
-import android.view.View
-import android.view.ViewGroup
+import android.view.*
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
@@ -21,8 +19,9 @@ import com.trdz.day_picture.x_view_model.StatusProcess
 import com.trdz.day_picture.z_utility.action
 import com.trdz.day_picture.z_utility.showSnackBar
 import android.view.animation.AlphaAnimation
+import androidx.core.content.ContextCompat
+import com.google.android.material.bottomappbar.BottomAppBar
 import com.google.android.material.bottomsheet.BottomSheetBehavior
-import com.google.android.material.chip.Chip
 import kotlin.concurrent.thread
 
 
@@ -35,6 +34,7 @@ class WindowStart: Fragment() {
 	private val binding get() = _binding!!
 	private var _viewModel: MainViewModel? = null
 	private val viewModel get() = _viewModel!!
+	var isMain = true
 	//endregion
 
 	//region Base realization
@@ -51,11 +51,25 @@ class WindowStart: Fragment() {
 		_viewModel = ViewModelProvider(requireActivity()).get(MainViewModel::class.java)
 		return binding.root
 	}
+	override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
+		super.onCreateOptionsMenu(menu, inflater)
+		inflater.inflate(R.menu.menu_bottom_bar, menu)
+	}
+
+	override fun onOptionsItemSelected(item: MenuItem): Boolean {
+		when (item.itemId) {
+			R.id.app_bar_fav -> Log.d("@@@", "App - Favorite")
+			R.id.app_bar_settings -> Log.d("@@@", "App - Settings")
+		}
+		return super.onOptionsItemSelected(item)
+	}
 
 	override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
 		super.onViewCreated(view, savedInstanceState)
 		val observer = Observer<StatusProcess> { renderData(it) }
 		viewModel.getData().observe(viewLifecycleOwner, observer)
+		(requireActivity() as MainActivity).setSupportActionBar(binding.bottomAppBar)
+		setHasOptionsMenu(true)
 		buttonBinds()
 		initialize()
 	}
@@ -64,17 +78,35 @@ class WindowStart: Fragment() {
 
 	//region Main functional
 	private fun buttonBinds() {
-		val bottomSheetBehavior = BottomSheetBehavior.from(binding.popupSheet.bottomSheetContainer)
-		binding.imageView.setOnClickListener { bottomSheetBehavior.state = BottomSheetBehavior.STATE_EXPANDED }
-		binding.floatButton.setOnClickListener { executors.getNavigation().add(requireActivity().supportFragmentManager, WindowSearch()) }
-		binding.chipGroup.setOnCheckedChangeListener { _, position -> chipRealization(position)	}
+		with(binding) {
+			val bottomSheetBehavior = BottomSheetBehavior.from(popupSheet.bottomSheetContainer)
+			floatButton.setOnLongClickListener { changeMode() }
+			imageView.setOnClickListener { bottomSheetBehavior.state = BottomSheetBehavior.STATE_EXPANDED }
+			floatButton.setOnClickListener { executors.getNavigation().add(requireActivity().supportFragmentManager, WindowSearch()) }
+			chipGroup.setOnCheckedChangeListener { _, position -> chipRealization(position) }
+		}
 	}
 
-	private fun chipRealization(position:Int) {
-		when(position){
-			1->viewModel.analyze()
-			2->viewModel.start()
-			3->executors.getExecutor().showToast(requireContext(), getString(R.string.egs))
+	private fun changeMode(): Boolean {
+		if (isMain) {
+			binding.bottomAppBar.navigationIcon = null
+			binding.bottomAppBar.fabAlignmentMode = BottomAppBar.FAB_ALIGNMENT_MODE_END
+			binding.floatButton.setImageDrawable(ContextCompat.getDrawable(requireContext(), R.drawable.ic_baseline_search_24))
+		}
+		else {
+			binding.bottomAppBar.navigationIcon = (ContextCompat.getDrawable(requireContext(), R.drawable.ic_favourite_menu))
+			binding.bottomAppBar.fabAlignmentMode = BottomAppBar.FAB_ALIGNMENT_MODE_CENTER
+			binding.floatButton.setImageDrawable(ContextCompat.getDrawable(requireContext(), R.drawable.ic_wikipedia))
+		}
+		isMain = !isMain
+		return true
+	}
+
+	private fun chipRealization(position: Int) {
+		when (position) {
+			1 -> viewModel.analyze()
+			2 -> viewModel.start()
+			3 -> executors.getExecutor().showToast(requireContext(), getString(R.string.egs))
 		}
 	}
 
