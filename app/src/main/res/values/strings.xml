@@ -13,4 +13,9 @@
     <string name="wiki_help">Введите то о чем хотите узнать подробнее</string>
     <string name="egs">\"Кто знает что ждет нас в будуһем: \"</string>
     <string name="render_show_error">\"Не возможно подклөчиться. Код: \"</string>
+    <string name="help">Справка</string>
+    <string name="theme_0">Темный Красный</string>
+    <string name="theme_1">Стогое Золото</string>
+    <string name="theme_2">Пурпур</string>
+    <string name="ok">OK</string>
 </resources>

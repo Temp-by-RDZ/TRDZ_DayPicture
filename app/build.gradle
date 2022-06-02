@@ -27,12 +27,12 @@ android {
 
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
     }
-
+    /*Заготовка подписи
     signingConfigs {
         myRelease {
             Properties properties = new Properties()
             properties.load(rootProject.file("password.properties").newDataInputStream())
-            def password = properties.getProperty("password")
+            //def password = properties.getProperty("password")
 
             storeFile file("TempKey.jks")
             storePassword = password
@@ -40,6 +40,7 @@ android {
             keyPassword =password
         }
     }
+    */
 
     buildTypes {
         release {

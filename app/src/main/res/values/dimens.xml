@@ -17,5 +17,7 @@
     <dimen name="low_top_block_r">120dp</dimen>
     <dimen name="low_top_block_pos">-36dp</dimen>
     <dimen name="chip_group_pos">-3dp</dimen>
+    <dimen name="navigation_space">50dp</dimen>
+    <dimen name="navigation_space_bottom">100dp</dimen>
 
 </resources>

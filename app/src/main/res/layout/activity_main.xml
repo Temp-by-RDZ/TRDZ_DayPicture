@@ -25,11 +25,21 @@
                 app:title="@string/app_name"
                 app:titleTextColor="?colorSecondary" />
         </com.google.android.material.appbar.AppBarLayout>
-
-        <androidx.fragment.app.FragmentContainerView
-            android:id="@+id/container_fragment_base"
+        <FrameLayout
             android:layout_width="match_parent"
-            android:layout_height="match_parent" />
+            android:layout_height="match_parent">
+
+            <androidx.fragment.app.FragmentContainerView
+                android:id="@+id/container_fragment_base"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent" />
+
+            <androidx.fragment.app.FragmentContainerView
+                android:id="@+id/container_fragment_navigation"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent" />
+
+        </FrameLayout>
     </LinearLayout>
 
 </androidx.drawerlayout.widget.DrawerLayout>

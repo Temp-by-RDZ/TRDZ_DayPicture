@@ -50,8 +50,4 @@ class WindowSearch: Fragment() {
 
 	//endregion
 
-	companion object {
-		fun newInstance() = WindowSearch()
-	}
-
 }

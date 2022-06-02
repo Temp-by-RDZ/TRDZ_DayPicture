@@ -1,26 +1,38 @@
 <resources xmlns:tools="http://schemas.android.com/tools">
     <!-- Base application theme. -->
-    <style name="Theme.Task07AS_DayPicture" parent="Theme.MaterialComponents.DayNight.NoActionBar">
+    <style name="CoreTheme" parent="Theme.MaterialComponents.DayNight.NoActionBar">
         <!-- Primary brand color. -->
-        <item name="colorPrimary">@color/black</item>
-        <item name="colorPrimaryVariant">@color/black</item>
+        <item name="colorPrimary">?superColor_1</item>
+        <item name="colorPrimaryVariant">?superColor_1</item>
         <item name="colorOnPrimary">@color/white</item>
         <!-- Secondary brand color. -->
-        <item name="colorSecondary">#C61111</item>
+        <item name="colorSecondary">?superColor_2</item>
         <item name="colorSecondaryVariant">@color/teal_700</item>
-        <item name="colorOnSecondary">@color/black</item>
+        <item name="colorOnSecondary">?superColor_3</item>
         <!-- Status bar color. -->
         <item name="android:statusBarColor" tools:targetApi="l">?attr/colorPrimaryVariant</item>
+        <!-- Element styles. -->
         <item name="chipStyle">@style/MyChipStyle</item>
     </style>
 
-    <style name="Theme.Task07AS_DayPicture.NoActionBar">
-        <item name="windowActionBar">false</item>
-        <item name="windowNoTitle">true</item>
+    <style name="MyBaseTheme" parent="CoreTheme">
+        <item name="superColor_1">@color/main_color_first</item>
+        <item name="superColor_2">@color/main_color_second</item>
+        <item name="superColor_3">@color/main_color_first</item>
+    </style>
+
+    <style name="MyGoldTheme" parent="CoreTheme">
+        <item name="superColor_1">@color/main_color_first</item>
+        <item name="superColor_2">@color/main_color_third</item>
+        <item name="superColor_3">@color/main_color_first</item>
+    </style>
+
+    <style name="MyFiolTheme" parent="CoreTheme">
+        <item name="superColor_1">@color/main_color_fourth</item>
+        <item name="superColor_2">@color/main_color_second</item>
+        <item name="superColor_3">@color/main_color_fourth</item>
     </style>
 
 
-    <style name="MyChipStyle" parent="Widget.MaterialComponents.Chip.Choice">
-    </style>
 
 </resources>

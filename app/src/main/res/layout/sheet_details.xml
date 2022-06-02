@@ -15,8 +15,8 @@
         android:id="@+id/bottom_sheet_line"
         android:layout_width="25dp"
         android:layout_height="1dp"
-        android:layout_marginTop="50dp"
         android:background="#663b4351"
+        android:layout_marginTop="@dimen/navigation_space"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
