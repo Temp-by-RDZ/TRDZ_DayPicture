@@ -5,8 +5,11 @@
         <item name="windowNoTitle">true</item>
     </style>
 
-
     <style name="MyChipStyle" parent="Widget.MaterialComponents.Chip.Choice">
+        <item name="chipBackgroundColor">@drawable/chip_background_color</item>
+    </style>
+
+    <style name="MySmallShape" parent="ShapeAppearance.MaterialComponents.SmallComponent">
     </style>
 
 </resources>
