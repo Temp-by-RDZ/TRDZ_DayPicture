@@ -6,6 +6,10 @@
     android:background="@color/black"
     android:orientation="vertical">
 
+    <Space
+        android:layout_width="wrap_content"
+        android:layout_height="?actionBarSize"/>
+
     <com.google.android.material.tabs.TabLayout
         android:id="@+id/tabLayout"
         android:layout_width="match_parent"

@@ -2,6 +2,7 @@
     <string name="_0" translatable="false">0</string>
     <string name="ND_OPEN" translatable="false">ND_OPEN</string>
     <string name="ND_CLOSE" translatable="false">ND_CLOSE</string>
+    <string name="MISSING" translatable="false">MISSING</string>
     <string name="fon_description" translatable="false">Pretty Fon</string>
     <string name="app_name">Картина моего дня</string>
     <string name="error_this_is_video">Сегодня день с видео и я пока не настроил показ видео..</string>
@@ -23,4 +24,7 @@
     <string name="test_1">лево</string>
     <string name="test_2">центр</string>
     <string name="test_3">право</string>
+    <string name="POM_title">Картина моего Марса</string>
+    <string name="POD_title">Картина моего дня</string>
+    <string name="POE_title">Картина моей Земли</string>
 </resources>

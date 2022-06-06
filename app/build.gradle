@@ -61,6 +61,8 @@ android {
 
 dependencies {
 
+    implementation("com.tbuonomo:dotsindicator:4.3")                    // view - SnakePager
+
     implementation 'io.coil-kt:coil:1.4.0'                              // image - coil
     implementation("io.coil-kt:coil-svg:1.3.2")                         // image - coil
     implementation 'com.squareup.retrofit2:retrofit:2.9.0'              // server - functional requests

@@ -1,6 +1,5 @@
 package com.trdz.day_picture.w_view.fragments_windows
 
-import android.graphics.drawable.Drawable
 import android.os.Bundle
 import android.os.Handler
 import android.os.Looper
@@ -10,29 +9,23 @@ import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import coil.load
-import com.google.android.material.snackbar.Snackbar
 import com.trdz.day_picture.R
-import com.trdz.day_picture.databinding.FragmentWindowStartBinding
 import com.trdz.day_picture.w_view.Leader
 import com.trdz.day_picture.w_view.MainActivity
 import com.trdz.day_picture.x_view_model.MainViewModel
 import com.trdz.day_picture.x_view_model.StatusProcess
-import com.trdz.day_picture.z_utility.action
-import com.trdz.day_picture.z_utility.showSnackBar
 import android.view.animation.AlphaAnimation
 import androidx.constraintlayout.widget.ConstraintLayout
-import androidx.core.content.ContextCompat
-import com.google.android.material.bottomappbar.BottomAppBar
 import com.google.android.material.bottomsheet.BottomSheetBehavior
+import com.trdz.day_picture.databinding.FragmentWindowPodBinding
 import kotlin.concurrent.thread
 
-
-class WindowStart: Fragment() {
+class WindowPOD: Fragment() {
 
 	//region Elements
 	private var _executors: Leader? = null
 	private val executors get() = _executors!!
-	private var _binding: FragmentWindowStartBinding? = null
+	private var _binding: FragmentWindowPodBinding? = null
 	private val binding get() = _binding!!
 	private var _viewModel: MainViewModel? = null
 	private val viewModel get() = _viewModel!!
@@ -49,7 +42,7 @@ class WindowStart: Fragment() {
 	}
 
 	override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View {
-		_binding = FragmentWindowStartBinding.inflate(inflater, container, false)
+		_binding = FragmentWindowPodBinding.inflate(inflater, container, false)
 		_executors = (requireActivity() as MainActivity)
 		_viewModel = ViewModelProvider(requireActivity()).get(MainViewModel::class.java)
 		return binding.root
@@ -120,7 +113,7 @@ class WindowStart: Fragment() {
 	//endregion
 
 	companion object {
-		fun newInstance() = WindowStart()
+		fun newInstance() = WindowPOD()
 	}
 
 }

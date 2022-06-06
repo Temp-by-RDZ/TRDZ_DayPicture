@@ -1,39 +1,35 @@
 package com.trdz.day_picture.w_view.fragments_windows
 
 import android.os.Bundle
-import android.os.Handler
-import android.os.Looper
 import android.util.Log
 import android.view.*
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
-import coil.load
 import com.google.android.material.snackbar.Snackbar
 import com.trdz.day_picture.R
-import com.trdz.day_picture.databinding.FragmentWindowStartBinding
 import com.trdz.day_picture.w_view.Leader
 import com.trdz.day_picture.w_view.MainActivity
 import com.trdz.day_picture.x_view_model.MainViewModel
-import com.trdz.day_picture.x_view_model.StatusProcess
-import com.trdz.day_picture.z_utility.action
-import com.trdz.day_picture.z_utility.showSnackBar
-import android.view.animation.AlphaAnimation
 import androidx.core.content.ContextCompat
 import com.google.android.material.bottomappbar.BottomAppBar
-import com.google.android.material.bottomsheet.BottomSheetBehavior
-import com.trdz.day_picture.databinding.FragmentWindowNavigationBinding
+import com.trdz.day_picture.databinding.FragmentNavigationBinding
 import com.trdz.day_picture.x_view_model.StatusMessage
 import kotlinx.android.synthetic.main.activity_main.*
-import kotlin.concurrent.thread
+import androidx.viewpager.widget.ViewPager
+import androidx.viewpager.widget.ViewPager.OnPageChangeListener
+import com.google.android.material.tabs.TabLayoutMediator
+import com.trdz.day_picture.w_view.FragmentNavigationPager
+import com.trdz.day_picture.w_view.FragmentNavigationTransformer
+import com.trdz.day_picture.z_utility.*
 
 
-class WindowNavigation: Fragment() {
+class FragmentNavigation: Fragment() {
 
 	//region Elements
 	private var _executors: Leader? = null
 	private val executors get() = _executors!!
-	private var _binding: FragmentWindowNavigationBinding? = null
+	private var _binding: FragmentNavigationBinding? = null
 	private val binding get() = _binding!!
 	private var _viewModel: MainViewModel? = null
 	private val viewModel get() = _viewModel!!
@@ -50,11 +46,12 @@ class WindowNavigation: Fragment() {
 	}
 
 	override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View {
-		_binding = FragmentWindowNavigationBinding.inflate(inflater, container, false)
+		_binding = FragmentNavigationBinding.inflate(inflater, container, false)
 		_executors = (requireActivity() as MainActivity)
 		_viewModel = ViewModelProvider(requireActivity()).get(MainViewModel::class.java)
 		return binding.root
 	}
+
 	override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
 		super.onCreateOptionsMenu(menu, inflater)
 		inflater.inflate(R.menu.menu_bottom_bar, menu)
@@ -66,7 +63,8 @@ class WindowNavigation: Fragment() {
 			R.id.app_bar_settings -> {
 				Log.d("@@@", "App - Settings")
 				mood = 1
-				executors.getNavigation().replace(requireActivity().supportFragmentManager,SettingsFragment())
+				binding.viewPager.visibility = View.GONE
+				executors.getNavigation().replace(requireActivity().supportFragmentManager,WindowSettings(), true)
 			}
 		}
 		return super.onOptionsItemSelected(item)
@@ -74,13 +72,47 @@ class WindowNavigation: Fragment() {
 
 	override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
 		super.onViewCreated(view, savedInstanceState)
-		val observer = Observer<StatusMessage> { renderData(it) }
-		viewModel.getMessage().observe(viewLifecycleOwner, observer)
-		(requireActivity() as MainActivity).setSupportActionBar(binding.bottomAppBar)
-		setHasOptionsMenu(true)
+		setPager()
+		setViewModel()
+		setMenu()
 		buttonBinds()
 	}
 
+	private fun setPager() {
+		with(binding){
+			viewPager.adapter = FragmentNavigationPager(childFragmentManager,requireContext()).apply {
+				add(WIN_CODE_POE,WindowPOE())
+				add(WIN_CODE_POD,WindowPOD())
+				add(WIN_CODE_POM,WindowPOM())
+			}
+			viewPager.currentItem = 1
+			viewPager.setPageTransformer(true,FragmentNavigationTransformer())
+			pageIndicator.attachTo(binding.viewPager)
+			viewPager.addOnPageChangeListener(object: OnPageChangeListener {
+				override fun onPageScrolled(position: Int, positionOffset: Float, positionOffsetPixels: Int) {}
+				override fun onPageSelected(position: Int) {
+					toolbar.title = when (position) {
+						0 -> getString(R.string.POE_title)
+						1 -> getString(R.string.POD_title)
+						2 -> getString(R.string.POM_title)
+						else -> getString(R.string.MISSING)
+					}
+				}
+
+				override fun onPageScrollStateChanged(state: Int) {}
+			})
+		}
+	}
+
+	private fun setViewModel() {
+		val observer = Observer<StatusMessage> { renderData(it) }
+		viewModel.getMessage().observe(viewLifecycleOwner, observer)
+	}
+
+	private fun setMenu() {
+		(requireActivity() as MainActivity).setSupportActionBar(binding.bottomAppBar)
+		setHasOptionsMenu(true)
+	}
 	//endregion
 
 	//region Main functional
@@ -119,13 +151,18 @@ class WindowNavigation: Fragment() {
 				Log.d("@@@", "Nav - error")
 				binding.floatButton.showSnackBar(getString(R.string.error_this_is_video), Snackbar.LENGTH_INDEFINITE) { action(R.string.error_this_is_video_end) {} }
 			}
+			else -> {
+				Log.d("@@@", "Nav - setting applied")
+				binding.viewPager.visibility = View.VISIBLE
+
+			}
 		}
 	}
 
 	//endregion
 
 	companion object {
-		fun newInstance() = WindowNavigation()
+		fun newInstance() = FragmentNavigation()
 	}
 
 }

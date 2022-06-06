@@ -11,17 +11,37 @@ class MainViewModel(
 	private val dataLive: SingleLiveData<StatusProcess> = SingleLiveData(),
 	private val messageLive: SingleLiveData<StatusMessage> = SingleLiveData(),
 	private val repository: DataExecutor = DataExecutor(),
-) : ViewModel(), ServerResponse {
+): ViewModel(), ServerResponse {
+
+	private var page: Int = 1
+
+	fun changePage(goTo: Int) {
+		if (page < 0) {
+			page = 0
+			return
+		}
+		else {
+			page = goTo
+			pageObserve()
+		}
+	}
+
+	private fun pageObserve() {
+		when (page) {
+			1 -> messageLive.postValue(StatusMessage.SetupComplete)
+			2 -> page = 1
+		}
+	}
 
 	fun getData(): LiveData<StatusProcess> {
-		Log.d("@@@", "101100")
 		return dataLive
 	}
+
 	fun getMessage(): LiveData<StatusMessage> {
-		Log.d("@@@", "101100")
 		return messageLive
 	}
-	fun analyze(){
+
+	fun analyze() {
 		val calendar = Calendar.getInstance()
 		calendar.add(Calendar.DATE, -1)
 		val dateFormat = SimpleDateFormat("yyyy-MM-dd", Locale.getDefault())
@@ -48,6 +68,6 @@ class MainViewModel(
 
 	override fun fail(code: Int) {
 		Log.d("@@@", "Mod - request failed $code")
-		dataLive.postValue(StatusProcess.Error(code,IllegalAccessError()))
+		dataLive.postValue(StatusProcess.Error(code, IllegalAccessError()))
 	}
 }
