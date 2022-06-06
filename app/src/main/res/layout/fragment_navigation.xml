@@ -11,7 +11,7 @@
         android:layout_width="match_parent"
         android:layout_height="?actionBarSize"
         android:orientation="horizontal"
-        android:background="@color/black">
+        android:background="?colorPrimary">
 
         <com.google.android.material.appbar.AppBarLayout
             android:layout_width="match_parent"
@@ -84,14 +84,17 @@
                 android:layout_height="wrap_content"
                 android:layout_gravity="center_horizontal"
                 android:layout_marginTop="@dimen/chip_group_pos"
+                app:selectionRequired="true"
                 app:singleSelection="true">
 
                 <com.google.android.material.chip.Chip
+                    android:tag="chip_l"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="@string/chip_1" />
 
                 <com.google.android.material.chip.Chip
+                    android:tag="chip_c"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="@string/chip_2"
@@ -99,6 +102,7 @@
                     />
 
                 <com.google.android.material.chip.Chip
+                    android:tag="chip_r"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="@string/chip_3" />

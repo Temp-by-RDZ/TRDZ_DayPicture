@@ -1,4 +1,4 @@
-package com.trdz.day_picture.w_view.fragments_windows
+package com.trdz.day_picture.w_view
 
 import android.os.Bundle
 import android.util.Log
@@ -8,20 +8,16 @@ import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import com.google.android.material.snackbar.Snackbar
 import com.trdz.day_picture.R
-import com.trdz.day_picture.w_view.Leader
-import com.trdz.day_picture.w_view.MainActivity
 import com.trdz.day_picture.x_view_model.MainViewModel
 import androidx.core.content.ContextCompat
 import com.google.android.material.bottomappbar.BottomAppBar
 import com.trdz.day_picture.databinding.FragmentNavigationBinding
 import com.trdz.day_picture.x_view_model.StatusMessage
-import kotlinx.android.synthetic.main.activity_main.*
-import androidx.viewpager.widget.ViewPager
 import androidx.viewpager.widget.ViewPager.OnPageChangeListener
-import com.google.android.material.tabs.TabLayoutMediator
-import com.trdz.day_picture.w_view.FragmentNavigationPager
-import com.trdz.day_picture.w_view.FragmentNavigationTransformer
+import com.google.android.material.chip.Chip
+import com.trdz.day_picture.w_view.fragments_windows.*
 import com.trdz.day_picture.z_utility.*
+import kotlinx.android.synthetic.main.fragment_navigation.*
 
 
 class FragmentNavigation: Fragment() {
@@ -64,7 +60,7 @@ class FragmentNavigation: Fragment() {
 				Log.d("@@@", "App - Settings")
 				mood = 1
 				binding.viewPager.visibility = View.GONE
-				executors.getNavigation().replace(requireActivity().supportFragmentManager,WindowSettings(), true)
+				executors.getNavigation().replace(requireActivity().supportFragmentManager, WindowSettings(), true)
 			}
 		}
 		return super.onOptionsItemSelected(item)
@@ -81,9 +77,9 @@ class FragmentNavigation: Fragment() {
 	private fun setPager() {
 		with(binding){
 			viewPager.adapter = FragmentNavigationPager(childFragmentManager,requireContext()).apply {
-				add(WIN_CODE_POE,WindowPOE())
-				add(WIN_CODE_POD,WindowPOD())
-				add(WIN_CODE_POM,WindowPOM())
+				add(WIN_CODE_POE, WindowPOE())
+				add(WIN_CODE_POD, WindowPOD())
+				add(WIN_CODE_POM, WindowPOM())
 			}
 			viewPager.currentItem = 1
 			viewPager.setPageTransformer(true,FragmentNavigationTransformer())
@@ -138,10 +134,11 @@ class FragmentNavigation: Fragment() {
 	}
 
 	private fun chipRealization(position: Int) {
-		when (position) {
-			1 -> viewModel.analyze()
-			2 -> viewModel.start()
-			3 -> executors.getExecutor().showToast(requireContext(), getString(R.string.egs))
+		val chip = chipGroup.findViewById<Chip>(position) ?: return
+		when (chip.tag) {
+			"chip_l" -> viewModel.analyze()
+			"chip_c" -> viewModel.start()
+			"chip_r" -> executors.getExecutor().showToast(requireContext(), getString(R.string.egs))
 		}
 	}
 

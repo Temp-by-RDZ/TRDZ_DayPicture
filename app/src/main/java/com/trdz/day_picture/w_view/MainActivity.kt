@@ -7,7 +7,6 @@ import android.view.Menu
 import android.view.MenuItem
 import com.trdz.day_picture.R
 import com.trdz.day_picture.w_view.fragments_windows.WindowHelp
-import com.trdz.day_picture.w_view.fragments_windows.FragmentNavigation
 import com.trdz.day_picture.w_view.fragments_windows.WindowSettings
 import com.trdz.day_picture.z_utility.KEY_OPTIONS
 import com.trdz.day_picture.z_utility.KEY_THEME
