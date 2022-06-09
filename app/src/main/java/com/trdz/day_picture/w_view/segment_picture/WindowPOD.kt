@@ -64,6 +64,23 @@ class WindowPOD: Fragment() {
 		with(binding) {
 			_bottomSheetBehavior = BottomSheetBehavior.from(popupSheet.bottomSheetContainer)
 			imageView.setOnClickListener { bottomSheetBehavior.state = BottomSheetBehavior.STATE_EXPANDED }
+			bottomSheetBehavior.isHideable = true
+			bottomSheetBehavior.addBottomSheetCallback(object :
+				BottomSheetBehavior.BottomSheetCallback() {
+				override fun onStateChanged(bottomSheet: View, newState: Int) {
+					when (newState) {
+						BottomSheetBehavior.STATE_DRAGGING -> {}
+						BottomSheetBehavior.STATE_COLLAPSED -> {bottomSheetBehavior.state = BottomSheetBehavior.STATE_HIDDEN}
+						BottomSheetBehavior.STATE_EXPANDED -> {}
+						BottomSheetBehavior.STATE_HALF_EXPANDED -> {}
+						BottomSheetBehavior.STATE_HIDDEN -> {}
+						BottomSheetBehavior.STATE_SETTLING -> {}
+					}
+				}
+
+				override fun onSlide(bottomSheet: View, slideOffset: Float) {}
+
+			})
 		}
 	}
 

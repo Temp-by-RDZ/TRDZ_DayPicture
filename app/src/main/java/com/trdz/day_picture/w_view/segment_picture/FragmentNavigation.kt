@@ -66,9 +66,6 @@ class FragmentNavigation: Fragment() {
 		setViewModel()
 		setMenu()
 		if (isFirst) binding.motionPicture.transitionToEnd()
-
-				//binding.motionPicture.setTransitionDuration(0)
-				//binding.motionPicture.setTransitionDuration(2000)
 		buttonBinds()
 	}
 
@@ -133,9 +130,9 @@ class FragmentNavigation: Fragment() {
 	}
 
 	private fun toSetting() {
-		Log.d("@@@", "App - Settings/help subWindow")
 		binding.presetAppbar.pageIndicator.visibility = View.GONE
 		binding.viewPager.visibility = View.GONE
+		Log.d("@@@", "App - Settings/help subWindow ")
 		binding.presetAppbar.toolbar.navigationIcon = null
 		mood = 2
 		viewModel.changePage(2)
