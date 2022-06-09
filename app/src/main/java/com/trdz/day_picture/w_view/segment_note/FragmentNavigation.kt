@@ -9,8 +9,6 @@ import com.trdz.day_picture.databinding.FragmentGlobalNavigationBinding
 import com.trdz.day_picture.x_view_model.MainViewModel
 import com.trdz.day_picture.w_view.Leader
 import com.trdz.day_picture.w_view.MainActivity
-import com.trdz.day_picture.z_utility.*
-import kotlinx.android.synthetic.main.fragment_navigation.*
 
 class FragmentNavigation: Fragment() {
 
@@ -56,15 +54,13 @@ class FragmentNavigation: Fragment() {
 		binding.bottomNavigation.setOnItemSelectedListener { item ->
 			when (item.itemId) {
 				R.id.action_bottom_navigation_picture -> {
-
-					executors.getNavigation().add(requireActivity().supportFragmentManager,WindowPicture(),false)
-					//executors.getNavigation().replace(requireActivity().supportFragmentManager, com.trdz.day_picture.w_view.segment_picture.FragmentNavigation(), false, R.id.container_fragment_navigation)
+					executors.getNavigation().replace(requireActivity().supportFragmentManager,WindowPicture(),false)
 				}
 				R.id.action_bottom_navigation_note -> {
-					executors.getNavigation().add(requireActivity().supportFragmentManager,WindowNote(),false)
+					executors.getNavigation().replace(requireActivity().supportFragmentManager,WindowNote(),false)
 				}
 				R.id.action_bottom_navigation_knowledge -> {
-					executors.getNavigation().add(requireActivity().supportFragmentManager,WindowKnolage(),false)
+					executors.getNavigation().replace(requireActivity().supportFragmentManager,WindowKnowledge(),false)
 				}
 			}
 			true
