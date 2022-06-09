@@ -62,6 +62,7 @@ class MainViewModel(
 			messageLive.postValue(StatusMessage.VideoError)
 		}
 		else {
+			messageLive.postValue(StatusMessage.Succsses)
 			dataLive.postValue(StatusProcess.Success(data.result!!))
 		}
 	}

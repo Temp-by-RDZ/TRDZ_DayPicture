@@ -1,4 +1,4 @@
-package com.trdz.day_picture.w_view.fragments_windows
+package com.trdz.day_picture.w_view.segment_picture
 
 import android.os.Bundle
 import android.os.Handler
@@ -18,6 +18,7 @@ import android.view.animation.AlphaAnimation
 import androidx.constraintlayout.widget.ConstraintLayout
 import com.google.android.material.bottomsheet.BottomSheetBehavior
 import com.trdz.day_picture.databinding.FragmentWindowPodBinding
+import com.trdz.day_picture.z_utility.KEY_FINSTANCE
 import kotlin.concurrent.thread
 
 class WindowPOD: Fragment() {

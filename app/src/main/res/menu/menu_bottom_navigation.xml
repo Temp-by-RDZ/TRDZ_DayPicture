@@ -1,13 +1,24 @@
 <?xml version="1.0" encoding="utf-8"?>
 <menu xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto">
-    <group android:checkableBehavior="none">
-        <item
-            android:id="@+id/navigation_one"
-            android:title="На экран 1" />
-        <item
-            android:id="@+id/navigation_two"
-            android:title="На экран 2" />
-    </group>
-
+    <item
+        android:id="@+id/action_base"
+        android:title="Day base"
+        android:visible="false"
+        app:showAsAction="never"/>
+    <item
+        android:id="@+id/action_bottom_navigation_picture"
+        android:title="Day Picture"
+        android:icon="@drawable/ic_baseline_picture"
+        app:showAsAction="always"/>
+    <item
+        android:id="@+id/action_bottom_navigation_note"
+        android:title="Day Note"
+        android:icon="@drawable/ic_baseline_note"
+        app:showAsAction="always"/>
+    <item
+        android:id="@+id/action_bottom_navigation_knowledge"
+        android:title="Day Knowledge"
+        android:icon="@drawable/ic_baseline_book"
+        app:showAsAction="always"/>
 </menu>

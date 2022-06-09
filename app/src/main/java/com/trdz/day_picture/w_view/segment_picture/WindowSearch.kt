@@ -1,4 +1,4 @@
-package com.trdz.day_picture.w_view.fragments_windows
+package com.trdz.day_picture.w_view.segment_picture
 
 import android.content.Intent
 import android.net.Uri

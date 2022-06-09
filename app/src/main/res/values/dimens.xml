@@ -20,5 +20,6 @@
     <dimen name="navigation_space">50dp</dimen>
     <dimen name="navigation_space_bottom">100dp</dimen>
     <dimen name="button_space">20dp</dimen>
+    <dimen name="fake_button_margin">11dp</dimen>
 
 </resources>

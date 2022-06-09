@@ -1,22 +1,22 @@
-package com.trdz.day_picture.w_view.fragments_windows
+package com.trdz.day_picture.w_view.segment_picture
 
 import android.os.Bundle
 import android.view.*
 import androidx.fragment.app.Fragment
 import com.trdz.day_picture.R
-import com.trdz.day_picture.databinding.FragmentWindowPoeBinding
+import com.trdz.day_picture.databinding.FragmentWindowPomBinding
 
-class WindowPOE  : Fragment() {
+class WindowPOM  : Fragment() {
 
-		private var _binding: FragmentWindowPoeBinding? = null
-		private val binding: FragmentWindowPoeBinding
+		private var _binding: FragmentWindowPomBinding? = null
+		private val binding: FragmentWindowPomBinding
 			get() = _binding!!
 
 		override fun onCreateView(
 			inflater: LayoutInflater, container: ViewGroup?,
 			savedInstanceState: Bundle?
 		): View {
-			_binding = FragmentWindowPoeBinding.inflate(inflater, container, false)
+			_binding = FragmentWindowPomBinding.inflate(inflater, container, false)
 			return binding.root
 		}
 
@@ -34,7 +34,7 @@ class WindowPOE  : Fragment() {
 
 		companion object {
 			@JvmStatic
-			fun newInstance() = WindowPOE()
+			fun newInstance() = WindowPOM()
 		}
 
 		override fun onDestroy() {

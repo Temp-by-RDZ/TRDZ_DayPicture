@@ -27,4 +27,7 @@
     <string name="POM_title">Картина моего Марса</string>
     <string name="POD_title">Картина моего дня</string>
     <string name="POE_title">Картина моей Земли</string>
+    <string name="menu_setting">Настройки</string>
+    <string name="menu_note">В избранное</string>
+    <string name="menu_fake_space">FAKE_SPACE</string>
 </resources>

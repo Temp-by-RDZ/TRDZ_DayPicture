@@ -1,4 +1,4 @@
-package com.trdz.day_picture.w_view
+package com.trdz.day_picture.w_view.segment_picture
 
 import android.content.Context
 import androidx.fragment.app.Fragment

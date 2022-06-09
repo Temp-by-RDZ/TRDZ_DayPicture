@@ -1,4 +1,4 @@
-package com.trdz.day_picture.w_view
+package com.trdz.day_picture.w_view.segment_picture
 
 import android.view.View
 import androidx.viewpager.widget.ViewPager

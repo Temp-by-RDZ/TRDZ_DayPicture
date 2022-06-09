@@ -2,15 +2,21 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto">
     <item
-        android:id="@+id/app_bar_fav"
-        android:icon="@drawable/ic_favourite_menu"
-        android:title="В избранное"
-        app:showAsAction="ifRoom" />
+        android:id="@+id/app_bar_f"
+        android:title="@string/menu_fake_space"
+        android:icon="@drawable/ic_favourite_fake"
+        app:showAsAction="ifRoom"/>
+
+    <item
+        android:id="@+id/app_bar_note"
+        android:icon="@drawable/ic_baseline_books"
+        android:title="@string/menu_note"
+        app:showAsAction="always"/>
 
     <item
         android:id="@+id/app_bar_settings"
         android:icon="@drawable/ic_settings_menu"
-        android:title="Настројки"
-        app:showAsAction="ifRoom" />
+        android:title="@string/menu_setting"
+        app:showAsAction="always"/>
 
 </menu>

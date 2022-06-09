@@ -1,8 +1,7 @@
-package com.trdz.day_picture.w_view.fragments_windows
+package com.trdz.day_picture.w_view.segment_picture
 
 import android.content.Context
 import android.os.Bundle
-import android.util.Log
 import android.view.*
 import androidx.appcompat.view.ContextThemeWrapper
 import androidx.fragment.app.Fragment
