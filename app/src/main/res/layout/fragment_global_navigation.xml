@@ -32,4 +32,12 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:menu="@menu/menu_bottom_navigation" />
 
+    <View
+        android:alpha="0"
+        android:id="@+id/fade_layout"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:translationZ="10dp"
+        android:background="@color/black"/>
+
 </androidx.constraintlayout.widget.ConstraintLayout>

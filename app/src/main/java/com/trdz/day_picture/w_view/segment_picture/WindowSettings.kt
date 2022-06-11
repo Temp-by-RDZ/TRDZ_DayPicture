@@ -9,6 +9,7 @@ import androidx.lifecycle.ViewModelProvider
 import com.google.android.material.tabs.TabLayout
 import com.trdz.day_picture.R
 import com.trdz.day_picture.databinding.FragmentWindowSettingsBinding
+import com.trdz.day_picture.w_view.CustomOnBackPressed
 import com.trdz.day_picture.w_view.Leader
 import com.trdz.day_picture.w_view.MainActivity
 import com.trdz.day_picture.x_view_model.MainViewModel
@@ -16,7 +17,7 @@ import com.trdz.day_picture.z_utility.KEY_OPTIONS
 import com.trdz.day_picture.z_utility.KEY_THEME
 import com.trdz.day_picture.z_utility.KEY_TSET
 
-class WindowSettings : Fragment() {
+class WindowSettings : Fragment(), CustomOnBackPressed {
 
     private var _executors: Leader? = null
     private val executors get() = _executors!!
@@ -32,7 +33,7 @@ class WindowSettings : Fragment() {
         _viewModel = null
     }
 
-    fun onBackPressed(): Boolean {
+    override fun onBackPressed(): Boolean {
         viewModel.changePage(1)
         return false
     }

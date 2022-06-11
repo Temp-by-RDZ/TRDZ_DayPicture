@@ -17,6 +17,8 @@ import com.trdz.day_picture.x_view_model.StatusProcess
 import android.view.animation.AlphaAnimation
 import androidx.constraintlayout.widget.ConstraintLayout
 import com.google.android.material.bottomsheet.BottomSheetBehavior
+import com.pierfrancescosoffritti.androidyoutubeplayer.core.player.YouTubePlayer
+import com.pierfrancescosoffritti.androidyoutubeplayer.core.player.listeners.AbstractYouTubePlayerListener
 import com.trdz.day_picture.databinding.FragmentWindowPodBinding
 import com.trdz.day_picture.z_utility.KEY_FINSTANCE
 import kotlin.concurrent.thread
@@ -65,16 +67,23 @@ class WindowPOD: Fragment() {
 			_bottomSheetBehavior = BottomSheetBehavior.from(popupSheet.bottomSheetContainer)
 			imageView.setOnClickListener { bottomSheetBehavior.state = BottomSheetBehavior.STATE_EXPANDED }
 			bottomSheetBehavior.isHideable = true
-			bottomSheetBehavior.addBottomSheetCallback(object :
+			bottomSheetBehavior.addBottomSheetCallback(object:
 				BottomSheetBehavior.BottomSheetCallback() {
 				override fun onStateChanged(bottomSheet: View, newState: Int) {
 					when (newState) {
-						BottomSheetBehavior.STATE_DRAGGING -> {}
-						BottomSheetBehavior.STATE_COLLAPSED -> {bottomSheetBehavior.state = BottomSheetBehavior.STATE_HIDDEN}
-						BottomSheetBehavior.STATE_EXPANDED -> {}
-						BottomSheetBehavior.STATE_HALF_EXPANDED -> {}
-						BottomSheetBehavior.STATE_HIDDEN -> {}
-						BottomSheetBehavior.STATE_SETTLING -> {}
+						BottomSheetBehavior.STATE_DRAGGING -> {
+						}
+						BottomSheetBehavior.STATE_COLLAPSED -> {
+							bottomSheetBehavior.state = BottomSheetBehavior.STATE_HIDDEN
+						}
+						BottomSheetBehavior.STATE_EXPANDED -> {
+						}
+						BottomSheetBehavior.STATE_HALF_EXPANDED -> {
+						}
+						BottomSheetBehavior.STATE_HIDDEN -> {
+						}
+						BottomSheetBehavior.STATE_SETTLING -> {
+						}
 					}
 				}
 
@@ -106,10 +115,10 @@ class WindowPOD: Fragment() {
 				binding.imageView.load(material.data.url) { placeholder(R.drawable.image_still_loading) }
 				binding.popupSheet.title.text = material.data.title
 				binding.popupSheet.explanation.text = material.data.explanation
-				}
+			}
 			is StatusProcess.Video -> {
-			//TODO()
-			 }
+				binding.youtubePlayer.visibility = View.VISIBLE
+			}
 		}
 	}
 
@@ -128,7 +137,7 @@ class WindowPOD: Fragment() {
 			}
 		}
 	}
-	//endregion
+//endregion
 
 	companion object {
 		fun newInstance() = WindowPOD()

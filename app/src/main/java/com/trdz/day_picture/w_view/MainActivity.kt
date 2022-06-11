@@ -22,8 +22,8 @@ class MainActivity: AppCompatActivity(), Leader {
 
 		var handled = false
 		for (f in fragmentList) {
-			if (f is WindowSettings) {
-				handled = (f as WindowSettings).onBackPressed()
+			if (f is CustomOnBackPressed) {
+				handled = f.onBackPressed()
 				if (handled) {
 					break
 				}

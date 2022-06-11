@@ -99,8 +99,6 @@ class FragmentNavigation: Fragment() {
 		val observer = Observer<StatusMessage> { renderData(it) }
 		viewModel.getMessage().observe(viewLifecycleOwner, observer)
 	}
-
-
 	//endregion
 
 	//region Menu realization
@@ -113,12 +111,20 @@ class FragmentNavigation: Fragment() {
 		if (!inPassiveMode()) {
 			when (item.itemId) {
 				R.id.app_bar_note -> {
+					binding.motionPicture.addTransitionListener(object : MotionLayout.TransitionListener {
+						override fun onTransitionStarted(motionLayout: MotionLayout?, startId: Int, endId: Int) {
+							mood = 3
+						}
+						override fun onTransitionChange(motionLayout: MotionLayout?, startId: Int, endId: Int, progress: Float) {}
+						override fun onTransitionCompleted(motionLayout: MotionLayout?, currentId: Int) {
+							executors.getNavigation().replace(requireActivity().supportFragmentManager, com.trdz.day_picture.w_view.segment_note.FragmentNavigation(), false, R.id.container_fragment_navigation)
+
+						}
+						override fun onTransitionTrigger(motionLayout: MotionLayout?, triggerId: Int, positive: Boolean, progress: Float) {
+						}
+
+					})
 					binding.motionPicture.transitionToStart()
-					mood = 3
-					thread {
-						sleep(2000)
-						executors.getNavigation().replace(requireActivity().supportFragmentManager, com.trdz.day_picture.w_view.segment_note.FragmentNavigation(), false, R.id.container_fragment_navigation)
-					}
 				}
 				R.id.app_bar_settings -> {
 					toSetting()

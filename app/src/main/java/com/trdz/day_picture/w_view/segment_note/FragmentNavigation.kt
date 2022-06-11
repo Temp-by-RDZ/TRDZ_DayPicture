@@ -1,16 +1,20 @@
 package com.trdz.day_picture.w_view.segment_note
 
+import android.animation.Animator
+import android.animation.AnimatorListenerAdapter
 import android.os.Bundle
 import android.view.*
+import android.view.animation.AlphaAnimation
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import com.trdz.day_picture.R
 import com.trdz.day_picture.databinding.FragmentGlobalNavigationBinding
+import com.trdz.day_picture.w_view.CustomOnBackPressed
 import com.trdz.day_picture.x_view_model.MainViewModel
 import com.trdz.day_picture.w_view.Leader
 import com.trdz.day_picture.w_view.MainActivity
 
-class FragmentNavigation: Fragment() {
+class FragmentNavigation: Fragment(), CustomOnBackPressed {
 
 	//region Elements
 	private var _executors: Leader? = null
@@ -29,6 +33,18 @@ class FragmentNavigation: Fragment() {
 		_binding = null
 		_executors = null
 		_viewModel = null
+	}
+
+	override fun onBackPressed(): Boolean {
+		binding.fadeLayout.animate().alpha(1f).setDuration(1000L).setListener(object: AnimatorListenerAdapter() {
+			override fun onAnimationEnd(animation: Animator?) {
+				super.onAnimationEnd(animation)
+				for (fragment in requireActivity().supportFragmentManager.fragments) requireActivity().supportFragmentManager.beginTransaction().remove(fragment).commit()
+				executors.getNavigation().replace(requireActivity().supportFragmentManager, com.trdz.day_picture.w_view.segment_picture.FragmentNavigation(), false, R.id.container_fragment_navigation)
+
+			}
+		})
+		return true
 	}
 
 	override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View {
@@ -54,18 +70,19 @@ class FragmentNavigation: Fragment() {
 		binding.bottomNavigation.setOnItemSelectedListener { item ->
 			when (item.itemId) {
 				R.id.action_bottom_navigation_picture -> {
-					executors.getNavigation().replace(requireActivity().supportFragmentManager,WindowPicture(),false)
+					executors.getNavigation().replace(requireActivity().supportFragmentManager, WindowPicture(), false)
 				}
 				R.id.action_bottom_navigation_note -> {
-					executors.getNavigation().replace(requireActivity().supportFragmentManager,WindowNote(),false)
+					executors.getNavigation().replace(requireActivity().supportFragmentManager, WindowNote(), false)
 				}
 				R.id.action_bottom_navigation_knowledge -> {
-					executors.getNavigation().replace(requireActivity().supportFragmentManager,WindowKnowledge(),false)
+					executors.getNavigation().replace(requireActivity().supportFragmentManager, WindowKnowledge(), false)
 				}
 			}
 			true
 		}
 	}
+
 	private fun buttonBinds() {
 	}
 
@@ -74,5 +91,6 @@ class FragmentNavigation: Fragment() {
 	companion object {
 		fun newInstance() = FragmentNavigation()
 	}
+
 
 }

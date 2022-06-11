@@ -62,6 +62,7 @@ android {
 
 dependencies {
 
+    implementation 'com.pierfrancescosoffritti.androidyoutubeplayer:core:10.0.5'
     implementation("com.tbuonomo:dotsindicator:4.3")                    // view - SnakePager
 
     implementation 'io.coil-kt:coil:1.4.0'                              // image - coil

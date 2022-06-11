@@ -58,7 +58,7 @@ class MainViewModel(
 	override fun success(data: ServerStatus) {
 		Log.d("@@@", "Mod - get success answer")
 		if (data.result?.mediaType == "video") {
-			dataLive.postValue(StatusProcess.Video(data.result))
+			dataLive.postValue(StatusProcess.Video(data.result!!))
 			messageLive.postValue(StatusMessage.VideoError)
 		}
 		else {
