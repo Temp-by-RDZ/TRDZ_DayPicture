@@ -31,4 +31,5 @@
     <string name="menu_note">В избранное</string>
     <string name="menu_fake_space">FAKE_SPACE</string>
     <string name="test_additional_text">Тестовый текст</string>
+    <string name="simbol_open_2"><![CDATA[<]]></string>
 </resources>

@@ -4,7 +4,8 @@
     android:id="@+id/go_to_picture"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="#080219">
+    android:background="#080219"
+    android:layout_marginBottom="?actionBarSize">
 
     <ImageView
         android:layout_width="match_parent"

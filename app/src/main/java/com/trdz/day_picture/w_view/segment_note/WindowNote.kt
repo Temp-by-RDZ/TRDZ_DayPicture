@@ -1,5 +1,8 @@
 package com.trdz.day_picture.w_view.segment_note
 
+import android.animation.Animator
+import android.animation.AnimatorListenerAdapter
+import android.animation.ObjectAnimator
 import android.os.Bundle
 import android.os.Handler
 import android.os.Looper
@@ -28,6 +31,8 @@ class WindowNote: Fragment() {
 	private val executors get() = _executors!!
 	private var _binding: FragmentWindowNoteBinding? = null
 	private val binding get() = _binding!!
+	private val duration = 2000L
+	private var isOpen = false
 	//endregion
 
 	//region Base realization
@@ -53,6 +58,49 @@ class WindowNote: Fragment() {
 
 	//region Main functional
 	private fun buttonBinds() {
+		binding.plusImageview.setOnClickListener {
+			if (isOpen) addingClose()
+			else addingOpen()
+			isOpen = !isOpen
+		}
+	}
+
+	private fun addingOpen() {
+
+		ObjectAnimator.ofFloat(binding.plusImageview, View.ROTATION, 0f, 360f).setDuration(duration).start()
+		ObjectAnimator.ofFloat(binding.optionOneContainer, View.TRANSLATION_Y, -130f).setDuration(duration).start()
+		ObjectAnimator.ofFloat(binding.optionTwoContainer, View.TRANSLATION_Y, -260f).setDuration(duration).start()
+		binding.optionOneContainer.animate().alpha(1f).setDuration(duration).setListener(object: AnimatorListenerAdapter() {
+			override fun onAnimationEnd(animation: Animator?) {
+				super.onAnimationEnd(animation)
+				binding.optionOneContainer.isClickable = true
+			}
+		})
+		binding.optionTwoContainer.animate().alpha(1f).setDuration(duration).setListener(object: AnimatorListenerAdapter() {
+			override fun onAnimationEnd(animation: Animator?) {
+				super.onAnimationEnd(animation)
+				binding.optionTwoContainer.isClickable = true
+			}
+		})
+	}
+
+	private fun addingClose() {
+
+		ObjectAnimator.ofFloat(binding.plusImageview, View.ROTATION, 360f, 0f).setDuration(duration).start()
+		ObjectAnimator.ofFloat(binding.optionOneContainer, View.TRANSLATION_Y,  0f).setDuration(duration).start()
+		ObjectAnimator.ofFloat(binding.optionTwoContainer, View.TRANSLATION_Y,  0f).setDuration(duration).start()
+		binding.optionOneContainer.animate().alpha(0f).setDuration(duration).setListener(object: AnimatorListenerAdapter() {
+			override fun onAnimationEnd(animation: Animator?) {
+				super.onAnimationEnd(animation)
+				binding.optionOneContainer.isClickable = false
+			}
+		})
+		binding.optionTwoContainer.animate().alpha(0f).setDuration(duration).setListener(object: AnimatorListenerAdapter() {
+			override fun onAnimationEnd(animation: Animator?) {
+				super.onAnimationEnd(animation)
+				binding.optionTwoContainer.isClickable = false
+			}
+		})
 	}
 
 	private fun initialize() {

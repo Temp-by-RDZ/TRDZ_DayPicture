@@ -21,5 +21,13 @@
     <dimen name="navigation_space_bottom">100dp</dimen>
     <dimen name="button_space">20dp</dimen>
     <dimen name="fake_button_margin">11dp</dimen>
+    <!-- colors -->
+    <color name="primary">#785447</color>
+    <color name="primaryDark">#5B3F36</color>
+
+    <!-- dimensions -->
+    <dimen name="image_width">120dp</dimen>
+    <dimen name="image_final_width">32dp</dimen>
+    <dimen name="spacing_normal">16dp</dimen>
 
 </resources>
