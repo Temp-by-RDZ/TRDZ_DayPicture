@@ -53,17 +53,17 @@ class MainViewModel(
 	fun start(date: String? = null) {
 		dataLive.postValue(StatusProcess.Load)
 		repository.connection(this@MainViewModel, date)
+		messageLive.postValue(StatusMessage.Succsses)
 	}
 
-	override fun success(data: ServerStatus) {
+	override fun success(data: ServersResult) {
 		Log.d("@@@", "Mod - get success answer")
-		if (data.result?.mediaType == "video") {
-			dataLive.postValue(StatusProcess.Video(data.result!!))
+		if (data.type == "video") {
+			dataLive.postValue(StatusProcess.Video(data))
 			messageLive.postValue(StatusMessage.VideoError)
 		}
 		else {
-			messageLive.postValue(StatusMessage.Succsses)
-			dataLive.postValue(StatusProcess.Success(data.result!!))
+			dataLive.postValue(StatusProcess.Success(data))
 		}
 	}
 

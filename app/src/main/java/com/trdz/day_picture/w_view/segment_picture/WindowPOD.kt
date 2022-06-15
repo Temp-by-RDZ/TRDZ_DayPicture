@@ -17,10 +17,8 @@ import com.trdz.day_picture.x_view_model.StatusProcess
 import android.view.animation.AlphaAnimation
 import androidx.constraintlayout.widget.ConstraintLayout
 import com.google.android.material.bottomsheet.BottomSheetBehavior
-import com.pierfrancescosoffritti.androidyoutubeplayer.core.player.YouTubePlayer
-import com.pierfrancescosoffritti.androidyoutubeplayer.core.player.listeners.AbstractYouTubePlayerListener
 import com.trdz.day_picture.databinding.FragmentWindowPodBinding
-import com.trdz.day_picture.z_utility.KEY_FINSTANCE
+import kotlinx.android.synthetic.main.fragment_window_knowlage.view.*
 import kotlin.concurrent.thread
 
 class WindowPOD: Fragment() {
@@ -112,9 +110,9 @@ class WindowPOD: Fragment() {
 			is StatusProcess.Success -> {
 				binding.imageView.setBackgroundResource(R.color.black)
 				Log.d("@@@", "App - success")
-				binding.imageView.load(material.data.url) { placeholder(R.drawable.image_still_loading) }
-				binding.popupSheet.title.text = material.data.title
-				binding.popupSheet.explanation.text = material.data.explanation
+				binding.imageView.load(material.dataPOD.url)
+				binding.popupSheet.title.text = material.dataPOD.name
+				binding.popupSheet.explanation.text = material.dataPOD.description
 			}
 			is StatusProcess.Video -> {
 				binding.youtubePlayer.visibility = View.VISIBLE

@@ -1,11 +1,11 @@
-package com.trdz.day_picture.y_model.dto
+package com.trdz.day_picture.y_model.dtoPOD
 
 import android.os.Parcelable
 import com.google.gson.annotations.SerializedName
 import kotlinx.android.parcel.Parcelize
 
 @Parcelize
-data class ResponseData(
+data class ResponseDataPOD(
 	val date: String,
 	val explanation: String,
 	val hdurl: String,

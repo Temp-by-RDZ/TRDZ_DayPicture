@@ -3,6 +3,7 @@ package com.trdz.day_picture.w_view.segment_note
 import android.animation.Animator
 import android.animation.AnimatorListenerAdapter
 import android.os.Bundle
+import android.util.Log
 import android.view.*
 import android.view.animation.AlphaAnimation
 import androidx.fragment.app.Fragment
