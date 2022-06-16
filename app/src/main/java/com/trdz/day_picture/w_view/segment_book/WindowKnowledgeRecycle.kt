@@ -1,5 +1,6 @@
 package com.trdz.day_picture.w_view.segment_book
 
+import android.annotation.SuppressLint
 import android.graphics.Color
 import android.view.LayoutInflater
 import android.view.View
@@ -14,7 +15,23 @@ const val TYPE_EARTH = 1
 const val TYPE_MARS = 2
 const val TYPE_HEADER = 3
 
-class WindowKnowledgeRecycle(private var list: List<Data>): RecyclerView.Adapter<RecyclerView.ViewHolder>() {
+class WindowKnowledgeRecycle(private var list: MutableList<Data>, private val clickExecutor: WindowKnowledgeOnClick,): RecyclerView.Adapter<RecyclerView.ViewHolder>() {
+
+	@SuppressLint("NotifyDataSetChanged")
+	fun setList(newList: List<Data>) {
+		this.list = newList.toMutableList()
+		notifyDataSetChanged()
+	}
+
+	fun setAddToList(newList: List<Data>, position: Int) {
+		this.list = newList.toMutableList()
+		notifyItemChanged(position)
+	}
+
+	fun setRemoveToList(newList: List<Data>, position: Int) {
+		this.list = newList.toMutableList()
+		notifyItemRemoved(position)
+	}
 
 	override fun getItemViewType(position: Int): Int {
 		return list[position].type
@@ -53,7 +70,7 @@ class WindowKnowledgeRecycle(private var list: List<Data>): RecyclerView.Adapter
 		return list.size
 	}
 
-	class EarthViewHolder(view: View): RecyclerView.ViewHolder(view) {
+	inner class EarthViewHolder(view: View): RecyclerView.ViewHolder(view) {
 		fun myBind(data: Data) {
 			(ElementKnowlageTitleBinding.bind(itemView)).apply {
 				title.text = data.someText
@@ -61,11 +78,14 @@ class WindowKnowledgeRecycle(private var list: List<Data>): RecyclerView.Adapter
 		}
 	}
 
-	class MarsViewHolder(view: View): RecyclerView.ViewHolder(view) {
+	inner class MarsViewHolder(view: View): RecyclerView.ViewHolder(view) {
 		fun myBind(data: Data) {
 			(ElementKnowlageElementBinding.bind(itemView)).apply {
 				title.text = data.someText
 				descriptionTextView.text = data.someDescription
+				title.setOnClickListener { clickExecutor.onItemClickSpecial(data) }
+				root.setOnClickListener { clickExecutor.onItemClick(data) }
+				root.setOnLongClickListener { clickExecutor.onItemClickLong(data); true }
 			}
 		}
 	}

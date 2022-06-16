@@ -14,8 +14,15 @@
         <!-- Element styles. -->
         <item name="chipStyle">@style/MyChipStyle</item>
 
+
         <item name="shapeAppearanceSmallComponent">@style/MySmallShape</item>
         <item name="bottomNavigationStyle">@style/MyBottomNavigationView</item>
+    </style>
+
+
+    <style name="eva" >
+        <item name="android:ambientShadowAlpha">0.2</item>
+        <item name="android:spotShadowAlpha">1</item>
     </style>
 
     <style name="MyBaseTheme" parent="CoreTheme">
