@@ -3,7 +3,7 @@ package com.trdz.day_picture.w_view
 import android.content.Context
 import android.widget.Toast
 
-class Executor() {
+class Executor {
 
 	private var toast: Toast? = null
 

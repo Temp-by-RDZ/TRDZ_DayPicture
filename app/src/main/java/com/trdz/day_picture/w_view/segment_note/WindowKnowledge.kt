@@ -23,14 +23,6 @@ class WindowKnowledge: Fragment() {
 		return binding.root
 	}
 
-	override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-		super.onViewCreated(view, savedInstanceState)
-
-		//val params = (binding.button.layoutParams as CoordinatorLayout.LayoutParams)
-		//params.behavior = ButtonBehavior(requireContext())
-	//	binding.button.layoutParams = params
-	}
-
 
 	companion object {
 		fun newInstance() = WindowKnowledge()

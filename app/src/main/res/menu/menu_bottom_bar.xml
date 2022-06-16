@@ -5,7 +5,14 @@
         android:id="@+id/app_bar_f"
         android:title="@string/menu_fake_space"
         android:icon="@drawable/ic_favourite_fake"
-        app:showAsAction="ifRoom"/>
+        app:showAsAction="always"/>
+
+    <item
+        android:id="@+id/app_bar_res"
+        android:icon="@drawable/ic_baseline_reload"
+        android:title="@string/menu_again"
+        app:showAsAction="always"/>
+
 
     <item
         android:id="@+id/app_bar_note"

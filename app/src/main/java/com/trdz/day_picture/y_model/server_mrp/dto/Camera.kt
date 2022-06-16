@@ -1,4 +1,4 @@
-package com.trdz.day_picture.y_model.dtoMRP
+package com.trdz.day_picture.y_model.server_mrp.dto
 
 data class Camera(
     val full_name: String,

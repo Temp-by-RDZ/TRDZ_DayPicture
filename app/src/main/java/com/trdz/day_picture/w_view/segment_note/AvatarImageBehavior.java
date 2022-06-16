@@ -20,7 +20,7 @@ public class AvatarImageBehavior extends CoordinatorLayout.Behavior<FloatingActi
     private final static int EXTRA_FINAL_AVATAR_PADDING     = 80;
 
     private final static String TAG = "behavior";
-    private Context mContext;
+    private final Context mContext;
 
     private float mCustomFinalYPosition;
     private float mCustomStartXPosition;
@@ -29,7 +29,7 @@ public class AvatarImageBehavior extends CoordinatorLayout.Behavior<FloatingActi
     private float mCustomFinalHeight;
 
     private float mAvatarMaxSize;
-    private float mFinalLeftAvatarPadding = 16;
+    private final float mFinalLeftAvatarPadding = 16;
     private float mStartPosition;
     private int mStartXPosition;
     private float mStartToolbarPosition;
@@ -102,8 +102,8 @@ public class AvatarImageBehavior extends CoordinatorLayout.Behavior<FloatingActi
             child.setY(mStartYPosition - distanceYToSubtract);
 
             CoordinatorLayout.LayoutParams lp = (CoordinatorLayout.LayoutParams) child.getLayoutParams();
-            lp.width = (int) (mStartHeight);
-            lp.height = (int) (mStartHeight);
+            lp.width = mStartHeight;
+            lp.height = mStartHeight;
             child.setLayoutParams(lp);
         }
         return true;

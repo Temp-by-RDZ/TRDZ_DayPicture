@@ -1,13 +1,14 @@
-package com.trdz.day_picture.y_model
+package com.trdz.day_picture.y_model.server_pod
 
 import android.util.Log
 import com.trdz.day_picture.BuildConfig
 import com.trdz.day_picture.MyApp
-import com.trdz.day_picture.x_view_model.ServerResponse
-import com.trdz.day_picture.y_model.dtoPOD.ResponseDataPOD
+import com.trdz.day_picture.y_model.ExternalSource
+import com.trdz.day_picture.y_model.ServersResult
+import com.trdz.day_picture.y_model.server_pod.dto.ResponseDataPOD
 import retrofit2.Response
 
-class ServerRetrofit: ExternalSource {
+class ServerRetrofitPOD: ExternalSource {
 
 	override fun load(date: String?): ServersResult {
 		if (date!=null) return loadCustom(date)
@@ -34,15 +35,15 @@ class ServerRetrofit: ExternalSource {
 		}
 	}
 
-	private fun responseFormation(response: Response<ResponseDataPOD>) :ServersResult {
+	private fun responseFormation(response: Response<ResponseDataPOD>) : ServersResult {
 		return if (response.isSuccessful) response.body()!!.run {
 			ServersResult(response.code(), title, explanation, url, mediaType)
 		}
-		else ServersResult(response.code(), "NO FILE", "Missing information.")
+		else ServersResult(response.code())
 	}
 
-	private fun responseFail() :ServersResult {
+	private fun responseFail() : ServersResult {
 		Log.d("@@@", "Ser - Connection Error")
-		return ServersResult(-1, "NO FILE", "Missing information.")
+		return ServersResult(-1)
 	}
 }

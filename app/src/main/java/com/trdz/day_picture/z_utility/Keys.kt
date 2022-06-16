@@ -6,6 +6,7 @@ const val KEY_THEME		= "THEME"
 const val KEY_TSET		= "TSET"
 //Pager bobles
 const val KEY_FINSTANCE	= "FINST"
+const val KEY_PREFIX	= "PREFX"
 //Pager Fragment codes
 const val WIN_CODE_POE	= "POE"
 const val WIN_CODE_POD	= "POD"

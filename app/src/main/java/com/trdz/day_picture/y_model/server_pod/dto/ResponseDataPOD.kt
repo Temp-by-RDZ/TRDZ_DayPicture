@@ -1,4 +1,4 @@
-package com.trdz.day_picture.y_model.dtoPOD
+package com.trdz.day_picture.y_model.server_pod.dto
 
 import android.os.Parcelable
 import com.google.gson.annotations.SerializedName

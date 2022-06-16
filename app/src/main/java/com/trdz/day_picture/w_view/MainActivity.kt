@@ -3,6 +3,7 @@ package com.trdz.day_picture.w_view
 import android.content.Context
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.util.Log
 import com.trdz.day_picture.R
 import com.trdz.day_picture.w_view.segment_picture.FragmentNavigation
 import com.trdz.day_picture.w_view.segment_picture.WindowSettings
@@ -44,12 +45,13 @@ class MainActivity: AppCompatActivity(), Leader {
 		themeSettings()
 		setContentView(R.layout.activity_main)
 		if (savedInstanceState == null) {
-			navigation.add(supportFragmentManager, FragmentNavigation.newInstance(true),false,R.id.container_fragment_navigation)
+			Log.d("@@@", "Start program")
+			navigation.add(supportFragmentManager, FragmentNavigation.newInstance(true), false, R.id.container_fragment_navigation)
 		}
 	}
 
 	private fun themeSettings() {
-		when (getSharedPreferences(KEY_OPTIONS,Context.MODE_PRIVATE).getInt(KEY_THEME,0)) {
+		when (getSharedPreferences(KEY_OPTIONS, Context.MODE_PRIVATE).getInt(KEY_THEME, 0)) {
 			0 -> setTheme(R.style.MyBaseTheme)
 			1 -> setTheme(R.style.MyGoldTheme)
 			2 -> setTheme(R.style.MyFiolTheme)

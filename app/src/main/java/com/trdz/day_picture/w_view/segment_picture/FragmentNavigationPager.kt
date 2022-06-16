@@ -11,7 +11,6 @@ import com.trdz.day_picture.z_utility.WIN_CODE_POM
 
 class FragmentNavigationPager(private val fm: FragmentManager, private val context: Context): FragmentStatePagerAdapter(fm) {
 
-
 	private val bind = arrayOf(WIN_CODE_POE, WIN_CODE_POD, WIN_CODE_POM)
 
 	private val windows = hashMapOf<String,Fragment>()

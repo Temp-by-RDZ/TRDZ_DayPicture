@@ -2,8 +2,9 @@ package com.trdz.day_picture
 
 import android.app.Application
 import com.google.gson.GsonBuilder
-import com.trdz.day_picture.y_model.ServerRetrofitApi
-import com.trdz.day_picture.y_model.ServerRetrofitCustomApi
+import com.trdz.day_picture.y_model.server_mrp.ServerRetrofitMrpCustomApi
+import com.trdz.day_picture.y_model.server_pod.ServerRetrofitPodApi
+import com.trdz.day_picture.y_model.server_pod.ServerRetrofitPodCustomApi
 import com.trdz.day_picture.z_utility.DOMAIN
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
@@ -11,30 +12,43 @@ import retrofit2.converter.gson.GsonConverterFactory
 class MyApp: Application() {
 
 	companion object {
-		private var retrofit: ServerRetrofitApi? = null
-		private var retrofitCustom: ServerRetrofitCustomApi? = null
+		private var retrofitPod: ServerRetrofitPodApi? = null
+		private var retrofitPodCustom: ServerRetrofitPodCustomApi? = null
+		private var retrofitMrp: ServerRetrofitMrpCustomApi? = null
 
 		private fun createRetrofit() {
-			retrofit = Retrofit.Builder().apply {
+			retrofitPod = Retrofit.Builder().apply {
 				baseUrl(DOMAIN)
 				addConverterFactory(GsonConverterFactory.create(GsonBuilder().setLenient().create()))
-			}.build().create(ServerRetrofitApi::class.java)
+			}.build().create(ServerRetrofitPodApi::class.java)
 		}
 
-		fun getRetrofit(): ServerRetrofitApi {
-			if (retrofit == null) createRetrofit()
-			return retrofit!!
+		fun getRetrofit(): ServerRetrofitPodApi {
+			if (retrofitPod == null) createRetrofit()
+			return retrofitPod!!
 		}
 		private fun createRetrofitCustom() {
-			retrofitCustom = Retrofit.Builder().apply {
+			retrofitPodCustom = Retrofit.Builder().apply {
 				baseUrl(DOMAIN)
 				addConverterFactory(GsonConverterFactory.create(GsonBuilder().setLenient().create()))
-			}.build().create(ServerRetrofitCustomApi::class.java)
+			}.build().create(ServerRetrofitPodCustomApi::class.java)
 		}
 
-		fun getRetrofitCustom(): ServerRetrofitCustomApi {
-			if (retrofitCustom == null) createRetrofitCustom()
-			return retrofitCustom!!
+		fun getRetrofitCustom(): ServerRetrofitPodCustomApi {
+			if (retrofitPodCustom == null) createRetrofitCustom()
+			return retrofitPodCustom!!
+		}
+
+		private fun createRetrofitMrp() {
+			retrofitMrp = Retrofit.Builder().apply {
+				baseUrl(DOMAIN)
+				addConverterFactory(GsonConverterFactory.create(GsonBuilder().setLenient().create()))
+			}.build().create(ServerRetrofitMrpCustomApi::class.java)
+		}
+
+		fun getRetrofitMrp(): ServerRetrofitMrpCustomApi {
+			if (retrofitMrp == null) createRetrofitMrp()
+			return retrofitMrp!!
 		}
 	}
 }

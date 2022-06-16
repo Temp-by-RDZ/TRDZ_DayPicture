@@ -4,11 +4,14 @@ import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.ViewModel
 import com.trdz.day_picture.y_model.*
+import com.trdz.day_picture.z_utility.PREFIX_MRP
+import com.trdz.day_picture.z_utility.PREFIX_POD
 import java.text.SimpleDateFormat
 import java.util.*
 
 class MainViewModel(
-	private val dataLive: SingleLiveData<StatusProcess> = SingleLiveData(),
+	private val dataPodLive: SingleLiveData<StatusProcess> = SingleLiveData(),
+	private val dataPomLive: SingleLiveData<StatusProcess> = SingleLiveData(),
 	private val messageLive: SingleLiveData<StatusMessage> = SingleLiveData(),
 	private val repository: DataExecutor = DataExecutor(),
 ): ViewModel(), ServerResponse {
@@ -33,42 +36,72 @@ class MainViewModel(
 		}
 	}
 
-	fun getData(): LiveData<StatusProcess> {
-		return dataLive
+	fun getPomData(): LiveData<StatusProcess> = dataPomLive
+	fun getPodData(): LiveData<StatusProcess> = dataPodLive
+	fun getMessage(): LiveData<StatusMessage> = messageLive
+
+	fun initialize(prefix: String) {
+		messageLive.postValue(StatusMessage.Success)
+		when (prefix) {
+			PREFIX_MRP -> analyze(prefix, 0)
+			PREFIX_POD -> startPod()
+		}
 	}
 
-	fun getMessage(): LiveData<StatusMessage> {
-		return messageLive
-	}
-
-	fun analyze() {
+	private fun getData(change: Int): String {
 		val calendar = Calendar.getInstance()
-		calendar.add(Calendar.DATE, -1)
+		calendar.add(Calendar.DATE, change)
 		val dateFormat = SimpleDateFormat("yyyy-MM-dd", Locale.getDefault())
-		val date: String = dateFormat.format(calendar.time)
-		Log.d("@@@", "Mod - get prev date: $date")
-		start(date)
+		return dateFormat.format(calendar.time)
 	}
 
-	fun start(date: String? = null) {
-		dataLive.postValue(StatusProcess.Load)
-		repository.connection(this@MainViewModel, date)
-		messageLive.postValue(StatusMessage.Succsses)
-	}
-
-	override fun success(data: ServersResult) {
-		Log.d("@@@", "Mod - get success answer")
-		if (data.type == "video") {
-			dataLive.postValue(StatusProcess.Video(data))
-			messageLive.postValue(StatusMessage.VideoError)
-		}
-		else {
-			dataLive.postValue(StatusProcess.Success(data))
+	fun analyze(prefix: String, change: Int = 0) {
+		when (prefix) {
+			PREFIX_POD -> startPod(getData(change))
+			PREFIX_MRP -> startMrp(getData(change))
 		}
 	}
 
-	override fun fail(code: Int) {
-		Log.d("@@@", "Mod - request failed $code")
-		dataLive.postValue(StatusProcess.Error(code, IllegalAccessError()))
+	private fun startPod(date: String? = null) {
+		dataPodLive.postValue(StatusProcess.Load)
+		repository.connection(this@MainViewModel, PREFIX_POD, date)
+
+	}
+
+	private fun startMrp(date: String? = null) {
+		dataPomLive.postValue(StatusProcess.Load)
+		repository.connection(this@MainViewModel, PREFIX_MRP, date)
+	}
+
+	override fun success(prefix: String, data: ServersResult) {
+		Log.d("@@@", "Mod - get success $prefix answer")
+		when (prefix) {
+			PREFIX_POD -> {
+				if (data.type == "video") {
+					dataPodLive.postValue(StatusProcess.Video(data))
+					messageLive.postValue(StatusMessage.VideoError)
+				}
+				else {
+					dataPodLive.postValue(StatusProcess.Success(data))
+				}
+			}
+			PREFIX_MRP -> {
+				if (data.type == "video") {
+					dataPomLive.postValue(StatusProcess.Video(data))
+					messageLive.postValue(StatusMessage.VideoError)
+				}
+				else {
+					dataPomLive.postValue(StatusProcess.Success(data))
+				}
+			}
+		}
+	}
+
+	override fun fail(prefix: String, code: Int) {
+		Log.d("@@@", "Mod - request $prefix failed $code")
+		when (prefix) {
+			PREFIX_POD -> dataPodLive.postValue(StatusProcess.Error(code, IllegalAccessError()))
+			PREFIX_MRP -> dataPomLive.postValue(StatusProcess.Error(code, IllegalAccessError()))
+		}
 	}
 }

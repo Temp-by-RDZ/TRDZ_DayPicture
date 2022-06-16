@@ -61,7 +61,7 @@ class WindowPicture: Fragment() {
 	}
 
 	private fun goToPicture() {
-		executors.getNavigation().replace(requireActivity().supportFragmentManager, FragmentNavigation(),false,R.id.container_fragment_navigation)
+		executors.getNavigation().replace(requireActivity().supportFragmentManager, FragmentNavigation(), false, R.id.container_fragment_navigation)
 
 		val dispose = AlphaAnimation(1.0f, 0.0f).apply {
 			duration = 2000
@@ -77,6 +77,7 @@ class WindowPicture: Fragment() {
 
 	private fun initialize() {
 	}
+
 	//endregion
 
 	companion object {

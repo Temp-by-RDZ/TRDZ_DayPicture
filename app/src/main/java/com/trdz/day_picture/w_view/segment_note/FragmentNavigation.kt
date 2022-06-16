@@ -24,8 +24,6 @@ class FragmentNavigation: Fragment(), CustomOnBackPressed {
 	private val binding get() = _binding!!
 	private var _viewModel: MainViewModel? = null
 	private val viewModel get() = _viewModel!!
-	private var mood = 1
-	var isMain = true
 	//endregion
 
 	//region Base realization
@@ -65,7 +63,6 @@ class FragmentNavigation: Fragment(), CustomOnBackPressed {
 	//region Menu realization
 	//endregion
 
-
 	//region Main functional
 	private fun initialization() {
 		binding.bottomNavigation.setOnItemSelectedListener { item ->
@@ -87,8 +84,8 @@ class FragmentNavigation: Fragment(), CustomOnBackPressed {
 	private fun buttonBinds() {
 	}
 
-
 	//endregion
+
 	companion object {
 		fun newInstance() = FragmentNavigation()
 	}

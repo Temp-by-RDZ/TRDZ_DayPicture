@@ -87,8 +87,8 @@ class WindowNote: Fragment() {
 	private fun addingClose() {
 
 		ObjectAnimator.ofFloat(binding.plusImageview, View.ROTATION, 360f, 0f).setDuration(duration).start()
-		ObjectAnimator.ofFloat(binding.optionOneContainer, View.TRANSLATION_Y,  0f).setDuration(duration).start()
-		ObjectAnimator.ofFloat(binding.optionTwoContainer, View.TRANSLATION_Y,  0f).setDuration(duration).start()
+		ObjectAnimator.ofFloat(binding.optionOneContainer, View.TRANSLATION_Y, 0f).setDuration(duration).start()
+		ObjectAnimator.ofFloat(binding.optionTwoContainer, View.TRANSLATION_Y, 0f).setDuration(duration).start()
 		binding.optionOneContainer.animate().alpha(0f).setDuration(duration).setListener(object: AnimatorListenerAdapter() {
 			override fun onAnimationEnd(animation: Animator?) {
 				super.onAnimationEnd(animation)
@@ -105,6 +105,7 @@ class WindowNote: Fragment() {
 
 	private fun initialize() {
 	}
+
 	//endregion
 
 	companion object {

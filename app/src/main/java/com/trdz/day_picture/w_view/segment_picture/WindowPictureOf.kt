@@ -16,12 +16,15 @@ import com.trdz.day_picture.x_view_model.MainViewModel
 import com.trdz.day_picture.x_view_model.StatusProcess
 import android.view.animation.AlphaAnimation
 import androidx.constraintlayout.widget.ConstraintLayout
+import coil.clear
 import com.google.android.material.bottomsheet.BottomSheetBehavior
 import com.trdz.day_picture.databinding.FragmentWindowPodBinding
-import kotlinx.android.synthetic.main.fragment_window_knowlage.view.*
+import com.trdz.day_picture.z_utility.KEY_PREFIX
+import com.trdz.day_picture.z_utility.PREFIX_MRP
+import com.trdz.day_picture.z_utility.PREFIX_POD
 import kotlin.concurrent.thread
 
-class WindowPOD: Fragment() {
+class WindowPictureOf: Fragment() {
 
 	//region Elements
 	private var _executors: Leader? = null
@@ -32,6 +35,7 @@ class WindowPOD: Fragment() {
 	private val viewModel get() = _viewModel!!
 	private var _bottomSheetBehavior: BottomSheetBehavior<ConstraintLayout>? = null
 	private val bottomSheetBehavior get() = _bottomSheetBehavior!!
+	private lateinit var prefix: String
 	//endregion
 
 	//region Base realization
@@ -40,6 +44,13 @@ class WindowPOD: Fragment() {
 		_binding = null
 		_executors = null
 		_viewModel = null
+	}
+
+	override fun onCreate(savedInstanceState: Bundle?) {
+		super.onCreate(savedInstanceState)
+		arguments?.let {
+			prefix = it.getString(KEY_PREFIX, PREFIX_POD)
+		}
 	}
 
 	override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View {
@@ -52,7 +63,10 @@ class WindowPOD: Fragment() {
 	override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
 		super.onViewCreated(view, savedInstanceState)
 		val observer = Observer<StatusProcess> { renderData(it) }
-		viewModel.getData().observe(viewLifecycleOwner, observer)
+		when (prefix) {
+			PREFIX_POD -> viewModel.getPodData().observe(viewLifecycleOwner, observer)
+			PREFIX_MRP -> viewModel.getPomData().observe(viewLifecycleOwner, observer)
+		}
 		buttonBinds()
 		initialize()
 	}
@@ -64,6 +78,7 @@ class WindowPOD: Fragment() {
 		with(binding) {
 			_bottomSheetBehavior = BottomSheetBehavior.from(popupSheet.bottomSheetContainer)
 			imageView.setOnClickListener { bottomSheetBehavior.state = BottomSheetBehavior.STATE_EXPANDED }
+			bottomSheetBehavior.state = BottomSheetBehavior.STATE_HIDDEN
 			bottomSheetBehavior.isHideable = true
 			bottomSheetBehavior.addBottomSheetCallback(object:
 				BottomSheetBehavior.BottomSheetCallback() {
@@ -92,29 +107,36 @@ class WindowPOD: Fragment() {
 	}
 
 	private fun initialize() {
-		viewModel.start()
+		viewModel.initialize(prefix)
 		removeLoad()
 	}
 
 	private fun renderData(material: StatusProcess) {
 		when (material) {
 			StatusProcess.Load -> {
+				binding.postLoad.visibility = View.VISIBLE
 				bottomSheetBehavior.state = BottomSheetBehavior.STATE_HIDDEN
 				removeLoad()
 			}
 			is StatusProcess.Error -> {
-				Log.d("@@@", "App - error")
+				Log.d("@@@", "App - $prefix catch")
 				executors.getExecutor().showToast(requireContext(), getString(R.string.render_show_error) + material.code)
+				binding.imageView.clear()
 				binding.imageView.setBackgroundResource(R.drawable.nofile)
+				binding.popupSheet.title.text = getString(R.string.ERROR_TITLE)
+				binding.popupSheet.explanation.text = getString(R.string.ERROR_DISCRIPTIOn)
 			}
 			is StatusProcess.Success -> {
+				Log.d("@@@", "App - $prefix render")
 				binding.imageView.setBackgroundResource(R.color.black)
-				Log.d("@@@", "App - success")
-				binding.imageView.load(material.dataPOD.url)
-				binding.popupSheet.title.text = material.dataPOD.name
-				binding.popupSheet.explanation.text = material.dataPOD.description
+				binding.imageView.load(material.data.url) {placeholder(R.drawable.image_still_loading)
+				error(R.drawable.nofile)}
+				binding.postLoad.visibility = View.GONE
+				binding.popupSheet.title.text = material.data.name
+				binding.popupSheet.explanation.text = material.data.description
 			}
 			is StatusProcess.Video -> {
+				Log.d("@@@", "App - $prefix show")
 				binding.youtubePlayer.visibility = View.VISIBLE
 			}
 		}
@@ -138,7 +160,13 @@ class WindowPOD: Fragment() {
 //endregion
 
 	companion object {
-		fun newInstance() = WindowPOD()
+		@JvmStatic
+		fun newInstance(prefix: String) =
+			WindowPictureOf().apply {
+				arguments = Bundle().apply {
+					putString(KEY_PREFIX, prefix)
+				}
+			}
 	}
 
 }

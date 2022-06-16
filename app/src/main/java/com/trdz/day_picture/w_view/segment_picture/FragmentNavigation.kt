@@ -1,7 +1,6 @@
 package com.trdz.day_picture.w_view.segment_picture
 
 import android.os.Bundle
-import android.os.SystemClock.sleep
 import android.util.Log
 import android.view.*
 import androidx.constraintlayout.motion.widget.MotionLayout
@@ -12,7 +11,6 @@ import com.google.android.material.snackbar.Snackbar
 import com.trdz.day_picture.R
 import com.trdz.day_picture.x_view_model.MainViewModel
 import androidx.core.content.ContextCompat
-import androidx.core.view.isVisible
 import com.google.android.material.bottomappbar.BottomAppBar
 import com.trdz.day_picture.databinding.FragmentNavigationBinding
 import com.trdz.day_picture.x_view_model.StatusMessage
@@ -21,9 +19,7 @@ import com.google.android.material.chip.Chip
 import com.trdz.day_picture.w_view.Leader
 import com.trdz.day_picture.w_view.MainActivity
 import com.trdz.day_picture.z_utility.*
-import kotlinx.android.synthetic.main.fragment_navigation.*
 import kotlinx.android.synthetic.main.preset_chips.*
-import kotlin.concurrent.thread
 
 class FragmentNavigation: Fragment() {
 
@@ -35,6 +31,7 @@ class FragmentNavigation: Fragment() {
 	private var _viewModel: MainViewModel? = null
 	private val viewModel get() = _viewModel!!
 	private var mood = 1
+	private var lastChose = 1
 	var isMain = true
 	var isFirst = false
 	//endregion
@@ -46,6 +43,7 @@ class FragmentNavigation: Fragment() {
 		_executors = null
 		_viewModel = null
 	}
+
 	override fun onCreate(savedInstanceState: Bundle?) {
 		super.onCreate(savedInstanceState)
 		arguments?.let {
@@ -70,11 +68,11 @@ class FragmentNavigation: Fragment() {
 	}
 
 	private fun setPager() {
-		with(binding){
-			viewPager.adapter = FragmentNavigationPager(childFragmentManager,requireContext()).apply {
+		with(binding) {
+			viewPager.adapter = FragmentNavigationPager(childFragmentManager, requireContext()).apply {
 				add(WIN_CODE_POE, WindowPOE())
-				add(WIN_CODE_POD, WindowPOD())
-				add(WIN_CODE_POM, WindowPOM())
+				add(WIN_CODE_POD, WindowPictureOf.newInstance(PREFIX_POD))
+				add(WIN_CODE_POM, WindowPictureOf.newInstance(PREFIX_MRP))
 			}
 			viewPager.currentItem = 1
 			viewPager.setPageTransformer(true, FragmentNavigationTransformer())
@@ -111,20 +109,26 @@ class FragmentNavigation: Fragment() {
 		if (!inPassiveMode()) {
 			when (item.itemId) {
 				R.id.app_bar_note -> {
-					binding.motionPicture.addTransitionListener(object : MotionLayout.TransitionListener {
+					binding.motionPicture.addTransitionListener(object: MotionLayout.TransitionListener {
 						override fun onTransitionStarted(motionLayout: MotionLayout?, startId: Int, endId: Int) {
 							mood = 3
 						}
+
 						override fun onTransitionChange(motionLayout: MotionLayout?, startId: Int, endId: Int, progress: Float) {}
 						override fun onTransitionCompleted(motionLayout: MotionLayout?, currentId: Int) {
 							executors.getNavigation().replace(requireActivity().supportFragmentManager, com.trdz.day_picture.w_view.segment_note.FragmentNavigation(), false, R.id.container_fragment_navigation)
 
 						}
+
 						override fun onTransitionTrigger(motionLayout: MotionLayout?, triggerId: Int, positive: Boolean, progress: Float) {
 						}
 
 					})
 					binding.motionPicture.transitionToStart()
+				}
+				R.id.app_bar_res -> {
+					viewModel.analyze(PREFIX_POD, lastChose-1)
+					viewModel.analyze(PREFIX_MRP, lastChose-1)
 				}
 				R.id.app_bar_settings -> {
 					toSetting()
@@ -190,16 +194,34 @@ class FragmentNavigation: Fragment() {
 	private fun chipRealization(position: Int) {
 		val chip = chipGroup.findViewById<Chip>(position) ?: return
 		when (chip.tag) {
-			"chip_l" -> viewModel.analyze()
-			"chip_c" -> viewModel.start()
+			"chip_l" -> {
+				lastChose = 0
+				viewModel.analyze(PREFIX_POD, -1)
+				viewModel.analyze(PREFIX_MRP, -1)
+			}
+			"chip_c" -> {
+				lastChose = 1
+				viewModel.analyze(PREFIX_POD, 0)
+				viewModel.analyze(PREFIX_MRP, 0)
+			}
 			"chip_r" -> executors.getExecutor().showToast(requireContext(), getString(R.string.egs))
 		}
+	}
+
+	private fun getPrefix(): String {
+		return when (binding.viewPager.currentItem) {
+			1 -> PREFIX_POD
+			2 -> PREFIX_MRP
+			else -> PREFIX_MRP
+		}
+
 	}
 
 	private fun renderData(material: StatusMessage) {
 		binding.motionPicture.transitionToEnd()
 		when (material) {
-			is StatusMessage.Succsses -> { }
+			is StatusMessage.Success -> {
+			}
 			is StatusMessage.VideoError -> {
 				Log.d("@@@", "Nav - error")
 				binding.floatButton.showSnackBar(getString(R.string.error_this_is_video), Snackbar.LENGTH_INDEFINITE) { action(R.string.error_this_is_video_end) {} }
@@ -215,8 +237,7 @@ class FragmentNavigation: Fragment() {
 		}
 	}
 
-	private fun inPassiveMode()= (mood>1)
-
+	private fun inPassiveMode() = (mood > 1)
 
 	//endregion
 

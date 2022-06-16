@@ -27,12 +27,7 @@ class WindowPOE  : Fragment() {
 		}
 
 
-		override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-			super.onViewCreated(view, savedInstanceState)
-		}
-
-
-		companion object {
+	companion object {
 			@JvmStatic
 			fun newInstance() = WindowPOE()
 		}

@@ -2,17 +2,24 @@ package com.trdz.day_picture.y_model
 
 import android.util.Log
 import com.trdz.day_picture.x_view_model.ServerResponse
+import com.trdz.day_picture.y_model.server_mrp.ServerRetrofitMRP
+import com.trdz.day_picture.y_model.server_pod.ServerRetrofitPOD
+import com.trdz.day_picture.z_utility.PREFIX_MRP
+import com.trdz.day_picture.z_utility.PREFIX_POD
 
 class DataExecutor: Repository {
 
-	private val externalSource: ExternalSource = ServerRetrofit()
-
-	override fun connection(serverListener: ServerResponse, date: String?) {
-		Log.d("@@@", "Rep - start connection $date")
+	override fun connection(serverListener: ServerResponse, prefix: String, date: String?) {
+		Log.d("@@@", "Rep - start connection $prefix on date: $date")
+		lateinit var externalSource: ExternalSource
+		when (prefix) {
+			PREFIX_POD -> externalSource = ServerRetrofitPOD()
+			PREFIX_MRP -> externalSource = ServerRetrofitMRP()
+		}
 		Thread {
 			val result = externalSource.load(date)
-			if (result.code in 200..299 ) serverListener.success(result)
-			else serverListener.fail(result.code)
+			if (result.code in 200..299 ) serverListener.success(prefix,result)
+			else serverListener.fail(prefix, result.code)
 		}.start()
 	}
 
