@@ -1,5 +1,6 @@
 package com.trdz.day_picture.w_view.segment_book
 
+import android.animation.ObjectAnimator
 import android.annotation.SuppressLint
 import android.view.LayoutInflater
 import android.view.View
@@ -8,9 +9,9 @@ import androidx.recyclerview.widget.RecyclerView
 import com.trdz.day_picture.databinding.ElementKnowlageElementBinding
 import com.trdz.day_picture.databinding.ElementKnowlageHiderBinding
 import com.trdz.day_picture.databinding.ElementKnowlageTitleBinding
-
-const val TYPE_EARTH = 1
-const val TYPE_MARS = 2
+import com.trdz.day_picture.z_utility.TYPE_CARD
+import com.trdz.day_picture.z_utility.TYPE_NONE
+import com.trdz.day_picture.z_utility.TYPE_TITLE
 
 class WindowKnowledgeRecycle(private var list: MutableList<Data>, private val clickExecutor: WindowKnowledgeOnClick,): RecyclerView.Adapter<RecyclerView.ViewHolder>() {
 
@@ -37,7 +38,7 @@ class WindowKnowledgeRecycle(private var list: MutableList<Data>, private val cl
 
 	override fun getItemViewType(position: Int): Int {
 		return when (getItemViewState(position)) {
-			2 -> 0
+			2 -> TYPE_NONE
 			else -> list[position].type
 		}
 	}
@@ -47,17 +48,17 @@ class WindowKnowledgeRecycle(private var list: MutableList<Data>, private val cl
 
 	override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder {
 		return when (viewType) {
-			TYPE_EARTH -> {
+			TYPE_CARD -> {
 				val view = ElementKnowlageTitleBinding.inflate(LayoutInflater.from(parent.context))
-				EarthViewHolder(view.root)
+				ElementCard(view.root)
 			}
-			TYPE_MARS -> {
+			TYPE_TITLE -> {
 				val view = ElementKnowlageElementBinding.inflate(LayoutInflater.from(parent.context))
-				MarsViewHolder(view.root)
+				ElementTitle(view.root)
 			}
 			else -> {
 				val view = ElementKnowlageHiderBinding.inflate(LayoutInflater.from(parent.context))
-				None(view.root)
+				ElementNone(view.root)
 			}
 		}
 
@@ -75,34 +76,35 @@ class WindowKnowledgeRecycle(private var list: MutableList<Data>, private val cl
 		abstract fun myBind(data: Data)
 	}
 
-	inner class EarthViewHolder(view: View):ListElement(view) {
+	inner class ElementCard(view: View):ListElement(view) {
 		override fun myBind(data: Data) {
 			(ElementKnowlageTitleBinding.bind(itemView)).apply {
-				//element.visibility = View.VISIBLE
 				title.text = data.name
 				title.setOnClickListener {
 					marsDescriptionTextView.visibility = View.VISIBLE}
 				marsImageView.setOnClickListener {
 					element.visibility = View.GONE
 					marsDescriptionTextView.visibility = View.GONE}
-				//if (data.state==1) element.visibility = View.GONE
 			}
 		}
 	}
 
-	inner class MarsViewHolder(view: View):ListElement(view)  {
+	inner class ElementTitle(view: View):ListElement(view)  {
 		override fun myBind(data: Data) {
 			(ElementKnowlageElementBinding.bind(itemView)).apply {
+				if (data.state==1) ObjectAnimator.ofFloat(blockImage, View.ROTATION, -90f, 0f).setDuration(250).start()
 				title.text = data.name
 				descriptionTextView.text = data.subName
-				title.setOnClickListener {
+				blockImage.setOnClickListener {
+					if (data.state==1) ObjectAnimator.ofFloat(blockImage, View.ROTATION, 0f, -90f).setDuration(500).start()
+					else ObjectAnimator.ofFloat(blockImage, View.ROTATION, -90f, 0f).setDuration(500).start()
 					clickExecutor.onItemClickSpecial(data,layoutPosition) }
 				root.setOnClickListener { clickExecutor.onItemClick(data,layoutPosition) }
 				root.setOnLongClickListener { clickExecutor.onItemClickLong(data,layoutPosition); true }
 			}
 		}
 	}
-	inner class None(view: View):ListElement(view)  {
+	inner class ElementNone(view: View):ListElement(view)  {
 		override fun myBind(data: Data) {
 		}
 	}

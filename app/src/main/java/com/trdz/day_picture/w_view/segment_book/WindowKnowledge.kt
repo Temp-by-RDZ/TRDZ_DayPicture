@@ -11,6 +11,8 @@ import com.trdz.day_picture.R
 import com.trdz.day_picture.databinding.FragmentWindowPoeBinding
 import com.trdz.day_picture.w_view.Leader
 import com.trdz.day_picture.w_view.MainActivity
+import com.trdz.day_picture.z_utility.TYPE_CARD
+import com.trdz.day_picture.z_utility.TYPE_TITLE
 
 class WindowKnowledge: Fragment(), WindowKnowledgeOnClick {
 
@@ -20,15 +22,15 @@ class WindowKnowledge: Fragment(), WindowKnowledgeOnClick {
 	private val executors get() = _executors!!
 
 	private val list = arrayListOf(
-		Data("Mars", "Mars des", TYPE_MARS, 1),
-		Data("Earth", "Earth des", TYPE_EARTH, 2),
-		Data("Earth", "Earth des", TYPE_EARTH, 2),
-		Data("Mars", "Mars des", TYPE_MARS, 3),
-		Data("Earth", "Earth des", TYPE_EARTH, 4),
-		Data("Earth", "Earth des", TYPE_EARTH, 4),
-		Data("Earth", "Earth des", TYPE_EARTH, 4),
-		Data("Mars", "Mars des", TYPE_MARS, 5, 1),
-		Data("Earth", "Earth des", TYPE_EARTH, 6,2),
+		Data("Заголовок 1", "Две темы", TYPE_TITLE, 1),
+		Data("Тема 1", "Тема 1", TYPE_CARD, 2),
+		Data("Тема 2", "Тема 2", TYPE_CARD, 2),
+		Data("Заголовок 2", "Три темы", TYPE_TITLE, 3),
+		Data("Тема 1", "Тема 1", TYPE_CARD, 4),
+		Data("Тема 2", "Тема 2", TYPE_CARD, 4),
+		Data("Тема 3", "Тема 3", TYPE_CARD, 4),
+		Data("Заголовок 3", "Одна тема", TYPE_TITLE, 5, 1),
+		Data("Тема 1", "Тема 1", TYPE_CARD, 6,2),
 	)
 	private val adapter = WindowKnowledgeRecycle(list, this)
 
@@ -64,7 +66,7 @@ class WindowKnowledge: Fragment(), WindowKnowledgeOnClick {
 	}
 
 	override fun onItemClick(data: Data, position: Int) {
-		executors.getExecutor().showToast(requireContext(), "Детали временно недоступны.\nЗажмите для изменения\nНажмите на имя что бы скрыть подпункты", Toast.LENGTH_LONG)
+		executors.getExecutor().showToast(requireContext(), "Детали временно недоступны.\nЗажмите для изменения\nНажмите на икинку что бы скрыть подпункты", Toast.LENGTH_LONG)
 	}
 
 	override fun onItemClickLong(data: Data, position: Int) {
@@ -77,8 +79,8 @@ class WindowKnowledge: Fragment(), WindowKnowledgeOnClick {
 					list.removeAt(position)
 					adapter.setRemoveToList(list, position)
 				}
-				.setNegativeButton("Добавитғ") { _, _ ->
-					list.add(Data("Earth", "Earth des", TYPE_EARTH))
+				.setNegativeButton("Добавить") { _, _ ->
+					list.add(Data("Earth", "Earth des", TYPE_TITLE))
 					adapter.setAddToList(list, list.size)
 				}
 				.setNeutralButton("Узнать больше") { dialog, _ ->
