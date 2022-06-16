@@ -1,4 +1,4 @@
-package com.trdz.day_picture.w_view.segment_note;
+package com.trdz.day_picture.w_view.segment_book;
 
 import android.content.Context;
 import android.content.res.TypedArray;

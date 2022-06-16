@@ -116,7 +116,7 @@ class FragmentNavigation: Fragment() {
 
 						override fun onTransitionChange(motionLayout: MotionLayout?, startId: Int, endId: Int, progress: Float) {}
 						override fun onTransitionCompleted(motionLayout: MotionLayout?, currentId: Int) {
-							executors.getNavigation().replace(requireActivity().supportFragmentManager, com.trdz.day_picture.w_view.segment_note.FragmentNavigation(), false, R.id.container_fragment_navigation)
+							executors.getNavigation().replace(requireActivity().supportFragmentManager, com.trdz.day_picture.w_view.segment_book.FragmentNavigation(), false, R.id.container_fragment_navigation)
 
 						}
 

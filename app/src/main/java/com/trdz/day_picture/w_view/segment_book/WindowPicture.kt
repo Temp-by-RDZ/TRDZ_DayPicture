@@ -1,26 +1,14 @@
-package com.trdz.day_picture.w_view.segment_note
+package com.trdz.day_picture.w_view.segment_book
 
 import android.os.Bundle
-import android.os.Handler
-import android.os.Looper
-import android.util.Log
 import android.view.*
 import androidx.fragment.app.Fragment
-import androidx.lifecycle.Observer
-import androidx.lifecycle.ViewModelProvider
-import coil.load
 import com.trdz.day_picture.R
 import com.trdz.day_picture.w_view.Leader
 import com.trdz.day_picture.w_view.MainActivity
-import com.trdz.day_picture.x_view_model.MainViewModel
-import com.trdz.day_picture.x_view_model.StatusProcess
 import android.view.animation.AlphaAnimation
-import androidx.constraintlayout.widget.ConstraintLayout
-import com.google.android.material.bottomsheet.BottomSheetBehavior
 import com.trdz.day_picture.databinding.FragmentWindowPictureBinding
-import com.trdz.day_picture.databinding.FragmentWindowPodBinding
 import com.trdz.day_picture.w_view.segment_picture.FragmentNavigation
-import kotlinx.android.synthetic.main.activity_main.*
 import kotlin.concurrent.thread
 
 class WindowPicture: Fragment() {

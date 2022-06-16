@@ -43,7 +43,7 @@ class ServerRetrofitPOD: ExternalSource {
 	}
 
 	private fun responseFail() : ServersResult {
-		Log.d("@@@", "Ser - Connection Error")
+		Log.d("@@@", "Ser - POD Connection Error")
 		return ServersResult(-1)
 	}
 }

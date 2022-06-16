@@ -1,12 +1,11 @@
-package com.trdz.day_picture.w_view.segment_note
+package com.trdz.day_picture.w_view.segment_book
 
 import android.os.Bundle
 import android.view.*
-import androidx.coordinatorlayout.widget.CoordinatorLayout
 import androidx.fragment.app.Fragment
 import com.trdz.day_picture.databinding.FragmentWindowKnowlageBinding
 
-class WindowKnowledge: Fragment() {
+class WindowKnowledgeDescription: Fragment() {
 
 	//region Elements
 	private var _binding: FragmentWindowKnowlageBinding? = null
@@ -25,7 +24,7 @@ class WindowKnowledge: Fragment() {
 
 
 	companion object {
-		fun newInstance() = WindowKnowledge()
+		fun newInstance() = WindowKnowledgeDescription()
 	}
 
 

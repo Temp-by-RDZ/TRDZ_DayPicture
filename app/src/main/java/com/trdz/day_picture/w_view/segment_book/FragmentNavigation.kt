@@ -1,11 +1,9 @@
-package com.trdz.day_picture.w_view.segment_note
+package com.trdz.day_picture.w_view.segment_book
 
 import android.animation.Animator
 import android.animation.AnimatorListenerAdapter
 import android.os.Bundle
-import android.util.Log
 import android.view.*
-import android.view.animation.AlphaAnimation
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import com.trdz.day_picture.R
@@ -74,7 +72,7 @@ class FragmentNavigation: Fragment(), CustomOnBackPressed {
 					executors.getNavigation().replace(requireActivity().supportFragmentManager, WindowNote(), false)
 				}
 				R.id.action_bottom_navigation_knowledge -> {
-					executors.getNavigation().replace(requireActivity().supportFragmentManager, WindowKnowledge(), false)
+					executors.getNavigation().replace(requireActivity().supportFragmentManager, WindowKnowledgeDescription(), false)
 				}
 			}
 			true

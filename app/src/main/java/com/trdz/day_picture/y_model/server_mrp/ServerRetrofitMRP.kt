@@ -24,6 +24,7 @@ class ServerRetrofitMRP: ExternalSource {
 
 	private fun responseFormation(response: Response<ResponseDataMRP>) : ServersResult {
 		return if (response.isSuccessful) response.body()!!.run {
+			if (photos.isEmpty()) return@run ServersResult(-2)
 			val picture = photos.random()
 			ServersResult(response.code(), picture.rover.name, picture.rover.status, picture.img_src, picture.camera.name)
 		}
@@ -31,7 +32,7 @@ class ServerRetrofitMRP: ExternalSource {
 	}
 
 	private fun responseFail() : ServersResult {
-		Log.d("@@@", "Ser - Connection Error")
+		Log.d("@@@", "Ser - MRP Connection Error")
 		return ServersResult(-1)
 	}
 }

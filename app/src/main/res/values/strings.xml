@@ -35,4 +35,5 @@
     <string name="ERROR_TITLE">NO FILE</string>
     <string name="ERROR_DISCRIPTIOn">Missing information.</string>
     <string name="menu_again">Заново</string>
+    <string name="Error_code_message">Error code:</string>
 </resources>

@@ -119,12 +119,28 @@ class WindowPictureOf: Fragment() {
 				removeLoad()
 			}
 			is StatusProcess.Error -> {
-				Log.d("@@@", "App - $prefix catch")
-				executors.getExecutor().showToast(requireContext(), getString(R.string.render_show_error) + material.code)
+				Log.d("@@@", "App - $prefix catch $material.code")
 				binding.imageView.clear()
 				binding.imageView.setBackgroundResource(R.drawable.nofile)
 				binding.popupSheet.title.text = getString(R.string.ERROR_TITLE)
-				binding.popupSheet.explanation.text = getString(R.string.ERROR_DISCRIPTIOn)
+				binding.popupSheet.explanation.text = StringBuilder(getString(R.string.ERROR_DISCRIPTIOn)).apply {
+					append("\n")
+					append(getString(R.string.Error_code_message))
+					append(" ")
+					append(material.code)
+					append("\n")
+					when (material.code) {
+						-2 -> append("Nasa don't post photo for this day")
+						-1 -> append("Internet connection lost or current data available")
+						in 200..299 -> append("Connection successful but server data was corrupt")
+						in 300..399 -> append("Request was redirected")
+						in 400..499 -> append("Connection lost because of application errors")
+						in 500..599 -> append("Server failure")
+						else -> append("Connection wasn't complete")
+					}
+				}
+				bottomSheetBehavior.halfExpandedRatio = 0.35f
+				bottomSheetBehavior.state = BottomSheetBehavior.STATE_HALF_EXPANDED
 			}
 			is StatusProcess.Success -> {
 				Log.d("@@@", "App - $prefix render")
