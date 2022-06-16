@@ -61,19 +61,19 @@ class WindowKnowledge: Fragment(), WindowKnowledgeOnClick {
 		inflater.inflate(R.menu.menu_bottom_bar, menu)
 	}
 
-	override fun onItemClick(data: Data) {
+	override fun onItemClick(data: Data,position: Int) {
 		executors.getExecutor().showToast(requireContext(), "Детали временно недоступны.\nЗажмите длә изменениә",Toast.LENGTH_LONG)
 	}
 
-	override fun onItemClickLong(data: Data) {
+	override fun onItemClickLong(data: Data,position: Int) {
 
 		activity?.let {
 			AlertDialog.Builder(it)
 				.setTitle("Управление деррикторией LONG:")
 				.setMessage(" ${data.someText}")
 				.setPositiveButton("Удалить") { _, _ ->
-					list.remove(data)
-					adapter.setAddToList(list,list.size)
+					list.removeAt(position)
+					adapter.setRemoveToList(list,position)
 				}
 				.setNegativeButton("Добавитғ") { _, _ ->
 					list.add(Data("Earth", "Earth des", TYPE_EARTH))

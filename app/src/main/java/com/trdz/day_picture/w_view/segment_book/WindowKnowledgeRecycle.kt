@@ -56,36 +56,33 @@ class WindowKnowledgeRecycle(private var list: MutableList<Data>, private val cl
 	}
 
 	override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
-		when (getItemViewType(position)) {
-			TYPE_EARTH -> {
-				(holder as EarthViewHolder).myBind(list[position])
-			}
-			TYPE_MARS -> {
-				(holder as MarsViewHolder).myBind(list[position])
-			}
-		}
+		(holder as ListElement).myBind(list[position])
 	}
 
 	override fun getItemCount(): Int {
 		return list.size
 	}
 
-	inner class EarthViewHolder(view: View): RecyclerView.ViewHolder(view) {
-		fun myBind(data: Data) {
+	abstract inner class ListElement(view: View): RecyclerView.ViewHolder(view) {
+		abstract fun myBind(data: Data)
+	}
+
+	inner class EarthViewHolder(view: View):ListElement(view) {
+		override fun myBind(data: Data) {
 			(ElementKnowlageTitleBinding.bind(itemView)).apply {
 				title.text = data.someText
 			}
 		}
 	}
 
-	inner class MarsViewHolder(view: View): RecyclerView.ViewHolder(view) {
-		fun myBind(data: Data) {
+	inner class MarsViewHolder(view: View):ListElement(view)  {
+		override fun myBind(data: Data) {
 			(ElementKnowlageElementBinding.bind(itemView)).apply {
 				title.text = data.someText
 				descriptionTextView.text = data.someDescription
 				title.setOnClickListener { clickExecutor.onItemClickSpecial(data) }
-				root.setOnClickListener { clickExecutor.onItemClick(data) }
-				root.setOnLongClickListener { clickExecutor.onItemClickLong(data); true }
+				root.setOnClickListener { clickExecutor.onItemClick(data,position) }
+				root.setOnLongClickListener { clickExecutor.onItemClickLong(data,position); true }
 			}
 		}
 	}
