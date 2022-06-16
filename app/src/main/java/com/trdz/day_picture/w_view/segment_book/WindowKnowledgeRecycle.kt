@@ -1,21 +1,23 @@
 package com.trdz.day_picture.w_view.segment_book
 
 import android.annotation.SuppressLint
-import android.graphics.Color
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.TextView
-import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
 import com.trdz.day_picture.databinding.ElementKnowlageElementBinding
+import com.trdz.day_picture.databinding.ElementKnowlageHiderBinding
 import com.trdz.day_picture.databinding.ElementKnowlageTitleBinding
 
 const val TYPE_EARTH = 1
 const val TYPE_MARS = 2
-const val TYPE_HEADER = 3
 
 class WindowKnowledgeRecycle(private var list: MutableList<Data>, private val clickExecutor: WindowKnowledgeOnClick,): RecyclerView.Adapter<RecyclerView.ViewHolder>() {
+
+	fun stackControl(newList: List<Data>, first: Int, count: Int) {
+		this.list = newList.toMutableList()
+		notifyItemRangeChanged(first,count)
+	}
 
 	@SuppressLint("NotifyDataSetChanged")
 	fun setList(newList: List<Data>) {
@@ -34,7 +36,13 @@ class WindowKnowledgeRecycle(private var list: MutableList<Data>, private val cl
 	}
 
 	override fun getItemViewType(position: Int): Int {
-		return list[position].type
+		return when (getItemViewState(position)) {
+			2 -> 0
+			else -> list[position].type
+		}
+	}
+	private fun getItemViewState(position: Int): Int {
+		return list[position].state
 	}
 
 	override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder {
@@ -48,8 +56,8 @@ class WindowKnowledgeRecycle(private var list: MutableList<Data>, private val cl
 				MarsViewHolder(view.root)
 			}
 			else -> {
-				val view = ElementKnowlageElementBinding.inflate(LayoutInflater.from(parent.context))
-				MarsViewHolder(view.root)
+				val view = ElementKnowlageHiderBinding.inflate(LayoutInflater.from(parent.context))
+				None(view.root)
 			}
 		}
 
@@ -70,7 +78,14 @@ class WindowKnowledgeRecycle(private var list: MutableList<Data>, private val cl
 	inner class EarthViewHolder(view: View):ListElement(view) {
 		override fun myBind(data: Data) {
 			(ElementKnowlageTitleBinding.bind(itemView)).apply {
-				title.text = data.someText
+				//element.visibility = View.VISIBLE
+				title.text = data.name
+				title.setOnClickListener {
+					marsDescriptionTextView.visibility = View.VISIBLE}
+				marsImageView.setOnClickListener {
+					element.visibility = View.GONE
+					marsDescriptionTextView.visibility = View.GONE}
+				//if (data.state==1) element.visibility = View.GONE
 			}
 		}
 	}
@@ -78,12 +93,17 @@ class WindowKnowledgeRecycle(private var list: MutableList<Data>, private val cl
 	inner class MarsViewHolder(view: View):ListElement(view)  {
 		override fun myBind(data: Data) {
 			(ElementKnowlageElementBinding.bind(itemView)).apply {
-				title.text = data.someText
-				descriptionTextView.text = data.someDescription
-				title.setOnClickListener { clickExecutor.onItemClickSpecial(data) }
-				root.setOnClickListener { clickExecutor.onItemClick(data,position) }
-				root.setOnLongClickListener { clickExecutor.onItemClickLong(data,position); true }
+				title.text = data.name
+				descriptionTextView.text = data.subName
+				title.setOnClickListener {
+					clickExecutor.onItemClickSpecial(data,layoutPosition) }
+				root.setOnClickListener { clickExecutor.onItemClick(data,layoutPosition) }
+				root.setOnLongClickListener { clickExecutor.onItemClickLong(data,layoutPosition); true }
 			}
+		}
+	}
+	inner class None(view: View):ListElement(view)  {
+		override fun myBind(data: Data) {
 		}
 	}
 }

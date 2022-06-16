@@ -20,13 +20,15 @@ class WindowKnowledge: Fragment(), WindowKnowledgeOnClick {
 	private val executors get() = _executors!!
 
 	private val list = arrayListOf(
-		Data("Earth", "Earth des", TYPE_EARTH),
-		Data("Earth", "Earth des", TYPE_EARTH),
-		Data("Mars", "Mars des", TYPE_MARS),
-		Data("Earth", "Earth des", TYPE_EARTH),
-		Data("Earth", "Earth des", TYPE_EARTH),
-		Data("Earth", "Earth des", TYPE_EARTH),
-		Data("Mars", "Mars des", TYPE_MARS)
+		Data("Mars", "Mars des", TYPE_MARS, 1),
+		Data("Earth", "Earth des", TYPE_EARTH, 2),
+		Data("Earth", "Earth des", TYPE_EARTH, 2),
+		Data("Mars", "Mars des", TYPE_MARS, 3),
+		Data("Earth", "Earth des", TYPE_EARTH, 4),
+		Data("Earth", "Earth des", TYPE_EARTH, 4),
+		Data("Earth", "Earth des", TYPE_EARTH, 4),
+		Data("Mars", "Mars des", TYPE_MARS, 5, 1),
+		Data("Earth", "Earth des", TYPE_EARTH, 6,2),
 	)
 	private val adapter = WindowKnowledgeRecycle(list, this)
 
@@ -61,43 +63,53 @@ class WindowKnowledge: Fragment(), WindowKnowledgeOnClick {
 		inflater.inflate(R.menu.menu_bottom_bar, menu)
 	}
 
-	override fun onItemClick(data: Data,position: Int) {
-		executors.getExecutor().showToast(requireContext(), "Детали временно недоступны.\nЗажмите длә изменениә",Toast.LENGTH_LONG)
+	override fun onItemClick(data: Data, position: Int) {
+		executors.getExecutor().showToast(requireContext(), "Детали временно недоступны.\nЗажмите для изменения\nНажмите на имя что бы скрыть подпункты", Toast.LENGTH_LONG)
 	}
 
-	override fun onItemClickLong(data: Data,position: Int) {
+	override fun onItemClickLong(data: Data, position: Int) {
 
 		activity?.let {
 			AlertDialog.Builder(it)
 				.setTitle("Управление деррикторией LONG:")
-				.setMessage(" ${data.someText}")
+				.setMessage(" ${data.name}")
 				.setPositiveButton("Удалить") { _, _ ->
 					list.removeAt(position)
-					adapter.setRemoveToList(list,position)
+					adapter.setRemoveToList(list, position)
 				}
 				.setNegativeButton("Добавитғ") { _, _ ->
 					list.add(Data("Earth", "Earth des", TYPE_EARTH))
-					adapter.setAddToList(list,list.size)
+					adapter.setAddToList(list, list.size)
 				}
-				.setNeutralButton("Узнать больше") { dialog, _ -> dialog.dismiss()
+				.setNeutralButton("Узнать больше") { dialog, _ ->
+					dialog.dismiss()
 				}
 				.create()
 				.show()
 		}
 	}
 
-	override fun onItemClickSpecial(data: Data) {
-
-		activity?.let {
-			AlertDialog.Builder(it)
-				.setTitle("Управление деррикторией SPEC:")
-				.setMessage(" ${data.someText}")
-				.setPositiveButton("ага") { _, _ -> }
-				.setNegativeButton("ага") { _, _ -> }
-				.setNeutralButton("Узнать больше") { dialog, _ -> dialog.dismiss() }
-				.create()
-				.show()
+	override fun onItemClickSpecial(data: Data, position: Int) {
+		var count = 0
+		if (data.state==1) {
+			list[position].state = 0
+			count = setState(0,data.group+1,position)
 		}
+		else {
+			list[position].state = 1
+			count = setState(2,data.group+1,position)
+		}
+		adapter.stackControl(list, position+1,count)
+	}
+	private fun setState(state: Int,group: Int,position: Int): Int {
+		var count = 0
+		list.forEach { tek ->
+			if (tek.group == group) {
+				tek.state = state
+				count++
+			}
+		}
+		return count
 	}
 
 	companion object {
