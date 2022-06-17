@@ -13,13 +13,13 @@
     <androidx.cardview.widget.CardView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_marginStart="25dp"
-        android:layout_marginTop="70dp"
-        android:layout_marginEnd="25dp"
-        android:layout_marginBottom="70dp"
+        android:layout_marginStart="@dimen/help_margin_left"
+        android:layout_marginTop="@dimen/help_margin_up"
+        android:layout_marginEnd="@dimen/help_margin_right"
+        android:layout_marginBottom="@dimen/help_margin_down"
         android:background="@color/background"
         android:clickable="true"
-        app:cardCornerRadius="60dp">
+        app:cardCornerRadius="@dimen/help_corner">
 
         <LinearLayout
             android:layout_width="match_parent"

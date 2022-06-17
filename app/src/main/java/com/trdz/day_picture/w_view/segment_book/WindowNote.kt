@@ -66,6 +66,7 @@ class WindowNote: Fragment() {
 			override fun onAnimationEnd(animation: Animator?) {
 				super.onAnimationEnd(animation)
 				binding.optionTwoContainer.isClickable = true
+				val design =1
 			}
 		})
 	}

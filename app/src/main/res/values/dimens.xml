@@ -29,5 +29,26 @@
     <dimen name="image_width">120dp</dimen>
     <dimen name="image_final_width">32dp</dimen>
     <dimen name="spacing_normal">16dp</dimen>
+    <dimen name="knowlage_title_t_size">35sp</dimen>
+    <dimen name="knowlage_s_title_t_size">15sp</dimen>
+    <dimen name="knowlage_s_title_margin">20dp</dimen>
+    <dimen name="knowlage_image_width">100dp</dimen>
+    <dimen name="knowlage_image_height">100dp</dimen>
+    <dimen name="knowlage_icon_margin">15dp</dimen>
+    <dimen name="bottom_difference">3dp</dimen>
+    <dimen name="help_margin_left">25dp</dimen>
+    <dimen name="help_margin_up">70dp</dimen>
+    <dimen name="help_margin_down">70dp</dimen>
+    <dimen name="help_margin_right">25dp</dimen>
+    <dimen name="help_corner">60dp</dimen>
+    <dimen name="dots_corners">5dp</dimen>
+    <dimen name="dots_size">16dp</dimen>
+    <dimen name="dots_spacing">4dp</dimen>
+    <dimen name="text_window_up_space">25dp</dimen>
+    <dimen name="small_line">1dp</dimen>
+    <dimen name="text_win_title_padding">10dp</dimen>
+    <dimen name="text_win_margin_up">5dp</dimen>
+    <dimen name="text_win_desc_padding">10dp</dimen>
+    <dimen name="text_win_desc_padding">10dp</dimen>
 
 </resources>

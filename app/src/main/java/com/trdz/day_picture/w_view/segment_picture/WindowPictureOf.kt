@@ -18,8 +18,9 @@ import android.view.animation.AlphaAnimation
 import androidx.constraintlayout.widget.ConstraintLayout
 import coil.clear
 import com.google.android.material.bottomsheet.BottomSheetBehavior
-import com.trdz.day_picture.databinding.FragmentWindowPodBinding
+import com.trdz.day_picture.databinding.FragmentWindowPofBinding
 import com.trdz.day_picture.z_utility.KEY_PREFIX
+import com.trdz.day_picture.z_utility.PREFIX_EPC
 import com.trdz.day_picture.z_utility.PREFIX_MRP
 import com.trdz.day_picture.z_utility.PREFIX_POD
 import kotlin.concurrent.thread
@@ -29,7 +30,7 @@ class WindowPictureOf: Fragment() {
 	//region Elements
 	private var _executors: Leader? = null
 	private val executors get() = _executors!!
-	private var _binding: FragmentWindowPodBinding? = null
+	private var _binding: FragmentWindowPofBinding? = null
 	private val binding get() = _binding!!
 	private var _viewModel: MainViewModel? = null
 	private val viewModel get() = _viewModel!!
@@ -54,7 +55,7 @@ class WindowPictureOf: Fragment() {
 	}
 
 	override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View {
-		_binding = FragmentWindowPodBinding.inflate(inflater, container, false)
+		_binding = FragmentWindowPofBinding.inflate(inflater, container, false)
 		_executors = (requireActivity() as MainActivity)
 		_viewModel = ViewModelProvider(requireActivity()).get(MainViewModel::class.java)
 		return binding.root
@@ -66,6 +67,7 @@ class WindowPictureOf: Fragment() {
 		when (prefix) {
 			PREFIX_POD -> viewModel.getPodData().observe(viewLifecycleOwner, observer)
 			PREFIX_MRP -> viewModel.getPomData().observe(viewLifecycleOwner, observer)
+			PREFIX_EPC -> viewModel.getPoeData().observe(viewLifecycleOwner, observer)
 		}
 		buttonBinds()
 		initialize()
@@ -119,6 +121,7 @@ class WindowPictureOf: Fragment() {
 				removeLoad()
 			}
 			is StatusProcess.Error -> {
+				binding.postLoad.visibility = View.GONE
 				Log.d("@@@", "App - $prefix catch $material.code")
 				binding.imageView.clear()
 				binding.imageView.setBackgroundResource(R.drawable.nofile)
@@ -130,13 +133,13 @@ class WindowPictureOf: Fragment() {
 					append(material.code)
 					append("\n")
 					when (material.code) {
-						-2 -> append("Nasa don't post photo for this day")
-						-1 -> append("Internet connection lost or current data available")
-						in 200..299 -> append("Connection successful but server data was corrupt")
-						in 300..399 -> append("Request was redirected")
-						in 400..499 -> append("Connection lost because of application errors")
-						in 500..599 -> append("Server failure")
-						else -> append("Connection wasn't complete")
+						-2 -> append(getString(R.string.error_desc_m2))
+						-1 -> append(getString(R.string.error_desc_m1))
+						in 200..299 -> append(getString(R.string.error_desc_200))
+						in 300..399 -> append(getString(R.string.error_desc_300))
+						in 400..499 -> append(getString(R.string.error_desc_400))
+						in 500..599 -> append(getString(R.string.error_desc_500))
+						else -> append(getString(R.string.error_desc_0))
 					}
 				}
 				bottomSheetBehavior.halfExpandedRatio = 0.35f
@@ -145,8 +148,7 @@ class WindowPictureOf: Fragment() {
 			is StatusProcess.Success -> {
 				Log.d("@@@", "App - $prefix render")
 				binding.imageView.setBackgroundResource(R.color.black)
-				binding.imageView.load(material.data.url) {placeholder(R.drawable.image_still_loading)
-				error(R.drawable.nofile)}
+				binding.imageView.load(material.data.url) { placeholder(R.drawable.image_still_loading2); error(R.drawable.nofile) }
 				binding.postLoad.visibility = View.GONE
 				binding.popupSheet.title.text = material.data.name
 				binding.popupSheet.explanation.text = material.data.description
@@ -173,7 +175,7 @@ class WindowPictureOf: Fragment() {
 			}
 		}
 	}
-//endregion
+	//endregion
 
 	companion object {
 		@JvmStatic

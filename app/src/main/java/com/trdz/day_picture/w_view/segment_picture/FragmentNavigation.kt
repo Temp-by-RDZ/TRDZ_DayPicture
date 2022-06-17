@@ -70,7 +70,7 @@ class FragmentNavigation: Fragment() {
 	private fun setPager() {
 		with(binding) {
 			viewPager.adapter = FragmentNavigationPager(childFragmentManager, requireContext()).apply {
-				add(WIN_CODE_POE, WindowPOE())
+				add(WIN_CODE_POE, WindowPictureOf.newInstance(PREFIX_EPC))
 				add(WIN_CODE_POD, WindowPictureOf.newInstance(PREFIX_POD))
 				add(WIN_CODE_POM, WindowPictureOf.newInstance(PREFIX_MRP))
 			}
@@ -127,8 +127,7 @@ class FragmentNavigation: Fragment() {
 					binding.motionPicture.transitionToStart()
 				}
 				R.id.app_bar_res -> {
-					viewModel.analyze(PREFIX_POD, lastChose-1)
-					viewModel.analyze(PREFIX_MRP, lastChose-1)
+					refreshAll()
 				}
 				R.id.app_bar_settings -> {
 					toSetting()
@@ -196,16 +195,22 @@ class FragmentNavigation: Fragment() {
 		when (chip.tag) {
 			"chip_l" -> {
 				lastChose = 0
-				viewModel.analyze(PREFIX_POD, -1)
-				viewModel.analyze(PREFIX_MRP, -1)
+				viewModel.setChange = -1
+				refreshAll()
 			}
 			"chip_c" -> {
 				lastChose = 1
-				viewModel.analyze(PREFIX_POD, 0)
-				viewModel.analyze(PREFIX_MRP, 0)
+				viewModel.setChange = 0
+				refreshAll()
 			}
 			"chip_r" -> executors.getExecutor().showToast(requireContext(), getString(R.string.egs))
 		}
+	}
+
+	private fun refreshAll() {
+		viewModel.analyze(PREFIX_POD)
+		viewModel.analyze(PREFIX_MRP)
+		viewModel.analyze(PREFIX_EPC)
 	}
 
 	private fun getPrefix(): String {

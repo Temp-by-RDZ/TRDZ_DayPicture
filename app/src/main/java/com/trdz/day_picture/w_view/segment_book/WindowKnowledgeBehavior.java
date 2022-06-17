@@ -14,7 +14,7 @@ import com.trdz.day_picture.R;
 
 
 @SuppressWarnings("unused")
-public class AvatarImageBehavior extends CoordinatorLayout.Behavior<FloatingActionButton> {
+public class WindowKnowledgeBehavior extends CoordinatorLayout.Behavior<FloatingActionButton> {
 
     private final static float MIN_AVATAR_PERCENTAGE_SIZE   = 0.3f;
     private final static int EXTRA_FINAL_AVATAR_PADDING     = 80;
@@ -39,7 +39,7 @@ public class AvatarImageBehavior extends CoordinatorLayout.Behavior<FloatingActi
     private int mFinalXPosition;
     private float mChangeBehaviorPoint;
 
-    public AvatarImageBehavior(Context context, AttributeSet attrs) {
+    public WindowKnowledgeBehavior(Context context, AttributeSet attrs) {
         mContext = context;
 
         if (attrs != null) {

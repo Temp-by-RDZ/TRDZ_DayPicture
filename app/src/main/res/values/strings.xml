@@ -36,4 +36,11 @@
     <string name="ERROR_DISCRIPTIOn">Missing information.</string>
     <string name="menu_again">Заново</string>
     <string name="Error_code_message">Error code:</string>
+    <string name="error_desc_m2">Nasa don\'t post photo for this day</string>
+    <string name="error_desc_m1">Internet connection lost or current data available</string>
+    <string name="error_desc_200">Connection successful but server data was corrupt</string>
+    <string name="error_desc_300">Request was redirected</string>
+    <string name="error_desc_400">Connection lost because of application errors</string>
+    <string name="error_desc_500">Server failure</string>
+    <string name="error_desc_0">Connection wasn\'t complete</string>
 </resources>

@@ -134,7 +134,7 @@
         app:srcCompat="@drawable/ic_baseline_book"
         app:finalHeight="@dimen/image_final_width"
         app:finalYPosition="200dp"
-        app:layout_behavior="com.trdz.day_picture.w_view.segment_book.AvatarImageBehavior"
+        app:layout_behavior="com.trdz.day_picture.w_view.segment_book.WindowKnowledgeBehavior"
         app:startHeight="2dp"
         app:startToolbarPosition="2dp"
         app:startXPosition="2dp"/>

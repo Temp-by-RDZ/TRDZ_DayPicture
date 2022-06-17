@@ -49,11 +49,11 @@ class WindowKnowledgeRecycle(private var list: MutableList<Data>, private val cl
 	override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder {
 		return when (viewType) {
 			TYPE_CARD -> {
-				val view = ElementKnowlageTitleBinding.inflate(LayoutInflater.from(parent.context))
+				val view = ElementKnowlageElementBinding.inflate(LayoutInflater.from(parent.context))
 				ElementCard(view.root)
 			}
 			TYPE_TITLE -> {
-				val view = ElementKnowlageElementBinding.inflate(LayoutInflater.from(parent.context))
+				val view = ElementKnowlageTitleBinding.inflate(LayoutInflater.from(parent.context))
 				ElementTitle(view.root)
 			}
 			else -> {
@@ -78,11 +78,11 @@ class WindowKnowledgeRecycle(private var list: MutableList<Data>, private val cl
 
 	inner class ElementCard(view: View):ListElement(view) {
 		override fun myBind(data: Data) {
-			(ElementKnowlageTitleBinding.bind(itemView)).apply {
+			(ElementKnowlageElementBinding.bind(itemView)).apply {
 				title.text = data.name
 				title.setOnClickListener {
 					marsDescriptionTextView.visibility = View.VISIBLE}
-				marsImageView.setOnClickListener {
+				elemntImage.setOnClickListener {
 					element.visibility = View.GONE
 					marsDescriptionTextView.visibility = View.GONE}
 			}
@@ -91,11 +91,11 @@ class WindowKnowledgeRecycle(private var list: MutableList<Data>, private val cl
 
 	inner class ElementTitle(view: View):ListElement(view)  {
 		override fun myBind(data: Data) {
-			(ElementKnowlageElementBinding.bind(itemView)).apply {
+			(ElementKnowlageTitleBinding.bind(itemView)).apply {
 				if (data.state==1) ObjectAnimator.ofFloat(blockImage, View.ROTATION, -90f, 0f).setDuration(250).start()
 				title.text = data.name
 				descriptionTextView.text = data.subName
-				blockImage.setOnClickListener {
+				clickZone.setOnClickListener {
 					if (data.state==1) ObjectAnimator.ofFloat(blockImage, View.ROTATION, 0f, -90f).setDuration(500).start()
 					else ObjectAnimator.ofFloat(blockImage, View.ROTATION, -90f, 0f).setDuration(500).start()
 					clickExecutor.onItemClickSpecial(data,layoutPosition) }

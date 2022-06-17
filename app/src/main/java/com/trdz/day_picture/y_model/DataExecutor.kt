@@ -2,8 +2,10 @@ package com.trdz.day_picture.y_model
 
 import android.util.Log
 import com.trdz.day_picture.x_view_model.ServerResponse
+import com.trdz.day_picture.y_model.server_epc.ServerReceiverEPC
 import com.trdz.day_picture.y_model.server_mrp.ServerRetrofitMRP
 import com.trdz.day_picture.y_model.server_pod.ServerRetrofitPOD
+import com.trdz.day_picture.z_utility.PREFIX_EPC
 import com.trdz.day_picture.z_utility.PREFIX_MRP
 import com.trdz.day_picture.z_utility.PREFIX_POD
 
@@ -15,6 +17,7 @@ class DataExecutor: Repository {
 		when (prefix) {
 			PREFIX_POD -> externalSource = ServerRetrofitPOD()
 			PREFIX_MRP -> externalSource = ServerRetrofitMRP()
+			PREFIX_EPC -> externalSource = ServerReceiverEPC()
 		}
 		Thread {
 			val result = externalSource.load(date)
