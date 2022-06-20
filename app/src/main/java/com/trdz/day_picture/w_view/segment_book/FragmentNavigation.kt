@@ -69,7 +69,7 @@ class FragmentNavigation: Fragment(), CustomOnBackPressed {
 					executors.getNavigation().replace(requireActivity().supportFragmentManager, WindowPicture(), false)
 				}
 				R.id.action_bottom_navigation_note -> {
-					executors.getNavigation().replace(requireActivity().supportFragmentManager, WindowNote(), false)
+					executors.getNavigation().replace(requireActivity().supportFragmentManager, WindowNoteList(), false)
 				}
 				R.id.action_bottom_navigation_knowledge -> {
 					executors.getNavigation().replace(requireActivity().supportFragmentManager, WindowKnowledgeList(), false)

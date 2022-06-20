@@ -49,6 +49,9 @@
     <dimen name="text_win_title_padding">10dp</dimen>
     <dimen name="text_win_margin_up">5dp</dimen>
     <dimen name="text_win_desc_padding">10dp</dimen>
-    <dimen name="text_win_desc_padding">10dp</dimen>
+    <dimen name="note_line_height">25dp</dimen>
+    <dimen name="note_diff">5dp</dimen>
+    <dimen name="note_list_margin">10dp</dimen>
+    <dimen name="list_padding">80dp</dimen>
 
 </resources>

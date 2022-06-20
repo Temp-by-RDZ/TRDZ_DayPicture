@@ -7,6 +7,7 @@ import android.widget.Toast
 import androidx.annotation.RequiresApi
 import androidx.appcompat.app.AlertDialog
 import androidx.fragment.app.Fragment
+import androidx.recyclerview.widget.ItemTouchHelper
 import com.trdz.day_picture.R
 import com.trdz.day_picture.databinding.FragmentWindowKnowlageListBinding
 import com.trdz.day_picture.w_view.Leader
@@ -46,7 +47,6 @@ class WindowKnowledgeList: Fragment(), WindowKnowledgeOnClick {
 		return binding.root
 	}
 
-	@RequiresApi(Build.VERSION_CODES.P)
 	override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
 		super.onViewCreated(view, savedInstanceState)
 		if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
@@ -54,15 +54,7 @@ class WindowKnowledgeList: Fragment(), WindowKnowledgeOnClick {
 				binding.naming.isSelected = binding.recyclerView.canScrollVertically(-1)
 			}
 		}
-
-
 		binding.recyclerView.adapter = adapter
-	}
-
-
-	override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
-		super.onCreateOptionsMenu(menu, inflater)
-		inflater.inflate(R.menu.menu_bottom_bar, menu)
 	}
 
 	override fun onItemClick(data: Data, position: Int) {
@@ -103,6 +95,7 @@ class WindowKnowledgeList: Fragment(), WindowKnowledgeOnClick {
 		}
 		adapter.stackControl(list, position+1,count)
 	}
+
 	private fun setState(state: Int,group: Int,position: Int): Int {
 		var count = 0
 		list.forEach { tek ->

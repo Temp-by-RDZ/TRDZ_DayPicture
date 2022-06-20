@@ -6,20 +6,25 @@ import android.animation.ObjectAnimator
 import android.os.Bundle
 import android.view.*
 import androidx.fragment.app.Fragment
+import androidx.recyclerview.widget.ItemTouchHelper
 import com.trdz.day_picture.w_view.Leader
 import com.trdz.day_picture.w_view.MainActivity
-import com.trdz.day_picture.databinding.FragmentWindowNoteBinding
+import com.trdz.day_picture.databinding.FragmentWindowNoteListBinding
+import java.util.ArrayList
 
-class WindowNote: Fragment() {
+class WindowNoteList: Fragment(), WindowNoteOnClick {
 
 	//region Elements
 	private var _executors: Leader? = null
 	private val executors get() = _executors!!
-	private var _binding: FragmentWindowNoteBinding? = null
+	private var _binding: FragmentWindowNoteListBinding? = null
 	private val binding get() = _binding!!
 	private val duration = 2000L
 	private var isOpen = false
 	//endregion
+
+	private val list = ArrayList<String>()
+	private val adapter = WindowNoteRecycle(this)
 
 	//region Base realization
 	override fun onDestroyView() {
@@ -29,13 +34,15 @@ class WindowNote: Fragment() {
 	}
 
 	override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View {
-		_binding = FragmentWindowNoteBinding.inflate(inflater, container, false)
+		_binding = FragmentWindowNoteListBinding.inflate(inflater, container, false)
 		_executors = (requireActivity() as MainActivity)
+		ItemTouchHelper(WindowNoteTouch(adapter)).attachToRecyclerView(binding.recyclerView)
 		return binding.root
 	}
 
 	override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
 		super.onViewCreated(view, savedInstanceState)
+		binding.recyclerView.adapter = adapter
 		buttonBinds()
 		initialize()
 	}
@@ -66,7 +73,6 @@ class WindowNote: Fragment() {
 			override fun onAnimationEnd(animation: Animator?) {
 				super.onAnimationEnd(animation)
 				binding.optionTwoContainer.isClickable = true
-				val design =1
 			}
 		})
 	}
@@ -91,12 +97,35 @@ class WindowNote: Fragment() {
 	}
 
 	private fun initialize() {
+		for (i in 0..99) {
+			list.add("Заметка $i")
+		}
+		adapter.setList(list)
 	}
 
 	//endregion
 
-	companion object {
-		fun newInstance() = WindowNote()
+	override fun onItemClick(data: Data, position: Int) {
+		TODO("Not yet implemented")
 	}
 
+	override fun onItemClickLong(data: Data, position: Int) {
+		TODO("Not yet implemented")
+	}
+
+	override fun onItemMove(fromPosition: Int, toPosition: Int) {
+		list.removeAt(fromPosition).apply {
+			list.add(toPosition, this)
+		}
+		adapter.setMoveInList(list,fromPosition,toPosition)
+	}
+
+	override fun onItemRemove(position: Int) {
+		list.removeAt(position)
+		adapter.setRemoveFromList(list,position)
+	}
+
+	companion object {
+		fun newInstance() = WindowNoteList()
+	}
 }

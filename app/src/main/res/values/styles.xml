@@ -18,4 +18,10 @@
         <item name="itemRippleColor">@drawable/navigation_ripple</item>
     </style>
 
+    <style name="Lines">
+        <item name="android:textSize">20sp</item>
+        <item name="android:fontFamily">sans-serif</item>
+        <item name="backgroundColor">@color/black</item>
+    </style>
+
 </resources>
