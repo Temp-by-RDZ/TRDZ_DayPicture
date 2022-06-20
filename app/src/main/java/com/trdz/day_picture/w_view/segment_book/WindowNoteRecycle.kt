@@ -5,33 +5,39 @@ import android.graphics.Color
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.core.content.ContextCompat
-import androidx.core.content.res.ResourcesCompat
+import android.widget.TextView
+import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
 import com.trdz.day_picture.R
 import com.trdz.day_picture.databinding.ElementNoteLinetBinding
 
 class WindowNoteRecycle(private val clickExecutor: WindowNoteOnClick): RecyclerView.Adapter<WindowNoteRecycle.NoteLine?>(), WindowNoteOnTouch {
 
-	private lateinit var list: List<String>
+	private lateinit var list: List<DataLine>
 
 	@SuppressLint("NotifyDataSetChanged")
-	fun setList(newList: List<String>) {
+	fun setList(newList: List<DataLine>) {
 		this.list = newList
 		notifyDataSetChanged()
 	}
 
-	fun setAddToList(newList: List<String>, position: Int) {
+	fun setChangeInList(newList: List<DataLine>) {
+		val result = DiffUtil.calculateDiff(DiffUtilCallback(list,newList))
+		result.dispatchUpdatesTo(this)
+		this.list = newList
+	}
+
+	fun setAddToList(newList: List<DataLine>, position: Int) {
 		this.list = newList
 		notifyItemChanged(position)
 	}
 
-	fun setRemoveFromList(newList: List<String>, position: Int) {
+	fun setRemoveFromList(newList: List<DataLine>, position: Int) {
 		this.list = newList
 		notifyItemRemoved(position)
 	}
 
-	fun setMoveInList(newList: List<String>, fromPosition: Int, toPosition: Int) {
+	fun setMoveInList(newList: List<DataLine>, fromPosition: Int, toPosition: Int) {
 		this.list = newList
 		notifyItemMoved(fromPosition, toPosition)
 	}
@@ -44,15 +50,30 @@ class WindowNoteRecycle(private val clickExecutor: WindowNoteOnClick): RecyclerV
 		val view = ElementNoteLinetBinding.inflate(LayoutInflater.from(parent.context),parent,false)
 		return NoteLine(view.root)
 	}
+	override fun onBindViewHolder(
+		holder: NoteLine,
+		position: Int,
+		payloads: MutableList<Any>
+	) {
+		if(payloads.isEmpty()){
+			super.onBindViewHolder(holder, position, payloads)
+		}else{
+					val res = createCombinedPayload(payloads as List<Change<DataLine>>)
+					if(res.oldData.name!=res.newData.name)
+						holder.itemView.findViewById<TextView>(R.id.l_name).text =res.newData.name
 
+		}
+	}
 	override fun onBindViewHolder(holder: NoteLine, position: Int) {
 		holder.bind(list[position])
 	}
 
 	inner class NoteLine(view: View): RecyclerView.ViewHolder(view), WindowNoteOnTouchHelp  {
-		fun bind(data: String) {
+		fun bind(data: DataLine) {
 			(ElementNoteLinetBinding.bind(itemView)).apply {
-				lName.text = data
+				lName.text = data.name
+				root.setOnClickListener { clickExecutor.onItemClick(data,layoutPosition) }
+				root.setOnLongClickListener { clickExecutor.onItemClickLong(data,layoutPosition); true }
 			}
 		}
 		override fun onItemSelected() {

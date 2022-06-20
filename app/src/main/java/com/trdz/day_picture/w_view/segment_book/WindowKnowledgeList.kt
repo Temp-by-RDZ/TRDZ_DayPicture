@@ -4,11 +4,8 @@ import android.os.Build
 import android.os.Bundle
 import android.view.*
 import android.widget.Toast
-import androidx.annotation.RequiresApi
 import androidx.appcompat.app.AlertDialog
 import androidx.fragment.app.Fragment
-import androidx.recyclerview.widget.ItemTouchHelper
-import com.trdz.day_picture.R
 import com.trdz.day_picture.databinding.FragmentWindowKnowlageListBinding
 import com.trdz.day_picture.w_view.Leader
 import com.trdz.day_picture.w_view.MainActivity
@@ -23,15 +20,15 @@ class WindowKnowledgeList: Fragment(), WindowKnowledgeOnClick {
 	private val executors get() = _executors!!
 
 	private val list = arrayListOf(
-		Data("Заголовок 1", "Две темы", TYPE_TITLE, 1),
-		Data("Тема 1", "Тема 1", TYPE_CARD, 2),
-		Data("Тема 2", "Тема 2", TYPE_CARD, 2),
-		Data("Заголовок 2", "Три темы", TYPE_TITLE, 3),
-		Data("Тема 1", "Тема 1", TYPE_CARD, 4),
-		Data("Тема 2", "Тема 2", TYPE_CARD, 4),
-		Data("Тема 3", "Тема 3", TYPE_CARD, 4),
-		Data("Заголовок 3", "Одна тема", TYPE_TITLE, 5, 1),
-		Data("Тема 1", "Тема 1", TYPE_CARD, 6,2),
+		DataTheme("Заголовок 1", "Две темы", TYPE_TITLE, 1),
+		DataTheme("Тема 1", "Тема 1", TYPE_CARD, 2),
+		DataTheme("Тема 2", "Тема 2", TYPE_CARD, 2),
+		DataTheme("Заголовок 2", "Три темы", TYPE_TITLE, 3),
+		DataTheme("Тема 1", "Тема 1", TYPE_CARD, 4),
+		DataTheme("Тема 2", "Тема 2", TYPE_CARD, 4),
+		DataTheme("Тема 3", "Тема 3", TYPE_CARD, 4),
+		DataTheme("Заголовок 3", "Одна тема", TYPE_TITLE, 5, 1),
+		DataTheme("Тема 1", "Тема 1", TYPE_CARD, 6,2),
 	)
 	private val adapter = WindowKnowledgeRecycle(list, this)
 
@@ -57,11 +54,11 @@ class WindowKnowledgeList: Fragment(), WindowKnowledgeOnClick {
 		binding.recyclerView.adapter = adapter
 	}
 
-	override fun onItemClick(data: Data, position: Int) {
+	override fun onItemClick(data: DataTheme, position: Int) {
 		executors.getExecutor().showToast(requireContext(), "Детали временно недоступны.\nЗажмите для изменения\nНажмите на икинку что бы скрыть подпункты", Toast.LENGTH_LONG)
 	}
 
-	override fun onItemClickLong(data: Data, position: Int) {
+	override fun onItemClickLong(data: DataTheme, position: Int) {
 
 		activity?.let {
 			AlertDialog.Builder(it)
@@ -72,7 +69,7 @@ class WindowKnowledgeList: Fragment(), WindowKnowledgeOnClick {
 					adapter.setRemoveToList(list, position)
 				}
 				.setNegativeButton("Добавить") { _, _ ->
-					list.add(Data("Earth", "Earth des", TYPE_TITLE))
+					list.add(DataTheme("Earth", "Earth des", TYPE_TITLE))
 					adapter.setAddToList(list, list.size)
 				}
 				.setNeutralButton("Узнать больше") { dialog, _ ->
@@ -83,7 +80,7 @@ class WindowKnowledgeList: Fragment(), WindowKnowledgeOnClick {
 		}
 	}
 
-	override fun onItemClickSpecial(data: Data, position: Int) {
+	override fun onItemClickSpecial(data: DataTheme, position: Int) {
 		var count = 0
 		if (data.state==1) {
 			list[position].state = 0

@@ -6,7 +6,6 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
-import com.trdz.day_picture.R
 import com.trdz.day_picture.databinding.ElementKnowlageElementBinding
 import com.trdz.day_picture.databinding.ElementKnowlageHiderBinding
 import com.trdz.day_picture.databinding.ElementKnowlageTitleBinding
@@ -14,11 +13,11 @@ import com.trdz.day_picture.z_utility.TYPE_CARD
 import com.trdz.day_picture.z_utility.TYPE_NONE
 import com.trdz.day_picture.z_utility.TYPE_TITLE
 
-class WindowKnowledgeRecycle(private var list: List<Data>, private val clickExecutor: WindowKnowledgeOnClick): RecyclerView.Adapter<RecyclerView.ViewHolder>() {
+class WindowKnowledgeRecycle(private var list: List<DataTheme>, private val clickExecutor: WindowKnowledgeOnClick): RecyclerView.Adapter<RecyclerView.ViewHolder>() {
 
 	private var opened = -1
 
-	fun stackControl(newList: List<Data>, first: Int, count: Int) {
+	fun stackControl(newList: List<DataTheme>, first: Int, count: Int) {
 		this.list = newList
 		notifyItemRangeChanged(first, count)
 	}
@@ -28,17 +27,17 @@ class WindowKnowledgeRecycle(private var list: List<Data>, private val clickExec
 	}
 
 	@SuppressLint("NotifyDataSetChanged")
-	fun setList(newList: List<Data>) {
+	fun setList(newList: List<DataTheme>) {
 		this.list = newList
 		notifyDataSetChanged()
 	}
 
-	fun setAddToList(newList: List<Data>, position: Int) {
+	fun setAddToList(newList: List<DataTheme>, position: Int) {
 		this.list = newList
 		notifyItemChanged(position)
 	}
 
-	fun setRemoveToList(newList: List<Data>, position: Int) {
+	fun setRemoveToList(newList: List<DataTheme>, position: Int) {
 		this.list = newList
 		notifyItemRemoved(position)
 	}
@@ -92,7 +91,7 @@ class WindowKnowledgeRecycle(private var list: List<Data>, private val clickExec
 	}
 
 	abstract inner class ListElement(view: View): RecyclerView.ViewHolder(view) {
-		abstract fun myBind(data: Data)
+		abstract fun myBind(data: DataTheme)
 	}
 
 	inner class ElementCard(view: View): ListElement(view) {
@@ -101,14 +100,13 @@ class WindowKnowledgeRecycle(private var list: List<Data>, private val clickExec
 				marsDescriptionTextView.visibility = View.GONE
 			}
 		}
-		override fun myBind(data: Data) {
+		override fun myBind(data: DataTheme) {
 			(ElementKnowlageElementBinding.bind(itemView)).apply {
 				root.setOnClickListener {
 					if (opened > -1) subClose(opened)
 					if (opened != layoutPosition) {
 						opened = layoutPosition
 						marsDescriptionTextView.visibility = View.VISIBLE
-						notifyItemChanged(layoutPosition)
 					}
 					else opened = -1
 				}
@@ -118,7 +116,7 @@ class WindowKnowledgeRecycle(private var list: List<Data>, private val clickExec
 	}
 
 	inner class ElementTitle(view: View): ListElement(view) {
-		override fun myBind(data: Data) {
+		override fun myBind(data: DataTheme) {
 			(ElementKnowlageTitleBinding.bind(itemView)).apply {
 				if (data.state == 1) ObjectAnimator.ofFloat(blockImage, View.ROTATION, -90f, 0f).setDuration(250).start()
 				title.text = data.name
@@ -135,7 +133,7 @@ class WindowKnowledgeRecycle(private var list: List<Data>, private val clickExec
 	}
 
 	inner class ElementNone(view: View): ListElement(view) {
-		override fun myBind(data: Data) {
+		override fun myBind(data: DataTheme) {
 		}
 	}
 }

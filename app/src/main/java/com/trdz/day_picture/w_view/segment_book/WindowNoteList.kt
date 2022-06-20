@@ -23,7 +23,7 @@ class WindowNoteList: Fragment(), WindowNoteOnClick {
 	private var isOpen = false
 	//endregion
 
-	private val list = ArrayList<String>()
+	private val list = ArrayList<DataLine>()
 	private val adapter = WindowNoteRecycle(this)
 
 	//region Base realization
@@ -98,19 +98,34 @@ class WindowNoteList: Fragment(), WindowNoteOnClick {
 
 	private fun initialize() {
 		for (i in 0..99) {
-			list.add("Заметка $i")
+			list.add(DataLine(i,"Заметка ${i+1}"))
 		}
 		adapter.setList(list)
 	}
 
 	//endregion
 
-	override fun onItemClick(data: Data, position: Int) {
-		TODO("Not yet implemented")
+	override fun onItemClick(data: DataLine, position: Int) {
+		//list[position].name=("description")
+		//adapter.setChangeInList(list.map { it })
+		changeAdapterData(position)
+	}
+	private fun changeAdapterData(position: Int) {
+		adapter.setChangeInList(createItemList(position).map { it })
 	}
 
-	override fun onItemClickLong(data: Data, position: Int) {
-		TODO("Not yet implemented")
+	private fun createItemList(position: Int): List<DataLine> {
+		val newList = ArrayList<DataLine>()
+		list.forEachIndexed() { index, element ->
+			if (position==index) newList.add(DataLine(0, "Header"))
+			else newList.add(element)
+		}
+		return newList
+		}
+
+	override fun onItemClickLong(data: DataLine, position: Int) {
+		list[position].description=(list[position].name+" description")
+		adapter.setChangeInList(list)
 	}
 
 	override fun onItemMove(fromPosition: Int, toPosition: Int) {
