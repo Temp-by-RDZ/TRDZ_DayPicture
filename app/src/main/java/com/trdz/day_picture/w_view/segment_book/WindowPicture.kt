@@ -71,15 +71,16 @@ class WindowPicture: Fragment() {
 
 		binding.placeholder.setText(spannableStringBuilder, TextView.BufferType.EDITABLE)
 		spannableStringBuilder = (binding.placeholder.text as SpannableStringBuilder).apply {
-			setSpan(RelativeSizeSpan(1.3f),0,spannableStringBuilder.length,SpannedString.SPAN_EXCLUSIVE_INCLUSIVE)
+			setSpan(RelativeSizeSpan(1.3f),0,spannableStringBuilder.length,SpannedString.SPAN_INCLUSIVE_INCLUSIVE)
 			val color =  resources.getIntArray(R.array.colors)
 			var start =0
 			for (j in color.indices) {
 				val end= kotlin.math.min((start+ceil(textSpannable.length.toDouble() / color.size)).toInt(),textSpannable.length)
-				setSpan(ForegroundColorSpan(color[j]), start, end, SpannedString.SPAN_EXCLUSIVE_INCLUSIVE)
+				setSpan(ForegroundColorSpan(color[j]), start, end, SpannedString.SPAN_EXCLUSIVE_EXCLUSIVE)
 				start = end
 				}
-			//spannableStringBuilder.insert(start, "VIV")
+			insert(0, "|")
+			insert(textSpannable.length+1, "|")
 
 		}
 
