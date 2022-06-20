@@ -21,9 +21,23 @@
         app:layout_constraintTop_toTopOf="parent" />
 
     <TextView
-        android:background="@color/white"
+        android:id="@+id/task"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:background="@color/white"
+        android:text="Spannables"
+        android:textSize="30dp"
+        app:layout_constraintBottom_toTopOf="@+id/placeholder"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="@+id/container"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/placeholder"
+        android:background="@color/white"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center"
         android:textSize="30dp"
         android:text="КЛИКНИ НА МЕНӘ"
         app:layout_constraintBottom_toBottomOf="parent"

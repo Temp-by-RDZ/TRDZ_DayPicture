@@ -1,15 +1,25 @@
 package com.trdz.day_picture.w_view.segment_book
 
+import android.graphics.Typeface
 import android.os.Bundle
+import android.text.SpannableString
+import android.text.SpannableStringBuilder
+import android.text.SpannedString
+import android.text.style.ForegroundColorSpan
+import android.text.style.RelativeSizeSpan
+import android.util.Log
 import android.view.*
 import androidx.fragment.app.Fragment
 import com.trdz.day_picture.R
 import com.trdz.day_picture.w_view.Leader
 import com.trdz.day_picture.w_view.MainActivity
 import android.view.animation.AlphaAnimation
+import android.widget.TextView
+import androidx.core.content.ContextCompat
 import com.trdz.day_picture.databinding.FragmentWindowPictureBinding
 import com.trdz.day_picture.w_view.segment_picture.FragmentNavigation
 import kotlin.concurrent.thread
+import kotlin.math.ceil
 
 class WindowPicture: Fragment() {
 
@@ -48,6 +58,33 @@ class WindowPicture: Fragment() {
 		}
 	}
 
+	private fun initialize() {
+
+
+		binding.task.typeface = Typeface.createFromAsset(requireActivity().assets,"azeret.ttf")
+
+		val textSpannable =  binding.placeholder.text
+
+		val spannedString: SpannedString
+		val spannableString:SpannableString = SpannableString(textSpannable)
+		var spannableStringBuilder: SpannableStringBuilder = SpannableStringBuilder(textSpannable)
+
+		binding.placeholder.setText(spannableStringBuilder, TextView.BufferType.EDITABLE)
+		spannableStringBuilder = (binding.placeholder.text as SpannableStringBuilder).apply {
+			setSpan(RelativeSizeSpan(1.3f),0,spannableStringBuilder.length,SpannedString.SPAN_EXCLUSIVE_INCLUSIVE)
+			val color =  resources.getIntArray(R.array.colors)
+			var start =0
+			for (j in color.indices) {
+				val end= kotlin.math.min((start+ceil(textSpannable.length.toDouble() / color.size)).toInt(),textSpannable.length)
+				setSpan(ForegroundColorSpan(color[j]), start, end, SpannedString.SPAN_EXCLUSIVE_INCLUSIVE)
+				start = end
+				}
+			//spannableStringBuilder.insert(start, "VIV")
+
+		}
+
+
+	}
 	private fun goToPicture() {
 		executors.getNavigation().replace(requireActivity().supportFragmentManager, FragmentNavigation(), false, R.id.container_fragment_navigation)
 
@@ -61,9 +98,6 @@ class WindowPicture: Fragment() {
 			requireActivity().supportFragmentManager.beginTransaction().detach(this).commit()
 		}
 
-	}
-
-	private fun initialize() {
 	}
 
 	//endregion
