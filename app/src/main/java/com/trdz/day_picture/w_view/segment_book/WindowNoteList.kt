@@ -98,7 +98,7 @@ class WindowNoteList: Fragment(), WindowNoteOnClick {
 
 	private fun initialize() {
 		for (i in 0..99) {
-			list.add(DataLine(i,"Заметка ${i+1}"))
+			list.add(DataLine(i, "Заметка ${i + 1}"))
 		}
 		adapter.setList(list)
 	}
@@ -106,25 +106,20 @@ class WindowNoteList: Fragment(), WindowNoteOnClick {
 	//endregion
 
 	override fun onItemClick(data: DataLine, position: Int) {
-		//list[position].name=("description")
-		//adapter.setChangeInList(list.map { it })
-		changeAdapterData(position)
-	}
-	private fun changeAdapterData(position: Int) {
 		adapter.setChangeInList(createItemList(position).map { it })
 	}
 
 	private fun createItemList(position: Int): List<DataLine> {
 		val newList = ArrayList<DataLine>()
 		list.forEachIndexed() { index, element ->
-			if (position==index) newList.add(DataLine(0, "Header"))
+			if (position == index) newList.add(DataLine(0, "Header"))
 			else newList.add(element)
 		}
 		return newList
-		}
+	}
 
 	override fun onItemClickLong(data: DataLine, position: Int) {
-		list[position].description=(list[position].name+" description")
+		list[position].description = (list[position].name + " description")
 		adapter.setChangeInList(list)
 	}
 
@@ -132,12 +127,12 @@ class WindowNoteList: Fragment(), WindowNoteOnClick {
 		list.removeAt(fromPosition).apply {
 			list.add(toPosition, this)
 		}
-		adapter.setMoveInList(list,fromPosition,toPosition)
+		adapter.setMoveInList(list, fromPosition, toPosition)
 	}
 
 	override fun onItemRemove(position: Int) {
 		list.removeAt(position)
-		adapter.setRemoveFromList(list,position)
+		adapter.setRemoveFromList(list, position)
 	}
 
 	companion object {

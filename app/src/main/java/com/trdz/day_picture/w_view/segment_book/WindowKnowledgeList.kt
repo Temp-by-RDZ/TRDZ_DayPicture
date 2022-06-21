@@ -28,7 +28,7 @@ class WindowKnowledgeList: Fragment(), WindowKnowledgeOnClick {
 		DataTheme("Тема 2", "Тема 2", TYPE_CARD, 4),
 		DataTheme("Тема 3", "Тема 3", TYPE_CARD, 4),
 		DataTheme("Заголовок 3", "Одна тема", TYPE_TITLE, 5, 1),
-		DataTheme("Тема 1", "Тема 1", TYPE_CARD, 6,2),
+		DataTheme("Тема 1", "Тема 1", TYPE_CARD, 6, 2),
 	)
 	private val adapter = WindowKnowledgeRecycle(list, this)
 
@@ -82,18 +82,18 @@ class WindowKnowledgeList: Fragment(), WindowKnowledgeOnClick {
 
 	override fun onItemClickSpecial(data: DataTheme, position: Int) {
 		var count = 0
-		if (data.state==1) {
+		if (data.state == 1) {
 			list[position].state = 0
-			count = setState(0,data.group+1,position)
+			count = setState(0, data.group + 1, position)
 		}
 		else {
 			list[position].state = 1
-			count = setState(2,data.group+1,position)
+			count = setState(2, data.group + 1, position)
 		}
-		adapter.stackControl(list, position+1,count)
+		adapter.stackControl(list, position + 1, count)
 	}
 
-	private fun setState(state: Int,group: Int,position: Int): Int {
+	private fun setState(state: Int, group: Int, position: Int): Int {
 		var count = 0
 		list.forEach { tek ->
 			if (tek.group == group) {

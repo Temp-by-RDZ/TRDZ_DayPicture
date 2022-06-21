@@ -12,134 +12,146 @@ import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.trdz.day_picture.R;
 
 
-
 @SuppressWarnings("unused")
-public class WindowKnowledgeBehavior extends CoordinatorLayout.Behavior<FloatingActionButton> {
+public class WindowKnowledgeBehavior extends CoordinatorLayout.Behavior<FloatingActionButton>
+	{
 
-    private final static float MIN_AVATAR_PERCENTAGE_SIZE   = 0.3f;
-    private final static int EXTRA_FINAL_AVATAR_PADDING     = 80;
+	private final static float MIN_AVATAR_PERCENTAGE_SIZE = 0.3f;
+	private final static int EXTRA_FINAL_AVATAR_PADDING = 80;
 
-    private final static String TAG = "behavior";
-    private final Context mContext;
+	private final static String TAG = "behavior";
+	private final Context mContext;
 
-    private float mCustomFinalYPosition;
-    private float mCustomStartXPosition;
-    private float mCustomStartToolbarPosition;
-    private float mCustomStartHeight;
-    private float mCustomFinalHeight;
+	private float mCustomFinalYPosition;
+	private float mCustomStartXPosition;
+	private float mCustomStartToolbarPosition;
+	private float mCustomStartHeight;
+	private float mCustomFinalHeight;
 
-    private float mAvatarMaxSize;
-    private final float mFinalLeftAvatarPadding = 16;
-    private float mStartPosition;
-    private int mStartXPosition;
-    private float mStartToolbarPosition;
-    private int mStartYPosition;
-    private int mFinalYPosition;
-    private int mStartHeight;
-    private int mFinalXPosition;
-    private float mChangeBehaviorPoint;
+	private float mAvatarMaxSize;
+	private final float mFinalLeftAvatarPadding = 16;
+	private float mStartPosition;
+	private int mStartXPosition;
+	private float mStartToolbarPosition;
+	private int mStartYPosition;
+	private int mFinalYPosition;
+	private int mStartHeight;
+	private int mFinalXPosition;
+	private float mChangeBehaviorPoint;
 
-    public WindowKnowledgeBehavior(Context context, AttributeSet attrs) {
-        mContext = context;
+	public WindowKnowledgeBehavior(Context context, AttributeSet attrs) {
 
-        if (attrs != null) {
-            TypedArray a = context.obtainStyledAttributes(attrs, R.styleable.AvatarImageBehavior);
-            mCustomFinalYPosition = a.getDimension(R.styleable.AvatarImageBehavior_finalYPosition, 0);
-            mCustomStartXPosition = a.getDimension(R.styleable.AvatarImageBehavior_startXPosition, 0);
-            mCustomStartToolbarPosition = a.getDimension(R.styleable.AvatarImageBehavior_startToolbarPosition, 0);
-            mCustomStartHeight = a.getDimension(R.styleable.AvatarImageBehavior_startHeight, 0);
-            mCustomFinalHeight = a.getDimension(R.styleable.AvatarImageBehavior_finalHeight, 0);
+		mContext = context;
 
-            a.recycle();
-        }
+		if (attrs != null)
+			{
+			TypedArray a = context.obtainStyledAttributes(attrs, R.styleable.AvatarImageBehavior);
+			mCustomFinalYPosition = a.getDimension(R.styleable.AvatarImageBehavior_finalYPosition, 0);
+			mCustomStartXPosition = a.getDimension(R.styleable.AvatarImageBehavior_startXPosition, 0);
+			mCustomStartToolbarPosition = a.getDimension(R.styleable.AvatarImageBehavior_startToolbarPosition, 0);
+			mCustomStartHeight = a.getDimension(R.styleable.AvatarImageBehavior_startHeight, 0);
+			mCustomFinalHeight = a.getDimension(R.styleable.AvatarImageBehavior_finalHeight, 0);
 
-        init();
+			a.recycle();
+			}
 
-    }
+		init();
 
-    private void init() {
-        bindDimensions();
-    }
+		}
 
-    private void bindDimensions() {
-        mAvatarMaxSize = mContext.getResources().getDimension(R.dimen.image_width);
-    }
+	private void init()
+		{
+		bindDimensions();
+		}
 
-    @Override
-    public boolean layoutDependsOn(CoordinatorLayout parent, FloatingActionButton child, View dependency) {
-        return dependency instanceof Toolbar;
-    }
+	private void bindDimensions()
+		{
+		mAvatarMaxSize = mContext.getResources().getDimension(R.dimen.image_width);
+		}
 
-    @Override
-    public boolean onDependentViewChanged(CoordinatorLayout parent, FloatingActionButton child, View dependency) {
-        maybeInitProperties(child, dependency);
+	@Override
+	public boolean layoutDependsOn(CoordinatorLayout parent, FloatingActionButton child, View dependency)
+		{
+		return dependency instanceof Toolbar;
+		}
 
-        final int maxScrollDistance = (int) (mStartToolbarPosition);
-        float expandedPercentageFactor = dependency.getY() / maxScrollDistance;
+	@Override
+	public boolean onDependentViewChanged(CoordinatorLayout parent, FloatingActionButton child, View dependency)
+		{
+		maybeInitProperties(child, dependency);
 
-        if (expandedPercentageFactor < mChangeBehaviorPoint) {
-            float heightFactor = (mChangeBehaviorPoint - expandedPercentageFactor) / mChangeBehaviorPoint;
+		final int maxScrollDistance = (int) (mStartToolbarPosition);
+		float expandedPercentageFactor = dependency.getY() / maxScrollDistance;
 
-            float distanceXToSubtract = ((mStartXPosition - mFinalXPosition)
-                    * heightFactor) + (child.getHeight()/2);
-            float distanceYToSubtract = ((mStartYPosition - mFinalYPosition)
-                    * (1f - expandedPercentageFactor)) + (child.getHeight()/2);
+		if (expandedPercentageFactor < mChangeBehaviorPoint)
+			{
+			float heightFactor = (mChangeBehaviorPoint - expandedPercentageFactor) / mChangeBehaviorPoint;
 
-            child.setX(mStartXPosition - distanceXToSubtract);
-            child.setY(mStartYPosition - distanceYToSubtract);
+			float distanceXToSubtract = ((mStartXPosition - mFinalXPosition)
+					* heightFactor) + (child.getHeight() / 2);
+			float distanceYToSubtract = ((mStartYPosition - mFinalYPosition)
+					* (1f - expandedPercentageFactor)) + (child.getHeight() / 2);
 
-            float heightToSubtract = ((mStartHeight - mCustomFinalHeight) * heightFactor);
+			child.setX(mStartXPosition - distanceXToSubtract);
+			child.setY(mStartYPosition - distanceYToSubtract);
 
-            CoordinatorLayout.LayoutParams lp = (CoordinatorLayout.LayoutParams) child.getLayoutParams();
-            lp.width = (int) (mStartHeight - heightToSubtract);
-            lp.height = (int) (mStartHeight - heightToSubtract);
-            child.setLayoutParams(lp);
-        } else {
-            float distanceYToSubtract = ((mStartYPosition - mFinalYPosition)
-                    * (1f - expandedPercentageFactor)) + (mStartHeight/2);
+			float heightToSubtract = ((mStartHeight - mCustomFinalHeight) * heightFactor);
 
-            child.setX(mStartXPosition - child.getWidth()/2);
-            child.setY(mStartYPosition - distanceYToSubtract);
+			CoordinatorLayout.LayoutParams lp = (CoordinatorLayout.LayoutParams) child.getLayoutParams();
+			lp.width = (int) (mStartHeight - heightToSubtract);
+			lp.height = (int) (mStartHeight - heightToSubtract);
+			child.setLayoutParams(lp);
+			} else
+			{
+			float distanceYToSubtract = ((mStartYPosition - mFinalYPosition)
+					* (1f - expandedPercentageFactor)) + (mStartHeight / 2);
 
-            CoordinatorLayout.LayoutParams lp = (CoordinatorLayout.LayoutParams) child.getLayoutParams();
-            lp.width = mStartHeight;
-            lp.height = mStartHeight;
-            child.setLayoutParams(lp);
-        }
-        return true;
-    }
+			child.setX(mStartXPosition - child.getWidth() / 2);
+			child.setY(mStartYPosition - distanceYToSubtract);
 
-    private void maybeInitProperties(FloatingActionButton child, View dependency) {
-        if (mStartYPosition == 0)
-            mStartYPosition = (int) (dependency.getY());
+			CoordinatorLayout.LayoutParams lp = (CoordinatorLayout.LayoutParams) child.getLayoutParams();
+			lp.width = mStartHeight;
+			lp.height = mStartHeight;
+			child.setLayoutParams(lp);
+			}
+		return true;
+		}
 
-        if (mFinalYPosition == 0)
-            mFinalYPosition = (dependency.getHeight() /2);
+	private void maybeInitProperties(FloatingActionButton child, View dependency)
+		{
+		if (mStartYPosition == 0)
+			mStartYPosition = (int) (dependency.getY());
 
-        if (mStartHeight == 0)
-            mStartHeight = child.getHeight();
+		if (mFinalYPosition == 0)
+			mFinalYPosition = (dependency.getHeight() / 2);
 
-        if (mStartXPosition == 0)
-            mStartXPosition = (int) (child.getX() + (child.getWidth() / 2));
+		if (mStartHeight == 0)
+			mStartHeight = child.getHeight();
 
-        if (mFinalXPosition == 0)
-            mFinalXPosition = mContext.getResources().getDimensionPixelOffset(R.dimen.abc_action_bar_content_inset_material) + ((int) mCustomFinalHeight / 2);
+		if (mStartXPosition == 0)
+			mStartXPosition = (int) (child.getX() + (child.getWidth() / 2));
 
-        if (mStartToolbarPosition == 0)
-            mStartToolbarPosition = dependency.getY();
+		if (mFinalXPosition == 0)
+			mFinalXPosition = mContext.getResources().getDimensionPixelOffset(R.dimen.abc_action_bar_content_inset_material) + ((int) mCustomFinalHeight / 2);
 
-        if (mChangeBehaviorPoint == 0) {
-            mChangeBehaviorPoint = (child.getHeight() - mCustomFinalHeight) / (2f * (mStartYPosition - mFinalYPosition));
-        }
-    }
+		if (mStartToolbarPosition == 0)
+			mStartToolbarPosition = dependency.getY();
 
-    public int getStatusBarHeight() {
-        int result = 0;
-        int resourceId = mContext.getResources().getIdentifier("status_bar_height", "dimen", "android");
+		if (mChangeBehaviorPoint == 0)
+			{
+			mChangeBehaviorPoint = (child.getHeight() - mCustomFinalHeight) / (2f * (mStartYPosition - mFinalYPosition));
+			}
+		}
 
-        if (resourceId > 0) {
-            result = mContext.getResources().getDimensionPixelSize(resourceId);
-        }
-        return result;
-    }
-}
+	public int getStatusBarHeight()
+		{
+		int result = 0;
+		int resourceId = mContext.getResources().getIdentifier("status_bar_height", "dimen", "android");
+
+		if (resourceId > 0)
+			{
+			result = mContext.getResources().getDimensionPixelSize(resourceId);
+			}
+		return result;
+		}
+	}

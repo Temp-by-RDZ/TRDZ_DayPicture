@@ -22,7 +22,7 @@ class WindowNoteRecycle(private val clickExecutor: WindowNoteOnClick): RecyclerV
 	}
 
 	fun setChangeInList(newList: List<DataLine>) {
-		val result = DiffUtil.calculateDiff(DiffUtilCallback(list,newList))
+		val result = DiffUtil.calculateDiff(DiffUtilCallback(list, newList))
 		result.dispatchUpdatesTo(this)
 		this.list = newList
 	}
@@ -47,35 +47,39 @@ class WindowNoteRecycle(private val clickExecutor: WindowNoteOnClick): RecyclerV
 	}
 
 	override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): NoteLine {
-		val view = ElementNoteLinetBinding.inflate(LayoutInflater.from(parent.context),parent,false)
+		val view = ElementNoteLinetBinding.inflate(LayoutInflater.from(parent.context), parent, false)
 		return NoteLine(view.root)
 	}
+
 	override fun onBindViewHolder(
 		holder: NoteLine,
 		position: Int,
-		payloads: MutableList<Any>
+		payloads: MutableList<Any>,
 	) {
-		if(payloads.isEmpty()){
+		if (payloads.isEmpty()) {
 			super.onBindViewHolder(holder, position, payloads)
-		}else{
-					val res = createCombinedPayload(payloads as List<Change<DataLine>>)
-					if(res.oldData.name!=res.newData.name)
-						holder.itemView.findViewById<TextView>(R.id.l_name).text =res.newData.name
+		}
+		else {
+			val res = createCombinedPayload(payloads as List<Change<DataLine>>)
+			if (res.oldData.name != res.newData.name)
+				holder.itemView.findViewById<TextView>(R.id.l_name).text = res.newData.name
 
 		}
 	}
+
 	override fun onBindViewHolder(holder: NoteLine, position: Int) {
 		holder.bind(list[position])
 	}
 
-	inner class NoteLine(view: View): RecyclerView.ViewHolder(view), WindowNoteOnTouchHelp  {
+	inner class NoteLine(view: View): RecyclerView.ViewHolder(view), WindowNoteOnTouchHelp {
 		fun bind(data: DataLine) {
 			(ElementNoteLinetBinding.bind(itemView)).apply {
 				lName.text = data.name
-				root.setOnClickListener { clickExecutor.onItemClick(data,layoutPosition) }
-				root.setOnLongClickListener { clickExecutor.onItemClickLong(data,layoutPosition); true }
+				root.setOnClickListener { clickExecutor.onItemClick(data, layoutPosition) }
+				root.setOnLongClickListener { clickExecutor.onItemClickLong(data, layoutPosition); true }
 			}
 		}
+
 		override fun onItemSelected() {
 			itemView.setBackgroundColor(Color.LTGRAY)
 		}
@@ -86,7 +90,7 @@ class WindowNoteRecycle(private val clickExecutor: WindowNoteOnClick): RecyclerV
 	}
 
 	override fun onItemMove(fromPosition: Int, toPosition: Int) {
-		clickExecutor.onItemMove(fromPosition,toPosition)
+		clickExecutor.onItemMove(fromPosition, toPosition)
 	}
 
 	override fun onItemDismiss(position: Int) {

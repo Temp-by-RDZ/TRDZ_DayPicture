@@ -23,7 +23,7 @@ class WindowKnowledgeRecycle(private var list: List<DataTheme>, private val clic
 	}
 
 	fun subClose(position: Int) {
-		notifyItemChanged(position,true)
+		notifyItemChanged(position, true)
 	}
 
 	@SuppressLint("NotifyDataSetChanged")
@@ -74,14 +74,16 @@ class WindowKnowledgeRecycle(private var list: List<DataTheme>, private val clic
 	override fun onBindViewHolder(
 		holder: RecyclerView.ViewHolder,
 		position: Int,
-		payloads: MutableList<Any>
+		payloads: MutableList<Any>,
 	) {
-		if(payloads.isEmpty()){
+		if (payloads.isEmpty()) {
 			super.onBindViewHolder(holder, position, payloads)
-		}else{
+		}
+		else {
 			(holder as ElementCard).subClose()
 		}
 	}
+
 	override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
 		(holder as ListElement).myBind(list[position])
 	}
@@ -95,11 +97,12 @@ class WindowKnowledgeRecycle(private var list: List<DataTheme>, private val clic
 	}
 
 	inner class ElementCard(view: View): ListElement(view) {
-		fun subClose(){
+		fun subClose() {
 			(ElementKnowlageElementBinding.bind(itemView)).apply {
 				marsDescriptionTextView.visibility = View.GONE
 			}
 		}
+
 		override fun myBind(data: DataTheme) {
 			(ElementKnowlageElementBinding.bind(itemView)).apply {
 				root.setOnClickListener {
