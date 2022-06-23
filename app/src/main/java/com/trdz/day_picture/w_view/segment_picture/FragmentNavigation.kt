@@ -1,6 +1,8 @@
 package com.trdz.day_picture.w_view.segment_picture
 
+import android.content.Intent
 import android.os.Bundle
+import android.os.Environment
 import android.util.Log
 import android.view.*
 import androidx.constraintlayout.motion.widget.MotionLayout
@@ -21,6 +23,7 @@ import com.trdz.day_picture.w_view.MainActivity
 import com.trdz.day_picture.w_view.segment_book.WindowKnowledge
 import com.trdz.day_picture.z_utility.*
 import kotlinx.android.synthetic.main.preset_chips.*
+import java.io.File
 
 class FragmentNavigation: Fragment() {
 
@@ -169,9 +172,14 @@ class FragmentNavigation: Fragment() {
 
 	//region Main functional
 
+
 	private fun buttonBinds() {
 		with(binding) {
-			favorite.setOnClickListener {}
+			favorite.setOnClickListener {
+
+
+
+			}
 			floatButton.setOnLongClickListener { changeMode() }
 			floatButton.setOnClickListener { executors.getNavigation().add(requireActivity().supportFragmentManager, WindowSearch(), true, R.id.container_fragment_navigation) }
 			presetChip.chipGroup.setOnCheckedChangeListener { _, position -> chipRealization(position) }

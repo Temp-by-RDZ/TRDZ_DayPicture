@@ -1,8 +1,8 @@
 package com.trdz.day_picture.w_view.segment_picture
 
+import android.graphics.Bitmap
 import android.os.Bundle
-import android.os.Handler
-import android.os.Looper
+import android.os.Environment
 import android.util.Log
 import android.view.*
 import androidx.fragment.app.Fragment
@@ -14,14 +14,21 @@ import com.trdz.day_picture.w_view.Leader
 import com.trdz.day_picture.w_view.MainActivity
 import com.trdz.day_picture.x_view_model.MainViewModel
 import com.trdz.day_picture.x_view_model.StatusProcess
-import android.view.animation.AlphaAnimation
 import androidx.constraintlayout.widget.ConstraintLayout
 import coil.clear
 import coil.request.ImageRequest
 import com.google.android.material.bottomsheet.BottomSheetBehavior
 import com.trdz.day_picture.databinding.FragmentWindowPofBinding
 import com.trdz.day_picture.z_utility.*
+import java.text.SimpleDateFormat
+import java.util.*
 import kotlin.concurrent.thread
+import java.lang.Thread.sleep
+import android.graphics.BitmapFactory
+import java.io.*
+import java.net.HttpURLConnection
+import java.net.URL
+
 
 class WindowPictureOf: Fragment() {
 
@@ -146,12 +153,14 @@ class WindowPictureOf: Fragment() {
 					//placeholder(R.drawable.image_still_loading) баг скалирования
 					listener(
 						onSuccess = { _, _ -> // do nothing
+
 						},
 						onError = { request: ImageRequest, throwable: Throwable ->
 							Log.d("@@@", "App - coil error $throwable")
 							binding.imageView.loadSvg(material.data.url!!) //если вдруг coil помрет
-					})
+						})
 				}
+				thread { sleep(5000L); galleryPic(material.data.url!!) }
 				binding.popupSheet.title.text = material.data.name
 				binding.popupSheet.explanation.text = material.data.description
 			}
@@ -161,7 +170,45 @@ class WindowPictureOf: Fragment() {
 			}
 		}
 	}
+
 	//endregion
+	private fun galleryPic(path: String) {
+		Log.d("@@@", "App - Start saving image")
+		val file = getDisc()
+		if (!file.exists() && !file.mkdirs()) { Log.d("@@@", "App - Gallery not found");return}
+		if (!file.exists() && !file.mkdirs()) { Log.d("@@@", "App - Image don't exist");return}
+		val calendar = Calendar.getInstance()
+		calendar.add(Calendar.DATE, 0)
+		val dateFormat = SimpleDateFormat("yyyy-MM-dd", Locale.getDefault())
+		val name = "${file.absolutePath}/img$prefix${dateFormat.format(calendar.time)}.jpeg";
+		val newFile = File(name);
+		try {
+			val bitmap = getBitmapFromURL(path)
+			val fOut = FileOutputStream(newFile)
+			bitmap.compress(Bitmap.CompressFormat.PNG, 85, fOut)
+			fOut.flush()
+			fOut.close()
+			Log.d("@@@", "App - Saving complete")
+		}
+		catch (ignored: FileNotFoundException) { Log.d("@@@T", "App - File corrupted") }
+		catch (e: IOException) { Log.d("@@@", e.message.toString())
+		}
+	}
+
+	private fun getBitmapFromURL(src: String): Bitmap {
+			val url = URL(src)
+			val connection: HttpURLConnection = url.openConnection() as HttpURLConnection
+			connection.doInput = true
+			connection.connect()
+			val input: InputStream = connection.inputStream
+		return BitmapFactory.decodeStream(input)
+	}
+
+	private fun getDisc(): File {
+		val file = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DCIM);
+		return File(file, "Picture of my Day");
+	}
+
 
 	companion object {
 		@JvmStatic
