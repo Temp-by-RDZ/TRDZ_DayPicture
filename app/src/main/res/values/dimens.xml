@@ -53,5 +53,6 @@
     <dimen name="note_diff">5dp</dimen>
     <dimen name="note_list_margin">10dp</dimen>
     <dimen name="list_padding">80dp</dimen>
+    <dimen name="scren_effect">66dp</dimen>
 
 </resources>

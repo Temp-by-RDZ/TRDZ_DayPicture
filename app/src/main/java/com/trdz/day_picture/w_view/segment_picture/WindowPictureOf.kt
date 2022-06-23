@@ -1,5 +1,6 @@
 package com.trdz.day_picture.w_view.segment_picture
 
+import android.animation.ObjectAnimator
 import android.graphics.Bitmap
 import android.os.Bundle
 import android.os.Environment
@@ -25,6 +26,7 @@ import java.util.*
 import kotlin.concurrent.thread
 import java.lang.Thread.sleep
 import android.graphics.BitmapFactory
+import com.trdz.day_picture.w_view.scenes.SceneFlash
 import java.io.*
 import java.net.HttpURLConnection
 import java.net.URL
@@ -171,7 +173,9 @@ class WindowPictureOf: Fragment() {
 				Log.d("@@@", "App - $prefix show")
 				binding.youtubePlayer.visibility = View.VISIBLE
 			}
-			is StatusProcess.Saving -> thread {  galleryPic(material.data) }
+			is StatusProcess.Saving -> thread {
+				executors.getNavigation().add(requireActivity().supportFragmentManager, SceneFlash(),false,R.id.container_fragment_primal)
+				galleryPic(material.data) }
 		}
 	}
 
