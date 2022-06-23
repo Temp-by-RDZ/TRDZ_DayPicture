@@ -175,11 +175,7 @@ class FragmentNavigation: Fragment() {
 
 	private fun buttonBinds() {
 		with(binding) {
-			favorite.setOnClickListener {
-
-
-
-			}
+			favorite.setOnClickListener { viewModel.needSave(getPrefix()) }
 			floatButton.setOnLongClickListener { changeMode() }
 			floatButton.setOnClickListener { executors.getNavigation().add(requireActivity().supportFragmentManager, WindowSearch(), true, R.id.container_fragment_navigation) }
 			presetChip.chipGroup.setOnCheckedChangeListener { _, position -> chipRealization(position) }

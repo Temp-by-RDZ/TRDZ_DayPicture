@@ -42,6 +42,7 @@ class WindowPictureOf: Fragment() {
 	private var _bottomSheetBehavior: BottomSheetBehavior<ConstraintLayout>? = null
 	private val bottomSheetBehavior get() = _bottomSheetBehavior!!
 	private lateinit var prefix: String
+	private var url: String? = null
 	//endregion
 
 	//region Base realization
@@ -123,6 +124,7 @@ class WindowPictureOf: Fragment() {
 				bottomSheetBehavior.state = BottomSheetBehavior.STATE_HIDDEN
 			}
 			is StatusProcess.Error -> {
+				url = null
 				Log.d("@@@", "App - $prefix catch $material.code")
 				binding.imageView.clear()
 				binding.imageView.setBackgroundResource(R.drawable.nofile)
@@ -147,68 +149,72 @@ class WindowPictureOf: Fragment() {
 				bottomSheetBehavior.state = BottomSheetBehavior.STATE_HALF_EXPANDED
 			}
 			is StatusProcess.Success -> {
+				url = material.data.url
 				Log.d("@@@", "App - $prefix render")
-				binding.imageView.setBackgroundResource(R.drawable.plaseholder)
-				binding.imageView.load(material.data.url) {
-					//placeholder(R.drawable.image_still_loading) баг скалирования
-					listener(
-						onSuccess = { _, _ -> // do nothing
-
-						},
-						onError = { request: ImageRequest, throwable: Throwable ->
-							Log.d("@@@", "App - coil error $throwable")
-							binding.imageView.loadSvg(material.data.url!!) //если вдруг coil помрет
-						})
+				with(binding) {
+					imageView.setBackgroundResource(R.drawable.plaseholder)
+					imageView.load(url) {
+						listener(
+							onSuccess = { _, _ ->
+								// do nothing
+							},
+							onError = { request: ImageRequest, throwable: Throwable ->
+								Log.d("@@@", "App - coil error $throwable")
+								imageView.loadSvg(url!!) //если вдруг coil помрет
+							})
+					}
+					popupSheet.title.text = material.data.name
+					popupSheet.explanation.text = material.data.description
 				}
-				thread { sleep(5000L); galleryPic(material.data.url!!) }
-				binding.popupSheet.title.text = material.data.name
-				binding.popupSheet.explanation.text = material.data.description
 			}
 			is StatusProcess.Video -> {
 				Log.d("@@@", "App - $prefix show")
 				binding.youtubePlayer.visibility = View.VISIBLE
 			}
+			is StatusProcess.Saving -> thread {  galleryPic(material.data) }
 		}
 	}
 
 	//endregion
-	private fun galleryPic(path: String) {
+	private fun galleryPic(data: String) {
 		Log.d("@@@", "App - Start saving image")
 		val file = getDisc()
-		if (!file.exists() && !file.mkdirs()) { Log.d("@@@", "App - Gallery not found");return}
-		if (!file.exists() && !file.mkdirs()) { Log.d("@@@", "App - Image don't exist");return}
-		val calendar = Calendar.getInstance()
-		calendar.add(Calendar.DATE, 0)
-		val dateFormat = SimpleDateFormat("yyyy-MM-dd", Locale.getDefault())
-		val name = "${file.absolutePath}/img$prefix${dateFormat.format(calendar.time)}.jpeg";
-		val newFile = File(name);
-		try {
-			val bitmap = getBitmapFromURL(path)
-			val fOut = FileOutputStream(newFile)
-			bitmap.compress(Bitmap.CompressFormat.PNG, 85, fOut)
-			fOut.flush()
-			fOut.close()
-			Log.d("@@@", "App - Saving complete")
+		if (!file.exists() && !file.mkdirs()) {
+			Log.d("@@@", "App - Gallery not found");return
 		}
-		catch (ignored: FileNotFoundException) { Log.d("@@@T", "App - File corrupted") }
-		catch (e: IOException) { Log.d("@@@", e.message.toString())
+		if (url==null) {
+			Log.d("@@@", "App - Image don't exist");return
 		}
+		else url?.apply {
+			val newFile = File("${file.absolutePath}/img$prefix$data.jpeg");
+			try {
+				val bitmap = getBitmapFromURL(this)
+				val fOut = FileOutputStream(newFile)
+				bitmap.compress(Bitmap.CompressFormat.PNG, 85, fOut)
+				fOut.flush()
+				fOut.close()
+				Log.d("@@@", "App - Saving complete")
+			}
+			catch (ignored: FileNotFoundException) {
+				Log.d("@@@T", "App - File corrupted")
+			}
+			catch (e: IOException) {
+				Log.d("@@@", e.message.toString())
+			}
+		}
+
 	}
 
 	private fun getBitmapFromURL(src: String): Bitmap {
-			val url = URL(src)
-			val connection: HttpURLConnection = url.openConnection() as HttpURLConnection
-			connection.doInput = true
-			connection.connect()
-			val input: InputStream = connection.inputStream
+		val url = URL(src)
+		val connection: HttpURLConnection = url.openConnection() as HttpURLConnection
+		connection.doInput = true
+		connection.connect()
+		val input: InputStream = connection.inputStream
 		return BitmapFactory.decodeStream(input)
 	}
 
-	private fun getDisc(): File {
-		val file = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DCIM);
-		return File(file, "Picture of my Day");
-	}
-
+	private fun getDisc()= File(Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DCIM), "Picture of my Day")
 
 	companion object {
 		@JvmStatic

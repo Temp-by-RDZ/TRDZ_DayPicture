@@ -62,6 +62,14 @@ class MainViewModel(
 		val dateFormat = SimpleDateFormat("yyyy-MM-dd", Locale.getDefault())
 		return dateFormat.format(calendar.time)
 	}
+	fun needSave(prefix: String) {
+		when (prefix) {
+			PREFIX_POD -> dataPodLive.postValue(StatusProcess.Saving((getData(0))))
+			PREFIX_MRP -> dataPomLive.postValue(StatusProcess.Saving((getData(0))))
+			PREFIX_EPC -> dataPoeLive.postValue(StatusProcess.Saving((getData(0))))
+		}
+
+	}
 
 	fun analyze(prefix: String, change: Int = setChange) {
 		when (prefix) {
