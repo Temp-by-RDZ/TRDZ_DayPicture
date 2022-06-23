@@ -39,30 +39,6 @@
         app:showFullScreenButton="false"
         android:layout_gravity="center"/>
 
-    <FrameLayout
-        android:id="@+id/loadingLayout"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:background="@color/background"
-        android:clickable="true"
-        android:focusable="true"
-        android:visibility="visible"
-        tools:visibility="invisible">
-
-        <TextView
-            android:id="@+id/progress_bar"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center"
-            android:textSize="@dimen/t_basis" />
-
-        <ProgressBar
-            style="?android:attr/progressBarStyleLarge"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center" />
-    </FrameLayout>
-
     <include
         android:id="@+id/popup_sheet"
         layout="@layout/sheet_details" />

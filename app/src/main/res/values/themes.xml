@@ -43,6 +43,9 @@
         <item name="superColor_3">@color/main_color_fourth</item>
     </style>
 
+    <style name="CoreTheme.Splash">
+        <item name="android:windowBackground">@drawable/splash_background</item>
+    </style>
 
 
 </resources>

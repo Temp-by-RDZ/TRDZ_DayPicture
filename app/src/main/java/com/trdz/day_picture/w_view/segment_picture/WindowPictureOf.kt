@@ -108,14 +108,12 @@ class WindowPictureOf: Fragment() {
 
 	private fun initialize() {
 		viewModel.initialize(prefix)
-		removeLoad()
 	}
 
 	private fun renderData(material: StatusProcess) {
 		when (material) {
 			StatusProcess.Load -> {
 				bottomSheetBehavior.state = BottomSheetBehavior.STATE_HIDDEN
-				removeLoad()
 			}
 			is StatusProcess.Error -> {
 				Log.d("@@@", "App - $prefix catch $material.code")
@@ -145,12 +143,13 @@ class WindowPictureOf: Fragment() {
 				Log.d("@@@", "App - $prefix render")
 				binding.imageView.setBackgroundResource(R.drawable.plaseholder)
 				binding.imageView.load(material.data.url) {
-					placeholder(R.drawable.image_still_loading)
+					//placeholder(R.drawable.image_still_loading) баг скалирования
 					listener(
 						onSuccess = { _, _ -> // do nothing
 						},
 						onError = { request: ImageRequest, throwable: Throwable ->
-							binding.imageView.loadSvg(material.data.url!!) //если вдруг coil опять помрет
+							Log.d("@@@", "App - coil error $throwable")
+							binding.imageView.loadSvg(material.data.url!!) //если вдруг coil помрет
 					})
 				}
 				binding.popupSheet.title.text = material.data.name
@@ -159,22 +158,6 @@ class WindowPictureOf: Fragment() {
 			is StatusProcess.Video -> {
 				Log.d("@@@", "App - $prefix show")
 				binding.youtubePlayer.visibility = View.VISIBLE
-			}
-		}
-	}
-
-	private fun removeLoad() {
-		val dispose = AlphaAnimation(1.0f, 0.0f).apply {
-			duration = 2000
-			startOffset = 500
-			fillAfter = true
-		}
-		binding.loadingLayout.startAnimation(dispose)
-		thread {
-			while (!dispose.hasEnded()) Thread.sleep(50L)
-			Handler(Looper.getMainLooper()).post {
-				binding.loadingLayout.clearAnimation()
-				binding.loadingLayout.visibility = View.GONE
 			}
 		}
 	}
