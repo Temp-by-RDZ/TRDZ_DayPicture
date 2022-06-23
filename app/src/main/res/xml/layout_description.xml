@@ -6,7 +6,7 @@
         app:constraintSetEnd="@layout/fragment_navigation"
         app:constraintSetStart="@layout/fragment_navigation_disable"
 
-        app:duration="2000">
+        app:duration="750">
     </Transition>
 
 </MotionScene>

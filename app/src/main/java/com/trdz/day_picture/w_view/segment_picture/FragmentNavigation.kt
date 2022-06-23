@@ -24,6 +24,7 @@ import com.trdz.day_picture.w_view.segment_book.WindowKnowledge
 import com.trdz.day_picture.z_utility.*
 import kotlinx.android.synthetic.main.preset_chips.*
 import java.io.File
+import java.lang.Thread.sleep
 
 class FragmentNavigation: Fragment() {
 
@@ -67,18 +68,31 @@ class FragmentNavigation: Fragment() {
 		setPager()
 		setViewModel()
 		setMenu()
-		if (isFirst) binding.motionPicture.transitionToEnd()
+		binding.motionPicture.addTransitionListener(object: MotionLayout.TransitionListener {
+			override fun onTransitionStarted(motionLayout: MotionLayout?, startId: Int, endId: Int) {}
+			override fun onTransitionChange(motionLayout: MotionLayout?, startId: Int, endId: Int, progress: Float) {}
+			override fun onTransitionCompleted(motionLayout: MotionLayout?, currentId: Int) {
+				binding.presetAppbar.pageIndicator.refreshDots()
+			}
+			override fun onTransitionTrigger(motionLayout: MotionLayout?, triggerId: Int, positive: Boolean, progress: Float) {
+			}
+		})
+		if (isFirst) {
+			binding.motionPicture.setTransitionDuration(2000)
+			binding.motionPicture.transitionToEnd()
+		}
 		buttonBinds()
 	}
 
 	private fun setPager() {
 		with(binding) {
 			viewPager.adapter = FragmentNavigationPager(childFragmentManager, requireContext()).apply {
-				add(WIN_CODE_POE, WindowPictureOf.newInstance(PREFIX_EPC))
+				setWindows()
 				add(WIN_CODE_POD, WindowPictureOf.newInstance(PREFIX_POD))
+				add(WIN_CODE_POE, WindowPictureOf.newInstance(PREFIX_EPC))
 				add(WIN_CODE_POM, WindowPictureOf.newInstance(PREFIX_MRP))
 			}
-			viewPager.currentItem = 1
+			binding.viewPager.currentItem = 1
 			viewPager.setPageTransformer(true, FragmentNavigationTransformer())
 			presetAppbar.pageIndicator.attachTo(binding.viewPager)
 			viewPager.addOnPageChangeListener(object: OnPageChangeListener {
@@ -113,6 +127,7 @@ class FragmentNavigation: Fragment() {
 		if (!inPassiveMode()) {
 			when (item.itemId) {
 				R.id.app_bar_note -> {
+					binding.motionPicture.setTransitionDuration(750)
 					binding.motionPicture.addTransitionListener(object: MotionLayout.TransitionListener {
 						override fun onTransitionStarted(motionLayout: MotionLayout?, startId: Int, endId: Int) {
 							mood = 3
@@ -121,12 +136,9 @@ class FragmentNavigation: Fragment() {
 						override fun onTransitionChange(motionLayout: MotionLayout?, startId: Int, endId: Int, progress: Float) {}
 						override fun onTransitionCompleted(motionLayout: MotionLayout?, currentId: Int) {
 							executors.getNavigation().replace(requireActivity().supportFragmentManager, com.trdz.day_picture.w_view.segment_book.FragmentNavigation(), false, R.id.container_fragment_navigation)
-
 						}
-
 						override fun onTransitionTrigger(motionLayout: MotionLayout?, triggerId: Int, positive: Boolean, progress: Float) {
 						}
-
 					})
 					binding.motionPicture.transitionToStart()
 				}

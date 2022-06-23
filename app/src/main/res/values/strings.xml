@@ -1,9 +1,4 @@
 <resources>
-    <string name="_0" translatable="false">0</string>
-    <string name="ND_OPEN" translatable="false">ND_OPEN</string>
-    <string name="ND_CLOSE" translatable="false">ND_CLOSE</string>
-    <string name="MISSING" translatable="false">MISSING</string>
-    <string name="fon_description" translatable="false">Pretty Fon</string>
     <string name="app_name">Картина моего дня</string>
     <string name="error_this_is_video">Сегодня день с видео и я пока не настроил показ видео..</string>
     <string name="error_this_is_video_end">Жаль.</string>
@@ -29,10 +24,7 @@
     <string name="POE_title">Картина моей Земли</string>
     <string name="menu_setting">Настройки</string>
     <string name="menu_note">В избранное</string>
-    <string name="menu_fake_space">FAKE_SPACE</string>
     <string name="test_additional_text">Тестовый текст</string>
-    <string name="simbol_open_2"><![CDATA[<]]></string>
-    <string name="ERROR_TITLE">NO FILE</string>
     <string name="ERROR_DISCRIPTIOn">Missing information.</string>
     <string name="menu_again">Заново</string>
     <string name="Error_code_message">Error code:</string>
@@ -43,4 +35,19 @@
     <string name="error_desc_400">Connection lost because of application errors</string>
     <string name="error_desc_500">Server failure</string>
     <string name="error_desc_0">Connection wasn\'t complete</string>
+    <!--System message -->
+    <string name="_0" translatable="false">0</string>
+    <string name="ND_OPEN" translatable="false">ND_OPEN</string>
+    <string name="ND_CLOSE" translatable="false">ND_CLOSE</string>
+    <string name="MISSING" translatable="false">MISSING</string>
+    <string name="fon_description" translatable="false">Pretty Fon</string>
+    <string name="simbol_open_2" translatable="false"><![CDATA[<]]></string>
+    <string name="menu_fake_space" translatable="false">FAKE_SPACE</string>
+    <string name="ERROR_TITLE" translatable="false">NO FILE</string>
+    <string name="help_list_1">1. Клик по картинке:\nоктрыть описание</string>
+    <string name="help_list_2">2. Клик по W\nоткрыть поиск в википедии</string>
+    <string name="help_list_3">3. Зажатие W\nубрать кнопку в сторону</string>
+    <string name="help_list_4">4. Клик по сердеүку \nСохранитғ изображение</string>
+    <string name="help_list_5">5. Клик по шестеренке \nПерейти к настройкам</string>
+    <string name="help_list_6">6. Клик по книжке \nПерейти к главному разделу</string>
 </resources>

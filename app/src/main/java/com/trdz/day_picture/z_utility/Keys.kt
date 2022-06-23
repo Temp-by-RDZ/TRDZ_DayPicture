@@ -4,6 +4,11 @@ package com.trdz.day_picture.z_utility
 const val KEY_OPTIONS	= "OPTNS"
 const val KEY_THEME		= "THEME"
 const val KEY_TSET		= "TSET"
+const val PARAM_WINDOW_1= "PWP1"
+const val PARAM_WINDOW_2= "PWP1"
+const val PARAM_WINDOW_3= "PWP1"
+const val PARAM_WINDOW_4= "PWP1"
+const val PARAM_WINDOW_5= "PWP1"
 //Pager bobles
 const val KEY_FINSTANCE	= "FINST"
 const val KEY_PREFIX	= "PREFX"
