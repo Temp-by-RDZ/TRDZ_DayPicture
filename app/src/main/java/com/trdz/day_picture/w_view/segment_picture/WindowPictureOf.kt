@@ -17,12 +17,10 @@ import com.trdz.day_picture.x_view_model.StatusProcess
 import android.view.animation.AlphaAnimation
 import androidx.constraintlayout.widget.ConstraintLayout
 import coil.clear
+import coil.request.ImageRequest
 import com.google.android.material.bottomsheet.BottomSheetBehavior
 import com.trdz.day_picture.databinding.FragmentWindowPofBinding
-import com.trdz.day_picture.z_utility.KEY_PREFIX
-import com.trdz.day_picture.z_utility.PREFIX_EPC
-import com.trdz.day_picture.z_utility.PREFIX_MRP
-import com.trdz.day_picture.z_utility.PREFIX_POD
+import com.trdz.day_picture.z_utility.*
 import kotlin.concurrent.thread
 
 class WindowPictureOf: Fragment() {
@@ -116,12 +114,10 @@ class WindowPictureOf: Fragment() {
 	private fun renderData(material: StatusProcess) {
 		when (material) {
 			StatusProcess.Load -> {
-				binding.postLoad.visibility = View.VISIBLE
 				bottomSheetBehavior.state = BottomSheetBehavior.STATE_HIDDEN
 				removeLoad()
 			}
 			is StatusProcess.Error -> {
-				binding.postLoad.visibility = View.GONE
 				Log.d("@@@", "App - $prefix catch $material.code")
 				binding.imageView.clear()
 				binding.imageView.setBackgroundResource(R.drawable.nofile)
@@ -147,9 +143,16 @@ class WindowPictureOf: Fragment() {
 			}
 			is StatusProcess.Success -> {
 				Log.d("@@@", "App - $prefix render")
-				binding.imageView.setBackgroundResource(R.color.black)
-				binding.imageView.load(material.data.url) { placeholder(R.drawable.image_still_loading2); error(R.drawable.nofile) }
-				binding.postLoad.visibility = View.GONE
+				binding.imageView.setBackgroundResource(R.drawable.plaseholder)
+				binding.imageView.load(material.data.url) {
+					placeholder(R.drawable.image_still_loading)
+					listener(
+						onSuccess = { _, _ -> // do nothing
+						},
+						onError = { request: ImageRequest, throwable: Throwable ->
+							binding.imageView.loadSvg(material.data.url!!) //если вдруг coil опять помрет
+					})
+				}
 				binding.popupSheet.title.text = material.data.name
 				binding.popupSheet.explanation.text = material.data.description
 			}

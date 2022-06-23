@@ -18,6 +18,7 @@ import androidx.viewpager.widget.ViewPager.OnPageChangeListener
 import com.google.android.material.chip.Chip
 import com.trdz.day_picture.w_view.Leader
 import com.trdz.day_picture.w_view.MainActivity
+import com.trdz.day_picture.w_view.segment_book.WindowKnowledge
 import com.trdz.day_picture.z_utility.*
 import kotlinx.android.synthetic.main.preset_chips.*
 
